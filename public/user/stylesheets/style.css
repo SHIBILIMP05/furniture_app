@@ -1,0 +1,145 @@
+body{
+    margin: 0%;
+}
+#log-img{
+    width: 100%;
+    height: 100vh;
+    background-image: url("/user/images/login/vecteezy_livingroom-interior-with-green-sofa-and-clear-room_22378763_386.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: -500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#form-box{
+    position: absolute;
+    left: 1245px;
+    top: 161px;
+    background: rgba(255, 255, 255, 0.164);
+    color: #fff;
+    backdrop-filter: blur(10px);
+    width: 500px;
+    height: 508px;
+    border-radius: 100px;
+}
+#form-box-2{
+    position: absolute;
+    left: 1245px;
+    top: 85px;
+    background: rgba(255, 255, 255, 0.164);
+    color: #fff;
+    backdrop-filter: blur(10px);
+    width: 500px;
+    height: 650px;
+    border-radius: 100px;
+}
+#log-in{
+    position: absolute;
+    left: 155px;
+    top: 40px;
+    font-size:55px;
+    font-family: system-ui;
+}
+#sign-up{
+    position: absolute;
+    left: 145px;
+    top: 30px;
+    font-size:55px;
+    font-family: system-ui;
+}
+.mb-3{
+    position: relative;
+    padding: 40px 50px; 
+    
+}
+#ebox-1{
+    left: 3px;
+    top: 100px;
+}
+#pbox-1{
+    left: 3px;
+    top: 10px;
+}
+#fnbox-1{
+    left: 3px;
+    top: 65px;
+}
+#phbox-1{
+    left: 3px;
+    top: -125px;
+}
+#cpbox-1{
+    left: 3px;
+    bottom: 315px;
+}
+#ebox-2{
+    left: 3px;
+    top: -30px;
+}
+#pbox-2{
+    left: 3px;
+    bottom: 220px;
+}
+#log-btn-1{
+    position: absolute;
+    left: 150px;
+    bottom: 30px;
+    width: 200px;
+    height: 50px;
+    border-radius: 20px;
+    font-family: system-ui;
+    background-color: #466869;
+    border-color: #466869;
+}
+#signup{
+    font-family: system-ui;
+    text-decoration: none;
+    font-size: medium;
+    position: relative;
+    left: 10px;
+    color: #fff;  
+}
+#login{
+    font-family: system-ui;
+    text-decoration: none;
+    font-size: medium;
+    position: relative;
+    left: 10px;
+    color: #fff;  
+}
+#paracontent{
+    font-family: system-ui;
+    font-size: medium;
+    color: #1e3936;
+    position: absolute;
+    bottom: 105px;
+    left: 120px;
+}
+#paracontent-2{
+    font-family: system-ui;
+    font-size: medium;
+    color: #1e3936;
+    position: absolute;
+    bottom: 65px;
+    left: 115px;
+}
+#forget{
+    display: inline;
+    font-family: system-ui;
+    font-size: medium;
+    position: absolute;
+    bottom: 75px;
+    left: 170px;
+}
+#sign-btn-1{
+    position: absolute;
+    left: 150px;
+    bottom: 25px;
+    width: 200px;
+    height: 50px;
+    border-radius: 20px;
+    font-family: system-ui;
+    background-color: #466869;
+    border-color: #466869;
+}
