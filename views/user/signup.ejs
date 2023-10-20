@@ -1,52 +1,52 @@
 <%- include("../user/leyouts/header.ejs")%>
 <div id="log-img">
   <dive id="form-box-2">
-    <form>
+    <form method="post" action="/register">
       <h2 id="sign-up">SIGN UP</h2>
       <div class="mb-3" id="fnbox-1">
         <label for="exampleInputName1" class="form-label" style="font-family: system-ui">Full Name</label>
-        <input type="name" class="form-control" id="exampleInputName1" style="
+        <input name="name"  type="name" class="form-control" id="exampleInputName1" style="
               border-radius: 20px;
               border-radius: 20px;
-              border-color: #638784;
-              background-color: #638784;
-            " />
+              border-color: #ffffff;
+              background-color: #ffffff;
+            " required />
       </div>
       <div class="mb-3" id="ebox-2">
         <label for="exampleInputEmail1" class="form-label" style="font-family: system-ui">Email Address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" style="
+        <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" style="
               border-radius: 20px;
               border-radius: 20px;
-              border-color: #638784;
-              background-color: #638784;
-            " />
+              border-color: #ffffff;
+              background-color: #ffffff;
+            " required >
       </div>
       <div class="mb-3" id="phbox-1">
         <label for="exampleInputPhone1" class="form-label" style="font-family: system-ui">Phone No</label>
-        <input type="phone" class="form-control" id="exampleInputPhone1" aria-describedby="phoneHelp" style="
+        <input name="phone" type="phone" class="form-control" id="exampleInputPhone1" aria-describedby="phoneHelp" style="
               border-radius: 20px;
               border-radius: 20px;
-              border-color: #638784;
-              background-color: #638784;
-            " />
+              border-color: #ffffff;
+              background-color: #ffffff;
+            " required >
       </div>
       <div class="mb-3" id="pbox-2">
         <label for="exampleInputPassword1" class="form-label" style="font-family: system-ui">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" style="
+        <input name="password" type="password" class="form-control" id="exampleInputPassword1" style="
               border-radius: 20px;
               border-radius: 20px;
-              border-color: #638784;
-              background-color: #638784;
-            " />
+              border-color: #ffffff;
+              background-color: #ffffff;
+            " required >
       </div>
       <div class="mb-3" id="cpbox-1">
         <label for="exampleInputPassword1" class="form-label" style="font-family: system-ui">Confirm Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" style="
+        <input name="confirmPassword" type="password" class="form-control" id="exampleInputPassword1" style="
               border-radius: 20px;
               border-radius: 20px;
-              border-color: #638784;
-              background-color: #638784;
-            " />
+              border-color: #ffffff;
+              background-color: #ffffff;
+            " required >
       </div>
       <h6 class="text-center" style="
             font-family: system-ui;
