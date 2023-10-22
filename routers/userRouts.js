@@ -12,9 +12,12 @@ user_Rout.use(bodyParser.urlencoded({extended:true}))
 
 const userController = require("../controller/userControoller")
 
-//!-------------router handle-----------------
-user_Rout.get("/",userController.loadLogin)
+//!-------------router handle----------------
+user_Rout.get("/",userController.loadHome)
+user_Rout.get("/login",userController.loadLogin)
 user_Rout.get("/signup",userController.loadSignup)
+user_Rout.get("/verify",userController.verifyMail)
 user_Rout.post("/register",userController.insertuser)
+
 
 module.exports = user_Rout;
