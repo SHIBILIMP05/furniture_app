@@ -1,37 +1,42 @@
  <%- include("../user/leyouts/header.ejs")%>
   <div id="log-img">
     <dive id="form-box">
-      <form>
+
+      <form method="post" action="/login">
         <h2 id="log-in">LOG IN</h2>
         <div class="mb-3" id="ebox-1">
           <label for="exampleInputEmail1" class="form-label" style="font-family: system-ui">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" style="
+          <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" style="
                 border-radius: 20px;
                 border-radius: 20px;
                 border-color: #ffffff;
                 background-color: #ffffff;
-              " />
+              " required />
           <div id="emailHelp" class="form-text" style="font-family: system-ui; color: #1e3936">
             We'll never share your email with anyone else.
           </div>
         </div>
         <div class="mb-3" id="pbox-1">
           <label for="exampleInputPassword1" class="form-label" style="font-family: system-ui">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" style="
+          <input type="password" name="password" class="form-control" id="exampleInputPassword1" style="
                 border-radius: 20px;
                 border-radius: 20px;
                 border-color: #ffffff;
                 background-color: #ffffff;
-              " />
+              " required />
         </div>
-        <h6 class="text-center" style="
+        <%
+              if(typeof message !== 'undifined'){
+                <% <h6 class="text-center" style="
               font-family: system-ui;
               color: rgb(117 35 35);
               position: absolute;
               left: 165px;
               bottom: 145px;
               font-size: small;
-            "></h6>
+            "> <%= message %> </h6> %>
+              }
+        %>
         <button type="submit" class="btn btn-primary" id="log-btn-1">
           Submit
         </button>
