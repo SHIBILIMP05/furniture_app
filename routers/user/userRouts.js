@@ -1,5 +1,12 @@
 const express = require("express")
 const user_Rout = express()
+const session = require("express-session")
+
+const config = require('../../config/config')
+const userController = require("../../controller/user/userController")
+const auth = require("../../middleware/auth")
+
+user_Rout.use(session({secret:config.sessionSecret}))
 
 //--------------view engine------------------
 user_Rout.set("view engine","ejs")
@@ -10,12 +17,13 @@ const bodyParser = require("body-parser")
 user_Rout.use(bodyParser.json())
 user_Rout.use(bodyParser.urlencoded({extended:true}))
 
-const userController = require("../../controller/user/userController")
+
 
 //!-------------router handle----------------
-user_Rout.get("/",userController.loadHome)
-user_Rout.get("/login",userController.loadLogin)
-user_Rout.get("/signup",userController.loadSignup)
+user_Rout.get("/",auth.isLogout,userController.loadHome)
+user_Rout.get("/home",auth.isLogin,userController.loadHome)
+user_Rout.get("/login",auth.isLogout,userController.loadLogin)
+user_Rout.get("/signup",auth.isLogout,userController.loadSignup)
 user_Rout.get("/verify",userController.verifyMail)
 
 user_Rout.post("/register",userController.insertuser)
