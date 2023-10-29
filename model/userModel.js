@@ -25,6 +25,10 @@ const userSchema = mongoose.Schema({
     is_varified:{
         type:Number,
         default:0
+    },
+    token:{
+        type:String,
+        default:''
     }
 
 })

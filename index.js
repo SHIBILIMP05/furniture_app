@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, "public")));
 const userRouts = require("./routers/user/userRouts")
 const admiRout = require("./routers/admin/adminRouts")
 app.use("/",userRouts)
-app.use("/",admiRout)
+app.use("/admin",admiRout)
 
 app.listen(3000, () => {
   console.log("server is runing...");

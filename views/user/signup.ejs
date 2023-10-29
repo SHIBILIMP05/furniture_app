@@ -48,14 +48,16 @@
               background-color: #ffffff;
             " required />
       </div>
-      <h6 class="text-center" style="
-            font-family: system-ui;
-            color: rgb(117 35 35);
-            position: absolute;
-            left: 137px;
-            bottom: 105px;
-            font-size: small;
-          "></h6>
+      <% if(typeof message !== 'undefined'){ %>
+        <h6 class="text-center" style="
+        font-family: system-ui;
+        color: rgb(117 35 35);
+        position: absolute;
+        left: 145px;
+        bottom: 105px;
+        font-size: small;
+      "> <%= message %> </h6> 
+      <% } %>
       <button type="submit" class="btn btn-primary" id="sign-btn-1">
         Register
       </button>
