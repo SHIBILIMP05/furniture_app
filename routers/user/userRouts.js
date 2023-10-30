@@ -3,7 +3,8 @@ const user_Rout = express()
 const session = require("express-session")
 
 const config = require('../../config/config')
-const userController = require("../../controller/user/userController")
+const userController = require("../../controller/userController")
+const productController =require("../../controller/productController")
 const auth = require("../../middleware/auth")
 
 user_Rout.use(session({secret:config.sessionSecret}))

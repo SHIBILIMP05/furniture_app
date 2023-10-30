@@ -9,6 +9,12 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use((req, res, next) => {
+  res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.header('Expires', '0');
+  next();
+});
+
 //?----- for user routs ---------------------------------
 
 const userRouts = require("./routers/user/userRouts")

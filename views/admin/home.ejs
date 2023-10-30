@@ -1,98 +1,125 @@
 <%-include("../admin/leyouts/header.ejs")%>
 
-        <!-- partial -->
-        <div class="main-panel">
-          <div class="content-wrapper">
-            <div class="page-header">
-              <h3 class="page-title"> Basic Tables </h3>
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Tables</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Basic tables</li>
-                </ol>
-              </nav>
-            </div>
-            <div class="row">
-              <div class="col-lg-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Basic Table</h4>
-                    <p class="card-description"> Add class <code>.table</code>
-                    </p>
-                    <div class="table-responsive">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Profile</th>
-                            <th>VatNo.</th>
-                            <th>Created</th>
-                            <th>Status</th>
-                            <th>Profile</th>
-                            <th>VatNo.</th>
-                            <th>Created</th>
-                            <th>Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Jacob</td>
-                            <td>53275531</td>
-                            <td>12 May 2017</td>
-                            <td><label class="badge badge-danger">Pending</label></td>
-                            <td>Jacob</td>
-                            <td>53275531</td>
-                            <td>12 May 2017</td>
-                            <td><label class="badge badge-danger">Pending</label></td>
-                          </tr>
-                          <tr>
-                            <td>Messsy</td>
-                            <td>53275532</td>
-                            <td>15 May 2017</td>
-                            <td><label class="badge badge-warning">In progress</label></td>
-                            <td>Messsy</td>
-                            <td>53275532</td>
-                            <td>15 May 2017</td>
-                            <td><label class="badge badge-warning">In progress</label></td>
-                          </tr>
-                          <tr>
-                            <td>John</td>
-                            <td>53275533</td>
-                            <td>14 May 2017</td>
-                            <td><label class="badge badge-info">Fixed</label></td>
-                            <td>Messsy</td>
-                            <td>53275532</td>
-                            <td>15 May 2017</td>
-                            <td><label class="badge badge-warning">In progress</label></td>
-                          </tr>
-                          <tr>
-                            <td>Peter</td>
-                            <td>53275534</td>
-                            <td>16 May 2017</td>
-                            <td><label class="badge badge-success">Completed</label></td>
-                            <td>Messsy</td>
-                            <td>53275532</td>
-                            <td>15 May 2017</td>
-                            <td><label class="badge badge-warning">In progress</label></td>
-                          </tr>
-                          <tr>
-                            <td>Dave</td>
-                            <td>53275535</td>
-                            <td>20 May 2017</td>
-                            <td><label class="badge badge-warning">In progress</label></td>
-                            <td>Messsy</td>
-                            <td>53275532</td>
-                            <td>15 May 2017</td>
-                            <td><label class="badge badge-warning">In progress</label></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
+
+<div class="row" style="
+  position: relative;
+  height: 500px;
+  top: 105px;
+  width: 100%;">
+  <div class="col-sm-4 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <h5>Total Revenue</h5>
+          <div class="row">
+            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+              <div class="d-flex d-sm-block d-md-flex align-items-center">
+                <h2 class="mb-0">$32123</h2>
+                <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
               </div>
-            
-          <!-- partial -->
+              <h6 class="text-muted font-weight-normal">11.38% Since last month</h6>
+            </div>
+            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+              <i class="icon-lg mdi mdi-codepen text-primary ml-auto"></i>
+            </div>
+          </div>
         </div>
-        <!-- main-panel ends -->
-     
-        <%-include("../admin/leyouts/footer.ejs")%>
+      </div>
+    </div>
+    <div class="col-sm-4 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <h5>Monthly Revenue</h5>
+          <div class="row">
+            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+              <div class="d-flex d-sm-block d-md-flex align-items-center">
+                <h2 class="mb-0">$45850</h2>
+                <p class="text-success ml-2 mb-0 font-weight-medium">+8.3%</p>
+              </div>
+              <h6 class="text-muted font-weight-normal"> 9.61% Since last month</h6>
+            </div>
+            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+              <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <h5>Total Sales</h5>
+          <div class="row">
+            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+              <div class="d-flex d-sm-block d-md-flex align-items-center">
+                <h2 class="mb-0">$2039</h2>
+                <p class="text-danger ml-2 mb-0 font-weight-medium">-2.1% </p>
+              </div>
+              <h6 class="text-muted font-weight-normal">2.27% Since last month</h6>
+            </div>
+            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+              <i class="icon-lg mdi mdi-monitor text-success ml-auto"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <h5>Total Customers</h5>
+          <div class="row">
+            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+              <div class="d-flex d-sm-block d-md-flex align-items-center">
+                <h2 class="mb-0">$32123</h2>
+                <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
+              </div>
+              <h6 class="text-muted font-weight-normal">11.38% Since last month</h6>
+            </div>
+            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+              <i class="icon-lg mdi mdi-codepen text-primary ml-auto"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h5>Total Orders</h5>
+            <div class="row">
+              <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                  <h2 class="mb-0">$32123</h2>
+                  <p class="text-success ml-2 mb-0 font-weight-medium">+3.5%</p>
+                </div>
+                <h6 class="text-muted font-weight-normal">11.38% Since last month</h6>
+              </div>
+              <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="col-sm-4 grid-margin">
+        <div class="card">
+          <div class="card-body">
+            <h5>Total Products</h5>
+            <div class="row">
+              <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                <div class="d-flex d-sm-block d-md-flex align-items-center">
+                  <h2 class="mb-0">$45850</h2>
+                  <p class="text-success ml-2 mb-0 font-weight-medium">+8.3%</p>
+                </div>
+                <h6 class="text-muted font-weight-normal"> 9.61% Since last month</h6>
+              </div>
+              <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                <i class="icon-lg mdi mdi-monitor text-success ml-auto"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <%-include("../admin/leyouts/footer.ejs")%>

@@ -29,6 +29,10 @@ const userSchema = mongoose.Schema({
     token:{
         type:String,
         default:''
+    },
+    is_block:{
+        type:Number,
+        default:0
     }
 
 })

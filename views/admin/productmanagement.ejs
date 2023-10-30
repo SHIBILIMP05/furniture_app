@@ -1,0 +1,69 @@
+<%-include("../admin/leyouts/header.ejs")%>
+
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="row">
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">User Management</h4>
+                    <p class="card-description"> All Furni Hub customers</p>
+                    <p><a href="/admin/loadaddproduct" class="badge badge-success"> + Add Product </a></p>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Name</th>
+                            <th>Images</th>
+                            <th>Category</th>
+                            <th>Stock</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <% if(products.length>0){
+                                for(let i=0;i<products.length;i++){  %>
+                              <tr>
+                                <td><%= i+1 %></td>
+                                
+                                <td><%= products[i].name %></td>
+                                <td>
+                                  <img src="/user/images/product/<%= products[i].images.image1 %>" alt="">
+                                </td>
+                                <td><%= products[i].category %></td>
+                                <td><%= products[i].quantity %></td>
+                                <td><%= products[i].price %></td>
+                                <%  if(products[i].blocked==0){ %>
+                                <td class="text-success">Active</td>
+                                <td><a href="/admin/block-product?id=<%= products[i]._id %>" class="badge badge-danger" >Block</a></td>
+                               <% }else{ %>
+                                <td class="text-danger">Blocked</td>
+                                <td><a href="/admin/block-product?id=<%= products[i]._id %>" class="badge badge-success" >Unblock</a></td>
+                              <% } %>
+                                <td><a href="/admin/edit-product-page?id=<%= products[i]._id %>" class="badge badge-warning">Update</a></td>
+                                
+                                <!-- <td><button class="btn-inverse-danger">Delete</button></td> -->
+                              </tr>
+                              <% } %>
+                              <% }else{ %>
+                                <tr>
+                                    <td colspan="5">Products Not Found</td>
+                                  </tr>
+                
+                             <% } %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+     
+        <%-include("../admin/leyouts/footer.ejs")%>

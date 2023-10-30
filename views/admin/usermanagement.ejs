@@ -1,0 +1,70 @@
+<%-include("../admin/leyouts/header.ejs")%>
+
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="row">
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">User Management</h4>
+                    <p class="card-description"> All Furni Hub customers</p>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Contact</th>
+                            <th>Status</th>
+                            <th>Action.</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% if (users.length > 0) { %>
+                            <% for (let i = 0; i < users.length; i++) { %>
+                              <tr>
+                                <td><%= i + 1 %></td>
+                                <td><%= users[i].name %></td>
+                                <td><%= users[i].email %></td>
+                                <td><%= users[i].phone %></td>
+                                <td>
+                                  <% if (users[i].is_varified == 0) { %>
+                                    <p>Not Verified</p>
+                                  <% } else { %>
+                                    <p>Verified</p>
+                                  <% } %>
+                                </td>
+                                <td>
+                                  <%
+                                  if(users[i].is_block == 0){
+                                    %>
+                                    <p><a href="/admin/block-user?id=<%= users[i]._id %>" class="badge badge-success">BLOCK USER</a></p>
+                                    <%
+                                  }else{
+                                    %>
+                                    <p><a href="/admin/block-user?id=<%= users[i]._id %>" class="badge badge-danger">UNBLOCK</a></p>
+                                    <%
+                                  }
+                                    %>
+                                </td>
+                              </tr>
+                            <% } %>
+                          <% } else { %>
+                            <tr>
+                              <td colspan="6">User not found</td>
+                            </tr>
+                          <% } %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+     
+        <%-include("../admin/leyouts/footer.ejs")%>
