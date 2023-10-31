@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
-//?----- for user routs ---------------------------------
+//?----- FOR ROUTS ---------------------------------
 
 const userRouts = require("./routers/user/userRouts")
 const admiRout = require("./routers/admin/adminRouts")

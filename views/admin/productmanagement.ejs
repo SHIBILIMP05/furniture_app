@@ -7,8 +7,8 @@
               <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">User Management</h4>
-                    <p class="card-description"> All Furni Hub customers</p>
+                    <h4 class="card-title">Product Management</h4>
+                    <p class="card-description"> All Furni Hub Products</p>
                     <p><a href="/admin/loadaddproduct" class="badge badge-success"> + Add Product </a></p>
                     <div class="table-responsive">
                       <table class="table">
@@ -25,26 +25,26 @@
                           </tr>
                         </thead>
                         <tbody>
-                            <% if(products.length>0){
-                                for(let i=0;i<products.length;i++){  %>
+                            <% if(productData.length>0){
+                                for(let i=0;i<productData.length;i++){  %>
                               <tr>
                                 <td><%= i+1 %></td>
                                 
-                                <td><%= products[i].name %></td>
+                                <td><%= productData[i].name %></td>
                                 <td>
-                                  <img src="/user/images/product/<%= products[i].images.image1 %>" alt="">
+                                  <img src="/user/images/products/<%= productData[i].images.image1 %>" alt="">
                                 </td>
-                                <td><%= products[i].category %></td>
-                                <td><%= products[i].quantity %></td>
-                                <td><%= products[i].price %></td>
-                                <%  if(products[i].blocked==0){ %>
+                                <td><%= productData[i].category %></td>
+                                <td><%= productData[i].quantity %></td>
+                                <td><%= productData[i].price %></td>
+                                <%  if(productData[i].blocked==0){ %>
                                 <td class="text-success">Active</td>
-                                <td><a href="/admin/block-product?id=<%= products[i]._id %>" class="badge badge-danger" >Block</a></td>
+                                <td><a href="/admin/block-product?id=<%= productData[i]._id %>" class="badge badge-danger" >Block</a></td>
                                <% }else{ %>
                                 <td class="text-danger">Blocked</td>
-                                <td><a href="/admin/block-product?id=<%= products[i]._id %>" class="badge badge-success" >Unblock</a></td>
+                                <td><a href="/admin/block-product?id=<%= productData[i]._id %>" class="badge badge-success" >Unblock</a></td>
                               <% } %>
-                                <td><a href="/admin/edit-product-page?id=<%= products[i]._id %>" class="badge badge-warning">Update</a></td>
+                                <td><a href="/admin/edit-product-page?id=<%= productData [i]._id %>" class="badge badge-warning">Update</a></td>
                                 
                                 <!-- <td><button class="btn-inverse-danger">Delete</button></td> -->
                               </tr>
@@ -53,7 +53,6 @@
                                 <tr>
                                     <td colspan="5">Products Not Found</td>
                                   </tr>
-                
                              <% } %>
                         </tbody>
                       </table>

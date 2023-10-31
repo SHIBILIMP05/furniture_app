@@ -1,0 +1,32 @@
+<%-include("../admin/leyouts/header.ejs")%>
+
+
+<div class="main-panel">
+    <div class="content-wrapper">
+  <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">New Category</h4>
+          
+          <form action="/admin/addcategory" method="post" class="forms-sample">
+            <div class="form-group">
+              <label for="exampleInputName1">Category Name</label>
+              <input name="categoryname" type="text" class="form-control" id="exampleInputName1" placeholder="Category Name" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            <% if(typeof message !== 'undefined'){ %>
+              <span
+                id="er2"
+                style="color: rgb(241, 7, 7); text-align: center"
+                ><%= message %></span
+              >
+              <% } %>
+            
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <%-include("../admin/leyouts/footer.ejs")%>

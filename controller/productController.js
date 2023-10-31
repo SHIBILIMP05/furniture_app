@@ -1,6 +1,7 @@
 const User = require("../model/userModel")
 const Admin = require("../model/adminModel")
-const Product = require("../model/productsModel")
+const Category = require("../model/categoryModel")
+const Products = require("../model/productsModel")
 const Sharp = require("sharp");
 const fs = require("fs");
 const multer = require("../middleware/multer");
@@ -12,10 +13,10 @@ const sharp = require("sharp");
 
 const product = async(req,res)=>{
     try {
-        console.log("1")
-        const productData = Product.find({})
-        res.render("productmanagement",{products:productData})
-        console.log("2")
+        
+        const productData = await Products.find({})
+        res.render("productmanagement",{productData})
+   
     } catch (error) {
         console.error(error.message)
     }
@@ -48,9 +49,9 @@ const addproduct = async(req,res)=>{
         ]
 
         for(let i=0;i<img.length;i++){
-            await sharp("/public/user/images/products"+img[i])
+            await sharp("public/user/images/products/"+img[i])
             .resize(500,500)
-            .toFile("public/user/images/crop"+img[i])
+            .toFile("public/user/images/crop/"+img[i])
         }
 
         let product = new Product({
@@ -74,11 +75,31 @@ const addproduct = async(req,res)=>{
     }
 }
 
+//---------------------BLOCK AND UNBLOCK PRODUCTS IN ADMIN SIDE---------------
+
+const blockProduct = async(req,res)=>{
+    try {
+        
+        const blockedproduct = await Products.findOne({_id:req.query.id})
+        if(blockedproduct.blocked == 0){
+            await Products.updateOne({_id:req.query.id},{$set:{blocked:1}})
+            res.redirect("/admin/productmanagement")
+        }else{
+            await Products.updateOne({_id:req.query.id},{$set:{blocked:0}})
+            res.redirect("/admin/productmanagement")
+        }
+
+
+    } catch (error) {
+        console.error(error.message)
+    }
+}
 
 
 module.exports={
     product,
     loadaddproduct,
     addproduct,
+    blockProduct,
 }
 

@@ -1,0 +1,68 @@
+<%-include("../admin/leyouts/header.ejs")%>
+
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper">
+            <div class="row">
+              <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Category Management</h4>
+                    <p class="card-description"> All Furni Hub Categories</p>
+                    <p><a href="/admin/loadaddcategory" class="badge badge-success"> + Add Category </a></p>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th> No. </th>
+                            <th> Category </th>
+                            <th> Status </th>
+                            <th> Action </th>
+                            <th> Update </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <% if(categoryData.length>0){ 
+                                for(let i=0;i<categoryData.length;i++){  %>
+                                    <tr>
+                                        <td><%= i+1 %></td>
+                                        <td><%= categoryData[i].name %></td>
+                                        
+                                            <% if(categoryData[i].blocked==0){ %>
+                                                <td class="text-success">Active</td>
+                                                <td>
+                                                    <a href="/admin/block-category?id=<%= categoryData[i]._id %>" class="badge badge-danger">BLOCK</a>
+                                                </td>
+                                           <% }else{ %>
+                                            <td class="text-danger">Blocked</td>
+                                            <td>
+                                                <a href="/admin/block-category?id=<%= categoryData[i]._id %>" class="badge badge-success">UNBLOCK</a>
+                                            </td>
+                
+                                         <%  } %>
+                                         <td>
+                                            <a href="/admin/edit-category?id=<%= categoryData[i]._id %>" class="badge badge-success">Edit</a>
+                                         </td>
+                                        
+                                    </tr>
+                                <% } %>
+                                
+                
+                              <% }else{ %>
+                                <tr>
+                                    <td colspan="5">Catagories Not Found</td>
+                                  </tr>
+                
+                             <% } %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+     
+        <%-include("../admin/leyouts/footer.ejs")%>

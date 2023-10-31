@@ -23,9 +23,9 @@
               <select class="form-select form-control" aria-label="Default select example" name="category">
                 <% if(categoryData.length > 0){
   
-                  for( let i=0;i<catData.length;i++){   %>
+                  for( let i=0;i<categoryData.length;i++){   %>
   
-                    <option value="<%= catData[i].name %>"><%= categoryData[i].name %></option>
+                    <option value="<%= categoryData[i].name %>"><%= categoryData[i].name %></option>
   
                  <% }
                 }else{ %>

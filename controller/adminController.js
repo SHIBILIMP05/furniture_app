@@ -1,6 +1,6 @@
 const User = require("../model/userModel")
 const bcrypt = require("bcrypt")
-
+const Category = require("../model/categoryModel")
 
 //----------------load admin loginpage-------------------
 
@@ -99,6 +99,106 @@ const blockUser = async(req,res)=>{
     }
 }
 
+//----------------LOAD CATEGORY MANAGEMENT-----------------
+
+const loadcategory = async(req,res)=>{
+    try {
+        
+        const categoryData = await Category.find()
+        res.render("categorymanagement",{categoryData:categoryData})
+
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
+//--------------------BLOCK AND UNBLOCK CATEGORY-----------
+
+const blockCategory = async (req,res)=>{
+    try {
+        
+       const blockedcategory = await Category.findOne({_id:req.query.id})
+       if(blockedcategory.blocked == 0){
+            await Category.updateOne({_id:req.query.id},{$set:{blocked:1}})
+            res.redirect("/admin/categorymanagement")
+       }else{
+        await Category.updateOne({_id:req.query.id},{$set:{blocked:0}})
+        res.redirect("/admin/categorymanagement")
+       } 
+
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
+//----------------LOAD ADD CATEGORY-----------------
+
+const loadAddCategory = async(req,res)=>{
+
+    try {
+        
+        res.render("addcategory")
+
+    } catch (error) {
+        console.error(error.message)
+    }
+
+}
+
+//----------------------ADDING CATEGORY--------------
+
+const addCategory = async(req,res)=>{
+    try {
+        
+        const name = req.body.categoryname
+        const data = new Category({
+             name : req.body.categoryname
+
+        })
+        const already = await Category.findOne({name: { $regex: name, $options: "i" }});
+          if (already) {
+            res.render("addcategory", {message: "Entered category is already exist."});
+          } else {
+            const categoryData = await data.save();
+            res.redirect("/admin/categorymanagement");
+          }
+
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
+//----------------LOAD EDIT CATEGORY PAGE--------------
+
+const loadeditCategory = async(req,res)=>{
+    try {
+        
+        const categoryId =req.query.id
+        const category = await Category.findOne({_id:categoryId})
+        res.render("editcategory",{category:category})
+
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
+//--------------------UPDATE CATEGORY-------------
+
+const updateCategory = async(req,res)=>{
+    try {
+        
+        const categoryId =req.query.id
+        const updatecategory = await Category.updateOne({_id:categoryId},{$set:{name:req.body.categoryName}})
+        if(updatecategory){
+            res.redirect("/admin/categorymanagement")
+        }else{
+            res.render("editcategory",{message:"There is an error occured, try again!"})
+        }
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
 module.exports = {
     adminLoginPage,
     adminLogin,
@@ -106,4 +206,10 @@ module.exports = {
     logout,
     usermanagementload,
     blockUser,
+    loadcategory,
+    loadAddCategory,
+    addCategory,
+    blockCategory,
+    loadeditCategory,
+    updateCategory,
 }
