@@ -22,6 +22,16 @@ const securePassword = async (password) => {
 let otp;
 let nameResend;
 let email2;
+//?-----------------------LOGIN INPUT VALIDATION----------------
+function validateEmail(email){
+  var email = email
+  let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+
+  if(emailPattern.test(email)){
+    return true
+  }
+  return false
+}
 
 //-------------------INPUT VALIDATION----------------------------
 
@@ -75,8 +85,6 @@ const  loadHome = async (req, res) => {
   try {
     
       res.render("home",{name:req.session.name});
-      
-    
     
   } catch (error) {
     console.error(err.massage);
@@ -97,8 +105,13 @@ const loadLogin = async (req, res) => {
 
 const verifylogin = async (req, res) => {
   try {
+
     const email = req.body.email;
     const password = req.body.password;
+
+    if(!validateEmail(email)){
+      return res.render("login",{message:"Invalid email"})
+    }
 
     const userData = await User.findOne({ email });
 

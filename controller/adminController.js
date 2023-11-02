@@ -167,13 +167,13 @@ const addCategory = async(req,res)=>{
         console.error(error.message)
     }
 }
-
+  
 //----------------LOAD EDIT CATEGORY PAGE--------------
 
 const loadeditCategory = async(req,res)=>{
-    try {
+    try { 
         
-        const categoryId =req.query.id
+        const categoryId =req.query.id 
         const category = await Category.findOne({_id:categoryId})
         res.render("editcategory",{category:category})
 
