@@ -43,7 +43,10 @@
                                          <td>
                                             <a href="/admin/edit-category?id=<%= categoryData[i]._id %>" class="badge badge-success">Edit</a>
                                          </td>
-                                        
+                                         <td>
+                                        <button class="btn-inverse-danger"> <a href="/admin/delete-category?id=<%= categoryData[i]._id %>" style="text-decoration: none; color: #fff; "  >Delete</a></button> 
+                                       </td>
+                                      
                                     </tr>
                                 <% } %>
                                 

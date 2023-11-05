@@ -1,63 +1,69 @@
 <%- include("../user/leyouts/header.ejs")%>
+
+<body>
+  
+
+
 <div id="log-img">
   <dive id="form-box-2">
     <form method="post" action="/register">
       <h2 id="sign-up">SIGN UP</h2>
       <div class="mb-3" id="fnbox-1">
         <label for="exampleInputName1" class="form-label" style="font-family: system-ui">Full Name</label>
-        <input  type="text" name="name" class="form-control" id="exampleInputName1" style="
+        <input  type="text" name="name" class="form-control" id="name" style="
               border-radius: 20px;
               border-radius: 20px;
               border-color: #ffffff;
               background-color: #ffffff;
-            " required />
+            "/>
       </div>
       <div class="mb-3" id="ebox-2">
         <label for="exampleInputEmail1" class="form-label" style="font-family: system-ui">Email Address</label>
-        <input  type="email" name="email" class="form-control" id="exampleInputEmail1" style="
+        <input  type="email" name="email" class="form-control" id="email" style="
               border-radius: 20px;
               border-radius: 20px;
               border-color: #ffffff;
               background-color: #ffffff;
-            " required />
+            "/>
       </div>
       <div class="mb-3" id="phbox-1">
         <label for="exampleInputPhone1" class="form-label" style="font-family: system-ui">Phone No</label>
-        <input  type="text" name="phone" class="form-control" id="exampleInputPhone1" style="
+        <input  type="tel"  name="number" class="form-control" id="number" style="
               border-radius: 20px;
               border-radius: 20px;
               border-color: #ffffff;
               background-color: #ffffff;
-            " required />
+            "/>
       </div>
       <div class="mb-3" id="pbox-2">
         <label for="exampleInputPassword1" class="form-label" style="font-family: system-ui">Password</label>
-        <input  type="password" name="password" class="form-control" id="exampleInputPassword1" style="
+        <input  type="password" name="password" class="form-control" id="password" style="
               border-radius: 20px;
               border-radius: 20px;
               border-color: #ffffff;
               background-color: #ffffff;
-            " required " />
+            "/>
       </div>
       <div class="mb-3" id="cpbox-1">
         <label for="exampleInputPassword1" class="form-label" style="font-family: system-ui">Confirm Password</label>
-        <input name="confirmPassword" type="password" class="form-control" id="exampleInputCpassword1" style="
+        <input name="confirmPassword" type="password" class="form-control" id="confirmPassword" style="
               border-radius: 20px;
               border-radius: 20px;
               border-color: #ffffff;
               background-color: #ffffff;
-            " required />
+            " />
       </div>
-      <% if(typeof message !== 'undefined'){ %>
-        <h6 class="text-center" style="
-        font-family: system-ui;
-        color: rgb(117 35 35);
-        position: absolute;
-        left: 145px;
-        bottom: 105px;
-        font-size: small;
-      "> <%= message %> </h6> 
-      <% } %>
+
+      <h6 id="error-message" class="text-center" data-aos="fade-down" style="
+      display: none;
+      font-family: system-ui;
+      color: rgb(109, 6, 6);
+      position: absolute;
+      left: 115px;
+      bottom: 105px;
+      font-size: small;
+    "></h6>
+
       <button type="submit" class="btn btn-primary" id="sign-btn-1">
         Register
       </button>
@@ -68,11 +74,26 @@
   </dive>
 </div>
 
-<body>
+
+<script>
+
+const inputs = document.querySelectorAll('input')
+const errorMessage = document.getElementById('error-message')
+
+inputs.forEach(input=>{
+  input.addEventListener('input',function(){
+    errorMessage.textContent = ""
+  })
+})
+
+</script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
   crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="/user/signupvalidation.js"></script>
+
 </body>
 
 </html>

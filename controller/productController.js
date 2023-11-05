@@ -49,12 +49,12 @@ const addproduct = async(req,res)=>{
         ]
 
         for(let i=0;i<img.length;i++){
-            await sharp("public/user/images/products/"+img[i])
+            await sharp("public/products/images/"+img[i])
             .resize(500,500)
-            .toFile("public/user/images/crop/"+img[i])
+            .toFile("public/products/crops/"+img[i])
         }
 
-        let product = new Product({
+        let product = new Products({
             name: details.name,
             price: details.price,
             quantity: details.quantity,
@@ -95,11 +95,40 @@ const blockProduct = async(req,res)=>{
     }
 }
 
+//--------------------LOAD EDITE PRODUCT PAGE-------------------
+
+const loadeditProduct = async(req,res)=>{
+    try {
+        
+        const categoryData = await Category.find({blocked:0})
+        const editProduct = await Products.find({_id:req.query.id})
+        res.render("editproductpage",{productData:editProduct,categoryData}) 
+
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
+//----------------------DELETING PRODUCT FROM PRODUCT MANAGEMENT-------------------
+
+const deleteProduct = async(req,res)=>{
+    try {
+        
+        await Products.deleteOne({_id:req.query.id})
+        res.redirect("/admin/productmanagement")
+
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
+
 
 module.exports={
     product,
     loadaddproduct,
     addproduct,
     blockProduct,
+    deleteProduct,
 }
 

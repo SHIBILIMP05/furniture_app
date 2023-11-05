@@ -1,7 +1,6 @@
 const User = require("../model/userModel.js");
 const bcrypt = require("bcrypt");
-const randomString =require("randomstring")
-const otpgenerator = require("otp-generator")
+const randomString = require("randomstring")
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 const { name } = require("ejs");
@@ -17,30 +16,31 @@ const securePassword = async (password) => {
     console.error(error);
   }
 };
-//------------------------------//---------------------------//
+
+//*----------------------------//-//---------------------------*//
 
 let otp;
 let nameResend;
 let email2;
-//?-----------------------LOGIN INPUT VALIDATION----------------
-function validateEmail(email){
-  var email = email
-  let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+// //-----------------------LOGIN INPUT VALIDATION----------------
+// function validateEmail(email){
+//   var email = email
+//   
 
-  if(emailPattern.test(email)){
-    return true
-  }
-  return false
-}
+//   if(emailPattern.test(email)){
+//     return true
+//   }
+//   return false
+// }
 
-//-------------------INPUT VALIDATION----------------------------
+// //-------------------INPUT VALIDATION----------------------------
 
-function inputvalidation(name,email,password,confirmPassword){
-  if(name.startsWith(" ")||email.startsWith(" ")||password.startsWith(" ")||confirmPassword.startsWith(" ")){
-    return false;
-  }
-  return true;
-}
+// function inputvalidation(name,email,password,confirmPassword){
+//   if(name.startsWith(" ")||email.startsWith(" ")||password.startsWith(" ")||confirmPassword.startsWith(" ")){
+//     return false;
+//   }
+//   return true;
+// }
 
 //!------------------for send mail-------------------------------
 const sendVerifyMail = async (name, email, otp) => {
@@ -81,11 +81,11 @@ const sendVerifyMail = async (name, email, otp) => {
 
 //-------------------load home page--------------------------
 
-const  loadHome = async (req, res) => {
+const loadHome = async (req, res) => {
   try {
-    
-      res.render("home",{name:req.session.name});
-    
+
+    res.render("home", { name: req.session.name });
+
   } catch (error) {
     console.error(err.massage);
   }
@@ -95,7 +95,8 @@ const  loadHome = async (req, res) => {
 
 const loadLogin = async (req, res) => {
   try {
-    res.render("login");
+    let regSuccess = req.session.regSuccess;
+    res.render("login",{regSuccess});
   } catch (error) {
     console.error(error.message);
   }
@@ -107,33 +108,50 @@ const verifylogin = async (req, res) => {
   try {
 
     const email = req.body.email;
+    const name = 'User'
     const password = req.body.password;
 
-    if(!validateEmail(email)){
-      return res.render("login",{message:"Invalid email"})
-    }
-
-    const userData = await User.findOne({ email });
-
-    if (userData) {
-      const passwordMatch = await bcrypt.compare(password, userData.password);
-      if (passwordMatch) {
-        if (userData.is_varified == 0) {
-
-          res.render("login", { message: "Please verify your email" });
+   
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+    if(!emailPattern.test(req.body.email)) {
+      
+      res.json({ logemailPatt: true })
+    }else{
+     
+      const userData = await User.findOne({ email:email });
+      if (userData&&userData.is_admin==0) {
+        if(userData.is_varified==1){
+          const passwordMatch = await bcrypt.compare(password, userData.password);
+        if (passwordMatch) {
+          if (userData.is_block == 0) {
+            req.session.user_id = userData._id;
+            req.session.name = userData.name
+            req.session.regSuccess = false;
+            res.json({success:true})
+          } else {
+            res.json({blocked:true})
+          }
         } else {
-          req.session.user_id = userData._id
-          req.session.name = userData.name
-          res.redirect("/home");
+  
+          res.json({wrong:true})
         }
       } else {
-
-        res.render("login", { message: "password in corroct" });
-      }
-    } else {
-
-      res.render("login", { message: "Account not exist error!" });
+  
+        const randomNumber = Math.floor(Math.random() * 9000) + 1000;
+        otp = randomNumber;
+        req.session.email = req.body.email;
+        sendVerifyMail(name, email, randomNumber);
+        setTimeout(() => {
+          otp = Math.floor(Math.random() * 9000) + 1000;
+        }, 60000);
+        req.session.verifyErr = true;
+        res.json({verify:true})
+      } 
+    }else{
+      res.json({register:true})
     }
+        
+  }  
   } catch (error) {
     console.error(error.massage);
   }
@@ -155,60 +173,87 @@ const insertuser = async (req, res) => {
 
   try {
 
-    const name=req.body.name
-    const email=req.body.email
-    const password=req.body.password
-    const confirmPassword=req.body.confirmPassword
+    const name = req.body.name;
+    const email = req.body.email;
+    const mobile = req.body.number;
+    const password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
 
-    if(!inputvalidation(name,email,password,confirmPassword)){
-            
-      return res.render('signup',{message:'Dont start with spaces.'})
-    }
+    if (name && name.length <= 2) {
+      res.json({ name: true })
+      console.log({ name, email, mobile, password, confirmPassword });
 
-    const emailchek =  await User.findOne({email:req.body.email})
+    } else { 
+      console.log({ name, email, mobile, password, confirmPassword });
 
-    if(emailchek){
-      res.render("signup",{message:"Account already exist please login"})
-
-    }else{
-
-      if(req.body.password == req.body.confirmPassword){
-
-        const spassword = await securePassword(req.body.password);
-        
-      const user = new User({
-       name: req.body.name,
-       email: req.body.email,
-       phone: req.body.phone,
-       password: spassword,
-       confirmPassword: req.body.confirmPassword,
-       is_admin: 0,
-       is_varified:0
-      });
-
-      const userData = await user.save();
-
-      if (userData) {
-
-         otp =otpgenerator.generate(6,{ digits:true, alphabets:false, upperCase:false, specialChars:false})
-
-        sendVerifyMail(req.body.name, req.body.email, otp);
-
-        email2 = req.body.email;
-        nameResend = req.body.name;
-
-        res.redirect("/otp");
+      if (email.trim() === "" || mobile.trim() === "" || password.trim() === "" || name.trim() === "" || confirmPassword.trim() === "") {
+        res.json({ require: true })
+        console.log({ name, email, mobile, password, confirmPassword });
 
       } else {
 
-        res.render("signup", { massage: "your registration has been failed" });
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+
+        if (!emailPattern.test(req.body.email)) {
+          res.json({ emailPatt: true })
+        } else {
+          let mobilePattern = /^\d{10}$/;
+          if (!mobilePattern.test(mobile) || mobile === "0000000000") {
+            res.json({ mobile: true })
+          } else {
+            if (password.length < 4) {
+              res.json({ password: true })
+            } else {
+
+              const emailchek = await User.findOne({ email: req.body.email })
+              if (emailchek) {
+                res.json({ emailalready: true })
+              } else {
+                if (password == confirmPassword) {
+
+                  const spassword = await securePassword(req.body.password);
+                  const user = new User({
+
+                    name: req.body.name,
+                    email: req.body.email,
+                    phone: req.body.number,
+                    password: spassword,
+                    is_admin:0,
+
+                  });
+
+                  const userData = await user.save();
+
+                  if (userData) {
+
+                  let randomNumber = Math.floor(Math.random() * 9000) + 1000;
+                  otp = randomNumber;
+
+                    req.session.email = req.body.email;
+                    req.session.pass = spassword;
+                    req.session.userName = req.body.name;
+                    req.session.number = req.body.number;
+
+                    sendVerifyMail(req.body.name, req.body.email, randomNumber);
+                    setTimeout(() => {
+                      otp = Math.floor(Math.random() * 9000) + 1000;
+                    }, 60000)
+                    req.session.otpsent = true
+                    res.json({ success: true })
+                  } else {
+                    res.json({ notsaved: true })
+                  }
+                } else {
+                  res.json({ wrongpass: true })
+                }
+              }
+
+            }
+          }
+        }
       }
-         
-      }else{
-        res.render("signup",{message:"Please confirm your password"})
-      }
-      
     }
+
   } catch (error) {
     console.error(error);
   }
@@ -216,39 +261,77 @@ const insertuser = async (req, res) => {
 
 //---------------------OTP loading---------------------------
 
-const otpload = async(req,res)=>{
-  res.render("otp")
-  console.log("otp page loaded")
+const otpload = async (req, res) => {
+  try {
+
+    let verifyErr = req.session.verifyErr;
+    let otpsend = req.session.otpsend
+
+    res.render("otp",{verifyErr,otpsend})
+    
+    console.log("otp page loaded")
+
+  } catch (error) {
+    console.error(error.message)
+  }
+  
+  
+}
+
+//---------------------RESEND OTP--------------------------
+
+const resendotp = async(req,res)=>{
+  try {
+    
+    let otpsend = req.session.otpsend
+    let verifyErr = req.session.verifyErr
+    let email = req.session.email
+    let name = "User"
+    let randomNumber = Math.floor(Math.random() * 9000) + 1000;
+    otp = randomNumber;
+    setTimeout(() => {
+      otp = Math.floor(Math.random() * 9000) + 1000;
+    }, 60000);
+    sendVerifyMail(name,email,randomNumber)
+    res.render("otp",{verifyErr,otpsend,resend: "Resend the otp to your email address."})
+
+
+  } catch (error) {
+    console.error(error.message)
+  }
 }
 
 //---------------------OTP Verification----------------------
 
 const verifyOtp = async (req, res) => {
   try {
-     
-    const inputOtp = req.body.otp
 
-    if(inputOtp == otp){
-      const updateInfo = await User.updateOne(
-      { email:email2 },
-      { $set: { is_varified: 1 } }
+    req.session.verifyErr = false
+    req.session.otpsend = false
+
+    const otpInput = parseInt(req.body.otp)
+    const email = req.session.email
+
+    if (otpInput == otp) {
+      const verified = await User.updateOne(
+        { email: email },
+        { $set: { is_varified: 1 } }
       );
 
-    if(updateInfo){
-      console.log(updateInfo);
-      console.log("account verified")
-      res.redirect("/login");
+      if (verified) {
+        console.log("account verified")
+        req.session.regSuccess = true;
+        res.json({success:true})
 
-    }else{
+      } else {
+        console.log("not verified !!")
+        res.json({error:true})
+      }
 
-      console.log("not verified !!")
-      res.redirect("/otp")
+    } else {
+      res.json({wrong:true})
     }
-      
-    }else{
-      res.render("otp",{message:"Enter the valid OTP"})
-    }
-   
+
   } catch (error) {
     console.log(error.message);
   }
@@ -258,7 +341,7 @@ const verifyOtp = async (req, res) => {
 
 //-----------------------dashboard loading---------------------
 
-const accountload = async (req,res)=>{
+const accountload = async (req, res) => {
   try {
 
     res.render("userDashboard")
@@ -266,12 +349,12 @@ const accountload = async (req,res)=>{
   } catch (error) {
     console.error(error.message)
   }
-  
+
 }
 
 //----------------------logout---------------------------------
 
-const userLogout = async(req,res)=>{
+const userLogout = async (req, res) => {
 
   try {
 
@@ -281,7 +364,7 @@ const userLogout = async(req,res)=>{
   } catch (error) {
     console.error.message
   }
-  
+
 }
 
 //!--------------------------mail sending for recoovery password-------------------
@@ -305,7 +388,7 @@ const sendPassResetMail = async (name, email, token) => {
       html:
         '<p>Hello ' +
         name +
-        ', This message for reset your password. click here to <a href="http://localhost:3000/forget-password?token='+token+'">Reset</a>your password.</p>,'
+        ', This message for reset your password. click here to <a href="http://localhost:3000/forget-password?token=' + token + '">Reset</a>your password.</p>,'
     };
 
     transporter.sendMail(mailOptions, function (err, info) {
@@ -322,9 +405,9 @@ const sendPassResetMail = async (name, email, token) => {
 
 //-----------------------load Forgetpage--------------------
 
-const loadForget = async(req,res)=>{
+const loadForget = async (req, res) => {
   try {
-    
+
     res.render("forgetpage")
 
   } catch (error) {
@@ -334,31 +417,40 @@ const loadForget = async(req,res)=>{
 
 //----------------------forgetverify---------------------------
 
-const forgetverify =async(req,res)=>{
+const forgetverify = async (req, res) => {
   try {
-    
+
     const email = req.body.email
-    const userData = await User.findOne({email:email})
+    const userData = await User.findOne({ email: email })
+    
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(req.body.email)) {
 
-    if(userData){
-      if(userData.is_varified == 0){
-        res.render("forgetpage",{message:"please verify your Email"})
+      res.json({ emailPatt: true })
+    }else{
+      if (userData) {
+      if (userData.is_varified == 1) {
 
-      }else{
         const random_String = randomString.generate();
 
-        const updatedData = await User.updateOne({email:email},{$set:{token:random_String}})
+        const updatedData = await User.updateOne({ email: email }, { $set: { token: random_String } })
 
-        sendPassResetMail(userData.name,userData.email,random_String)
+        const user = await User.findOne({ email: email });
 
-        res.render("forgetpage",{message:"please check your mail for reset your password"})
+        sendPassResetMail(user.name, user.email, random_String)
 
+        res.json({response:true})
+
+      } else {
+        res.json({mailverify:true})
+        
       }
 
-    }else{
-      res.render("forgetpage",{message:"please enter valid Email"})
+    } else {
+      res.json({wrong:true})
     }
-
+    }
+    
   } catch (error) {
     console.error(error.message)
   }
@@ -366,19 +458,20 @@ const forgetverify =async(req,res)=>{
 
 //----------------------------------forget password load-------------------
 
-const forgetpasswordload = async(req,res)=>{
+const forgetpasswordload = async (req, res) => {
   try {
-    
+
     const token = req.query.token;
     console.log(token)
-    const tokenData = await User.findOne({token:token})
-    
-    if(tokenData){
+    const tokenData = await User.findOne({ token: token })
 
-      res.render("forget-password",{user_id:tokenData._id})
+    if (tokenData) {
 
-    }else{
-      res.status(404).render("404",{message:"Oop's.. Your token is invalid"});
+      res.render("forget-password", { user_id: tokenData._id ,email:tokenData.email})
+
+    } else {
+      console.log("No token")
+      res.status(404).render("404", { message: "Oop's.. Your token is invalid" });
     }
 
   } catch (error) {
@@ -388,15 +481,21 @@ const forgetpasswordload = async(req,res)=>{
 
 //----------------------------------Reset password--------------
 
-const resetpassword = async(req,res)=>{
+const resetpassword = async (req, res) => {
   try {
-    
+
     const userPassword = req.body.password
     const user_id = req.body.user_id
     const secure_Password = await securePassword(userPassword)
-    const updatedData = await User.findByIdAndUpdate({_id:user_id},{$set:{password:secure_Password,token:''}})
+    const updatedData = await User.findByIdAndUpdate({ _id: user_id }, { $set: { password: secure_Password, token: '' } })
 
-    res.redirect("/")
+    if(updatedData){
+       res.redirect("/")
+    }else{
+      res.status(404).render(404);
+      console.log("pass not reset");
+    }
+   
 
   } catch (error) {
     console.error(error.message)
@@ -410,6 +509,7 @@ module.exports = {
   insertuser,
   otpload,
   verifyOtp,
+  resendotp,
   loadHome,
   verifylogin,
   accountload,

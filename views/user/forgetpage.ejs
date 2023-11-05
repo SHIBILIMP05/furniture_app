@@ -63,25 +63,47 @@
             <h2>Forgot Password</h2>
             <div class="form-group" style="margin-left: -30px;">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                <% if(typeof message !== 'undefined'){ %>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <!-- <% if(typeof message !== 'undefined'){ %>
                     <h6 class="text-center" style="
                     font-family: system-ui;
                     color: rgb(117 35 35);
                     position: absolute;
-                    left: 785px;
+                    left: 900px;
                     bottom: 345px;
                     font-size: small;
                   "> <%= message %> </h6> 
-                  <% } %>
+                  <% } %> -->
+                  <h6 id="error-message" class="text-center" style="
+                  font-family: system-ui;
+                  color: rgb(117 35 35);
+                  position: absolute;
+                  left: 900px;
+                  bottom: 345px;
+                  font-size: small;
+                  display: none;
+                "></h6> 
             </div>
             <div class="form-group">
-                <button type="submit">Send Email</button>
+                <button id="sendEmail" type="submit">Send Email</button>
             </div>
         </form>
     </div>
+    <script>
 
-    <script src="script.js"></script>
+        const input = document.getElementById('email')
+        const errorMessage = document.getElementById('error-message')
+        
+        
+          input.addEventListener('input',function(){
+            errorMessage.textContent = ""
+          })
+        
+        
+        </script>
+    <script src="/user/forgetvalidation.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
 </body>
 
 </html>

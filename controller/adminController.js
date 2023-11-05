@@ -1,6 +1,7 @@
 const User = require("../model/userModel")
 const bcrypt = require("bcrypt")
 const Category = require("../model/categoryModel")
+const { trace } = require("../routers/admin/adminRouts")
 
 //----------------load admin loginpage-------------------
 
@@ -199,6 +200,19 @@ const updateCategory = async(req,res)=>{
     }
 }
 
+//----------------------DELETE CATEGORY IN CATEGORY MANAGEMENT----------------------
+
+const deleteCategory = async(req,res)=>{
+    try {
+        
+         await Category.deleteOne({_id:req.query.id})
+         res.redirect("/admin/categorymanagement")
+
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
 module.exports = {
     adminLoginPage,
     adminLogin,
@@ -212,4 +226,5 @@ module.exports = {
     blockCategory,
     loadeditCategory,
     updateCategory,
+    deleteCategory,
 }

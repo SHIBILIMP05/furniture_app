@@ -14,14 +14,17 @@
                       <table class="table">
                         <thead>
                           <tr>
+                            <th>No.</th>
+          
                             <th>Name</th>
                             <th>Images</th>
                             <th>Category</th>
                             <th>Stock</th>
                             <th>Price</th>
                             <th>Status</th>
+                            <th>Block</th>
                             <th>Edit</th>
-                            <th>Action</th>
+                            <th>Delete</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -32,7 +35,7 @@
                                 
                                 <td><%= productData[i].name %></td>
                                 <td>
-                                  <img src="/user/images/products/<%= productData[i].images.image1 %>" alt="">
+                                  <img src="/products/images/<%= productData[i].images.image1 %>" alt="">
                                 </td>
                                 <td><%= productData[i].category %></td>
                                 <td><%= productData[i].quantity %></td>
@@ -46,7 +49,7 @@
                               <% } %>
                                 <td><a href="/admin/edit-product-page?id=<%= productData [i]._id %>" class="badge badge-warning">Update</a></td>
                                 
-                                <!-- <td><button class="btn-inverse-danger">Delete</button></td> -->
+                                <td><a href="/admin/delete-product?id=<%= productData [i]._id %>"><button class="btn-inverse-danger">Delete</button></a></td>
                               </tr>
                               <% } %>
                               <% }else{ %>
