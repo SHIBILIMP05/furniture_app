@@ -30,8 +30,11 @@
     <link rel="stylesheet" href="/user/css/plugins/owl-carousel/owl.carousel.css">
     <link rel="stylesheet" href="/user/css/plugins/magnific-popup/magnific-popup.css">
     <link rel="stylesheet" href="/user/css/plugins/jquery.countdown.css">
+    
     <!-- Main CSS File -->
     <link rel="stylesheet" href="/user/css/style.css">
+    <link rel="stylesheet" href="/user/css/plugins/nouislider/nouislider.css">
+
     <link rel="stylesheet" href="/user/css/skins/skin-demo-2.css">
     <link rel="stylesheet" href="/user/css/demos/demo-2.css">
 
@@ -115,6 +118,8 @@
                     </div>
 
                     <div class="header-right">
+                        <% if(typeof name === 'undefined'){ %>
+                            <%}else{%>
                         <div class="account">
                             <a href="/account" title="My account">
                                 <div class="icon">
@@ -123,7 +128,7 @@
                                 <p>Account</p>
                             </a>
                         </div><!-- End .compare-dropdown -->
-
+                        <%}%>
                         <div class="wishlist">
                             <a href="wishlist.html" title="Wishlist">
                                 <div class="icon">
@@ -238,20 +243,20 @@
                                     <a href="/home" class="sf-with-ul">Home</a>
                                 </li>
                                 <li>
-                                    <a href="/shop" class="sf-with-ul">Shop</a>
+                                    <a href="/loadproduct" class="sf-with-ul">Shop</a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="/products" class="sf-with-ul">Product</a>
-                                </li>
-                                <li>
+                                </li> -->
+                                <!-- <li>
                                     <a href="#" class="sf-with-ul">Pages</a>
-                                </li>
+                                </li> -->
                                 <li>
                                     <a href="blog.html" class="sf-with-ul">Blog</a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="elements-list.html" class="sf-with-ul">Elements</a>
-                                </li>
+                                </li> -->
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-center -->

@@ -34,6 +34,8 @@ admin_Rout.get("/loadaddproduct",auth.isLogin,productController.loadaddproduct)
 admin_Rout.post("/addproduct",auth.isLogin,multer.productImagesUpload,productController.addproduct)
 admin_Rout.get("/block-product",auth.isLogin,productController.blockProduct)
 admin_Rout.get("/delete-product",auth.isLogin,productController.deleteProduct)
+admin_Rout.get("/edit-product-page",auth.isLogin,productController.loadeditProduct)
+admin_Rout.post("/editProduct",auth.isLogin,multer.productImagesUpload,productController.editedProduct)
 
 admin_Rout.get("/categorymanagement",auth.isLogin,adminController.loadcategory)
 admin_Rout.get("/loadaddcategory",auth.isLogin,adminController.loadAddCategory)

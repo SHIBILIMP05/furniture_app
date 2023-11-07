@@ -1,5 +1,7 @@
  <%- include("../user/leyouts/header.ejs")%>
- <style>
+ <body>
+  
+  <style>
 	.swal2-toast {
 	width: 800px; /* Adjust the width as needed */
 	height: 70px; /* Adjust the height as needed */
@@ -67,8 +69,19 @@
              
     </dive>
   </div>
+  <script>
 
-  <body>
+    const inputs = document.querySelectorAll('input')
+    const errorMessage = document.getElementById('myAlert1')
+    
+    inputs.forEach(input=>{
+      input.addEventListener('input',function(){
+        errorMessage.textContent = ""
+      })
+    })
+    
+    </script>
+  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 		<script src="/user/loginvalidation.js"></script>
    

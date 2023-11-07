@@ -1,9 +1,10 @@
 const User = require("../model/userModel.js");
+const Products = require("../model/productsModel.js")
 const bcrypt = require("bcrypt");
 const randomString = require("randomstring")
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
-const { name } = require("ejs");
+const { name, render } = require("ejs");
 const { Collection } = require("mongoose");
 dotenv.config();
 
@@ -84,7 +85,8 @@ const sendVerifyMail = async (name, email, otp) => {
 const loadHome = async (req, res) => {
   try {
 
-    res.render("home", { name: req.session.name });
+    const products = await Products.find({blocked:0}).limit(10)
+    res.render("home", { name: req.session.name, products:products });
 
   } catch (error) {
     console.error(err.massage);
@@ -502,6 +504,8 @@ const resetpassword = async (req, res) => {
   }
 }
 
+
+
 module.exports = {
 
   loadLogin,
@@ -518,5 +522,6 @@ module.exports = {
   forgetverify,
   resetpassword,
   forgetpasswordload,
+  
 
 };

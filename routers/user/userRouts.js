@@ -44,8 +44,8 @@ user_Rout.post("/forget",userController.forgetverify)
 user_Rout.get("/forget-password",auth.isLogout,userController.forgetpasswordload)
 user_Rout.post("/forget-password",userController.resetpassword)
 
-
-
+user_Rout.get("/loadproduct",auth.isLogin,productController.loadproductsPage)
+user_Rout.get("/productdetails",auth.isLogin,productController.productdetailspage)
 
 
 

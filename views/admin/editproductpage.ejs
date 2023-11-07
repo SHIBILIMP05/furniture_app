@@ -1,4 +1,4 @@
-
+<%-include("../admin/leyouts/header.ejs")%>
 
 <div class="main-panel">
     <div class="content-wrapper">
@@ -10,11 +10,11 @@
           <form class="forms-sample" action="/admin/editProduct?id=<%= product._id %>" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label for="exampleInputName1">Product Name</label>
-              <input type="text" class="form-control" id="exampleInputName1" name="name" value="<%=product.name%>">
+              <input type="text" class="form-control" id="Name" name="name" value="<%=product.name%>">
             </div>
             <div class="form-group">
               <label for="exampleInputEmail3">Product Price</label>
-              <input type="number" class="form-control" id="exampleInputEmail3" name="price" value="<%=product.price%>" >
+              <input type="number" class="form-control" id="price" name="price" value="<%=product.price%>" >
             </div>
             <div class="form-group">
               <label for="Catagory">Category</label>
@@ -22,11 +22,11 @@
               <select class="form-select form-control" aria-label="Default select example" name="category">
                 
                 
-                <% if(catData.length > 0){
+                <% if(categoryData.length > 0){
   
-                  for( let i=0;i<catData.length;i++){   %>
+                  for( let i=0;i<categoryData.length;i++){   %>
   
-                    <option value="<%= product.category %>"><%= catData[i].name %></option>
+                    <option value="<%= product.category %>"><%= categoryData[i].name %></option>
   
                  <% }
                 }else{ %>
@@ -41,11 +41,11 @@
             </div>
             <div class="form-group">
               <label for="exampleInputPassword4">Quantity</label>
-              <input type="text" class="form-control" id="exampleInputPassword4" value="<%= product.quantity %>" name="quantity" >
+              <input type="text" class="form-control" id="quantity" value="<%= product.quantity %>" name="quantity" >
             </div>          
             <div class="form-group">
               <label for="exampleTextarea1">Description</label>
-              <textarea class="form-control" id="exampleTextarea1" name="description" rows="4"><%= product.description %></textarea>
+              <textarea class="form-control" id="description" name="description" rows="4"><%= product.description %></textarea>
             </div>
   
   
@@ -110,54 +110,15 @@
             </div>
   
           </div>
-  
-            <!-- <div>
-            <div class="col-lg-3 col-md-6 rounded-image-preview ">
-              <label for="imageInput1" class="image-label ">Image 1
-                <div class="rounded-image-preview">
-                  <img id="imagePreview1"
-                  src="/products/images/<%= product.images.image1 %>"
-                    alt="Preview" />
-                </div>
-                <input name="image1" type="file" accept="image/*" id="imageInput1" class="imageInput" >
-              </label>
-            </div>
-            <div class="col-lg-3 col-md-6 rounded-image-preview ">
-              <label for="imageInput2" class="image-label ">Image 2
-                <div class="rounded-image-preview">
-                  <img id="imagePreview2"
-                  src="/products/images/<%= product.images.image2 %>"
-                    alt="Preview" />
-                </div>
-                <input name="image2" type="file" accept="image/*" id="imageInput2" class="imageInput" >
-              </label>
-            </div>
-            <div class="col-lg-3 col-md-6 rounded-image-preview ">
-              <label for="imageInput3" class="image-label ">Image 3
-                <div class="rounded-image-preview">
-                  <img id="imagePreview3"
-                  src="/products/images/<%= product.images.image3 %>"
-                    alt="Preview" />
-                </div>
-                <input name="image3" type="file" accept="image/*" id="imageInput3" class="imageInput" >
-              </label>
-            </div>
-            <div class="col-lg-3 col-md-6 rounded-image-preview ">
-              <label for="imageInput4" class="image-label ">Image 4
-                <div class="rounded-image-preview">
-                  <img id="imagePreview4"
-                  src="/products/images/<%= product.images.image4 %>"
-                    alt="Preview" />
-                </div>
-                <input name="image4" type="file" accept="image/*" id="imageInput4" class="imageInput" >
-              </label>
-            </div>
-            
-          </div> -->
-            <button type="submit" class="btn btn-primary mr-2">Submit</button>
-            <button class="btn btn-inverse-danger"><a href="/admin/product">Cancel</a></button>
+            <button type="submit" id="editProductsubmit" class="btn btn-primary mr-2">Submit</button>
+            <button class="btn btn-inverse-danger"><a href="/admin/productmanagement">Cancel</a></button>
+            <h6 id="error-message" style="display: none; font-size: small; top: 100px;left: 645px;position: absolute;color: rgb(117 35 35);font-family: system-ui;
+            "></h6>
+          
           </form>
         </div>
       </div>
     </div>
   </div>
+  <script src="/admin/editproductvalidation.js"></script>
+  <%-include("../admin/leyouts/footer.ejs")%>

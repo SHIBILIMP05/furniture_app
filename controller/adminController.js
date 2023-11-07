@@ -15,18 +15,59 @@ const adminLoginPage = async(req,res)=>{
 
 //-----------------admin login------------------------------
 
+// const adminLogin = async (req,res)=>{
+//     try {
+
+//         const email = req.body.email
+//         const password = req.body.password
+
+//         const adminData = await User.findOne({email:email})
+        
+//         if(adminData){
+
+//             if(adminData.is_admin === 0){
+//                 res.render("login",{message:"You cant get access in this email"})
+                
+//             }else{
+
+//             const passwordMatch = await bcrypt.compare(password,adminData.password)
+
+//                if(passwordMatch){
+//                     req.session.admin_id = adminData._id
+//                     res.redirect("/admin/home")
+//                 }else{
+//                     res.render("login",{message:"Invalid password"})
+//                 }
+//             }
+
+//         }else{
+//             res.render("login",{message:"Please enter valid email"})
+//         }
+//     } catch (error) {
+//         console.error(error.message)
+//     }
+// }
 const adminLogin = async (req,res)=>{
     try {
 
         const email = req.body.email
         const password = req.body.password
 
-        const adminData = await User.findOne({email:email})
-        
-        if(adminData){
+        if (!email || !password) {
+            res.json({require:true})
+        }else{
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+
+            if(!emailPattern.test(req.body.email)){
+
+            res.json({ emailPatt: true })
+
+        }else{
+            const adminData = await User.findOne({email:email})
+            if(adminData){
 
             if(adminData.is_admin === 0){
-                res.render("login",{message:"Please enter valid mail"})
+                res.json({emailnot:true})
                 
             }else{
 
@@ -34,15 +75,25 @@ const adminLogin = async (req,res)=>{
 
                if(passwordMatch){
                     req.session.admin_id = adminData._id
-                    res.redirect("/admin/home")
+                    res.json({success:true})
                 }else{
-                    res.render("login",{message:"Invalid password"})
+                    res.json({wrongpass:true})
                 }
             }
 
         }else{
-            res.render("login",{message:"Please enter valid email"})
+            res.json({notregister:true})
         }
+
+        }
+        }
+       
+
+
+
+        
+        
+        
     } catch (error) {
         console.error(error.message)
     }

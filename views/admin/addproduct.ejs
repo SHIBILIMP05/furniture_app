@@ -11,16 +11,21 @@
           <form class="forms-sample" action="/admin/addproduct" method="post" enctype="multipart/form-data">
             <div class="form-group">
               <label for="exampleInputName1">Product Name</label>
-              <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="Name">
+              <input type="text" class="form-control" id="Name" name="name" placeholder="Name">
+              <%if(nameAlready){ %>
+                <h6 id="" style=" font-size: small; top: 100px;left: 645px;position: absolute;color: rgb(117 35 35);font-family: system-ui;
+              ">Product name is already exist.</h6>
+                <% }%>
+              
             </div>
             <div class="form-group">
               <label for="exampleInputEmail3">Product Price</label>
-              <input type="number" class="form-control" id="exampleInputEmail3" name="price" placeholder="Price">
+              <input type="number" class="form-control" id="price" name="price" placeholder="Price">
             </div>
             <div class="form-group">
               <label for="Catagory">Category</label>
   
-              <select class="form-select form-control" aria-label="Default select example" name="category">
+              <select class="form-select form-control" aria-label="Default select example" id="" name="category">
                 <% if(categoryData.length > 0){
   
                   for( let i=0;i<categoryData.length;i++){   %>
@@ -38,7 +43,7 @@
             </div>
             <div class="form-group">
               <label for="exampleInputPassword4">Quantity</label>
-              <input type="text" class="form-control" id="exampleInputPassword4" name="quantity" placeholder="Quantity">
+              <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Quantity">
             </div>
   
   
@@ -88,14 +93,18 @@
             
             <div class="form-group">
               <label for="exampleTextarea1">Description</label>
-              <textarea class="form-control" id="exampleTextarea1" name="description" rows="4"></textarea>
+              <textarea class="form-control" id="description" name="description" rows="4"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            <button type="submit" id="addproductsubmit" class="btn btn-primary mr-2">Submit</button>
             <button class="btn btn-inverse-danger"><a href="/admin/productmanagement">Cancel</a></button>
+            <h6 id="error-message" style="display: none; font-size: small; top: 100px;left: 645px;position: absolute;color: rgb(117 35 35);font-family: system-ui;
+            "></h6>
+
           </form>
         </div>
       </div>
     </div>
     </div>
+    <script src="/admin/addproductvalidation.js"></script>
   
     <%-include("../admin/leyouts/footer.ejs")%>
