@@ -23,7 +23,7 @@ body{
     height: 508px;
     border-radius: 100px;
 }
-#form-box-2{
+/* #form-box-2{
     position: absolute;
     left: 1245px;
     top: 85px;
@@ -33,7 +33,7 @@ body{
     width: 500px;
     height: 650px;
     border-radius: 100px;
-}
+} */
 #log-in{
     position: absolute;
     left: 155px;
@@ -41,13 +41,13 @@ body{
     font-size:55px;
     font-family: system-ui;
 }
-#sign-up{
+/* #sign-up{
     position: absolute;
     left: 145px;
     top: 30px;
     font-size:55px;
     font-family: system-ui;
-}
+} */
 .mb-3{
     position: relative;
     padding: 40px 50px; 
@@ -61,26 +61,26 @@ body{
     left: 3px;
     top: 10px;
 }
-#fnbox-1{
+/* #fnbox-1{
     left: 3px;
     top: 65px;
-}
-#phbox-1{
+} */
+/* #phbox-1{
     left: 3px;
     top: -125px;
-}
-#cpbox-1{
+} */
+/* #cpbox-1{
     left: 3px;
     bottom: 315px;
-}
-#ebox-2{
+} */
+/* #ebox-2{
     left: 3px;
     top: -30px;
-}
-#pbox-2{
+} */
+/* #pbox-2{
     left: 3px;
     bottom: 220px;
-}
+} */
 #log-btn-1{
     position: absolute;
     left: 150px;
@@ -100,14 +100,14 @@ body{
     left: 10px;
     color: #fff;  
 }
-#login{
+/* #login{
     font-family: system-ui;
     text-decoration: none;
     font-size: medium;
     position: relative;
     left: 10px;
     color: #fff;  
-}
+} */
 #paracontent{
     font-family: system-ui;
     font-size: medium;
@@ -116,14 +116,14 @@ body{
     bottom: 105px;
     left: 120px;
 }
-#paracontent-2{
+/* #paracontent-2{
     font-family: system-ui;
     font-size: medium;
     color: #1e3936;
     position: absolute;
     bottom: 65px;
     left: 115px;
-}
+} */
 #forget{
     display: inline;
     font-family: system-ui;
@@ -132,7 +132,7 @@ body{
     bottom: 75px;
     left: 170px;
 }
-#sign-btn-1{
+/* #sign-btn-1{
     position: absolute;
     left: 150px;
     bottom: 25px;
@@ -142,4 +142,28 @@ body{
     font-family: system-ui;
     background-color: #466869;
     border-color: #466869;
+} */
+
+
+
+
+.gradient-custom-3 {
+/* fallback for old browsers */
+background: #84fab0;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
+}
+.gradient-custom-4 {
+/* fallback for old browsers */
+background: #84fab0;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
 }

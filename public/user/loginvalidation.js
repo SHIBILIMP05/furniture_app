@@ -2,7 +2,9 @@ document.getElementById('log-btn-1').addEventListener('click', function(e){
     e.preventDefault()
     const email = document.getElementById('exampleInputEmail1').value;
     const password = document.getElementById('exampleInputPassword1').value;
-    const message = document.getElementById('myAlert1')
+    const email_message = document.getElementById('email-error')
+    const password_message = document.getElementById('password-error')
+
 
     $.ajax({
         url: "/login",
@@ -13,17 +15,29 @@ document.getElementById('log-btn-1').addEventListener('click', function(e){
         method: "post",
         success: (response) => {
           if ((response.register)) {
-            message.style.display = "block";
-            message.textContent = " This account is not registered please register."
+            email_message.style.display = "block";
+            email_message.textContent = " This account is not registered please register."
+          }else if(response.email_fillout){
+            email_message.style.display = "block";
+            email_message.textContent = "Please fill this field and submit again."
+          }else if(response.password_fillout){
+            password_message.style.display = "block";
+            password_message.textContent = "Please fill this field and submit again."
+          }else if(response.email_space){
+            email_message.style.display = "block";
+            email_message.textContent = "Email cannot contain spaces."
+          }else if(response.password_space){
+            password_message.style.display = "block";
+            password_message.textContent = "Password cannot contain spaces."
           }else if(response.wrong){
-            message.style.display = "block";
-            message.textContent = " Wrong password."
+            password_message.style.display = "block";
+            password_message.textContent = " Please enter the correct password."
           }else if(response.logemailPatt){
-            message.style.display = "block";
-            message.textContent = " Invalid Email."
+            email_message.style.display = "block";
+            email_message.textContent = " Please enter a valid email address"
           }else if(response.blocked){
-            message.style.display = "block";
-            message.textContent = "You can't access this account."
+            email_message.style.display = "block";
+            email_message.textContent = "You can't access this account."
           }else if(response.success){
             const Toast = Swal.mixin({
               toast: true,

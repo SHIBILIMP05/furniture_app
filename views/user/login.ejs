@@ -16,15 +16,13 @@
         <h2 id="log-in">LOG IN</h2>
         <div class="mb-3" id="ebox-1">
           <label for="exampleInputEmail1" class="form-label" style="font-family: system-ui">Email address</label>
-          <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" style="
+          <input type="email" name="email"  class="form-control" id="exampleInputEmail1"  style="
                 border-radius: 20px;
                 border-radius: 20px;
                 border-color: #ffffff;
                 background-color: #ffffff;
               " />
-          <div id="emailHelp" class="form-text" style="font-family: system-ui; color: #1e3936">
-            We'll never share your email with anyone else.
-          </div>
+          <div id="email-error" class="form-text" style="  display: none; font-family: system-ui; color: rgb(161 17 17)"></div>
         </div>
         <div class="mb-3" id="pbox-1">
           <label for="exampleInputPassword1" class="form-label" style="font-family: system-ui">Password</label>
@@ -34,6 +32,7 @@
                 border-color: #ffffff;
                 background-color: #ffffff;
               "  />
+               <div id="password-error" class="form-text" style=" display: none; font-family: system-ui; color: rgb(161 17 17)"></div>
         </div>
         
            
@@ -48,15 +47,7 @@
           <a href="/forgetpage" style="color: #fff; text-decoration: none">Forget Password ?</a>
         </p>
       </form>
-          <h6 id="myAlert1" class="text-center" style="
-              font-family: system-ui;
-              color: rgb(117 35 35);
-              position: absolute;
-              left: 81px;
-              bottom: 145px;
-              font-size: small;
-              display: none;
-            "></h6> 
+          
 
       <% if(regSuccess){ %>
 					<div id="myAlert" data-aos="fade-down" style="top: 6rem; display: none;"
@@ -72,11 +63,13 @@
   <script>
 
     const inputs = document.querySelectorAll('input')
-    const errorMessage = document.getElementById('myAlert1')
+    const email_message = document.getElementById('email-error')
+    const password_message = document.getElementById('password-error')
     
     inputs.forEach(input=>{
       input.addEventListener('input',function(){
-        errorMessage.textContent = ""
+        email_message.textContent = ""
+        password_message.textContent = ""
       })
     })
     

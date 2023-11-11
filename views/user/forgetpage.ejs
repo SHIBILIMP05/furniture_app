@@ -23,6 +23,9 @@
             background-color: #9cc5c5;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 370px;
+
         }
 
         .form-group {
@@ -55,37 +58,22 @@
             background-color: #198585;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
-<body>
+<body> 
     <div class="container">
         <form action="/forget" method="post">
             <h2>Forgot Password</h2>
             <div class="form-group" style="margin-left: -30px;">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                <!-- <% if(typeof message !== 'undefined'){ %>
-                    <h6 class="text-center" style="
-                    font-family: system-ui;
-                    color: rgb(117 35 35);
-                    position: absolute;
-                    left: 900px;
-                    bottom: 345px;
-                    font-size: small;
-                  "> <%= message %> </h6> 
-                  <% } %> -->
-                  <h6 id="error-message" class="text-center" style="
-                  font-family: system-ui;
-                  color: rgb(117 35 35);
-                  position: absolute;
-                  left: 900px;
-                  bottom: 345px;
-                  font-size: small;
-                  display: none;
-                "></h6> 
+                <div class="error-message" id="error-message" style="color: rgb(117 35 35);display: none;"></div>
+                 
             </div>
             <div class="form-group">
-                <button id="sendEmail" type="submit">Send Email</button>
+                <button id="sendEmail" type="submit" style=" margin-right: 30px;">Send Email</button>
             </div>
         </form>
     </div>

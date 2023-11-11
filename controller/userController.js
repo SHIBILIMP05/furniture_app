@@ -1,5 +1,6 @@
 const User = require("../model/userModel.js");
 const Products = require("../model/productsModel.js")
+const Category = require("../model/categoryModel.js")
 const bcrypt = require("bcrypt");
 const randomString = require("randomstring")
 const nodemailer = require("nodemailer");
@@ -23,25 +24,7 @@ const securePassword = async (password) => {
 let otp;
 let nameResend;
 let email2;
-// //-----------------------LOGIN INPUT VALIDATION----------------
-// function validateEmail(email){
-//   var email = email
-//   
 
-//   if(emailPattern.test(email)){
-//     return true
-//   }
-//   return false
-// }
-
-// //-------------------INPUT VALIDATION----------------------------
-
-// function inputvalidation(name,email,password,confirmPassword){
-//   if(name.startsWith(" ")||email.startsWith(" ")||password.startsWith(" ")||confirmPassword.startsWith(" ")){
-//     return false;
-//   }
-//   return true;
-// }
 
 //!------------------for send mail-------------------------------
 const sendVerifyMail = async (name, email, otp) => {
@@ -85,8 +68,8 @@ const sendVerifyMail = async (name, email, otp) => {
 const loadHome = async (req, res) => {
   try {
 
-    const products = await Products.find({blocked:0}).limit(10)
-    res.render("home", { name: req.session.name, products:products });
+    const products = await Products.find({ blocked: 0 }).limit(10)
+    res.render("home", { name: req.session.name, products: products });
 
   } catch (error) {
     console.error(err.massage);
@@ -98,7 +81,7 @@ const loadHome = async (req, res) => {
 const loadLogin = async (req, res) => {
   try {
     let regSuccess = req.session.regSuccess;
-    res.render("login",{regSuccess});
+    res.render("login", { regSuccess });
   } catch (error) {
     console.error(error.message);
   }
@@ -113,47 +96,68 @@ const verifylogin = async (req, res) => {
     const name = 'User'
     const password = req.body.password;
 
-   
-    let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
-    if(!emailPattern.test(req.body.email)) {
-      
-      res.json({ logemailPatt: true })
-    }else{
-     
-      const userData = await User.findOne({ email:email });
-      if (userData&&userData.is_admin==0) {
-        if(userData.is_varified==1){
-          const passwordMatch = await bcrypt.compare(password, userData.password);
-        if (passwordMatch) {
-          if (userData.is_block == 0) {
-            req.session.user_id = userData._id;
-            req.session.name = userData.name
-            req.session.regSuccess = false;
-            res.json({success:true})
-          } else {
-            res.json({blocked:true})
-          }
-        } else {
-  
-          res.json({wrong:true})
-        }
+    if (email.trim() == "") {
+      res.json({ email_fillout: true })
+    } else {
+      if (password.trim() == "") {
+        res.json({ password_fillout: true })
       } else {
-  
-        const randomNumber = Math.floor(Math.random() * 9000) + 1000;
-        otp = randomNumber;
-        req.session.email = req.body.email;
-        sendVerifyMail(name, email, randomNumber);
-        setTimeout(() => {
-          otp = Math.floor(Math.random() * 9000) + 1000;
-        }, 60000);
-        req.session.verifyErr = true;
-        res.json({verify:true})
-      } 
-    }else{
-      res.json({register:true})
+        if (email.includes(" ") || /\s/.test(email)) {
+          res.json({ email_space: true })
+        } else {
+          if (password.includes(" ") || /\s/.test(password)) {
+            res.json({ password_space: true })
+          } else {
+
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+
+            if (!emailPattern.test(req.body.email)) {
+
+              res.json({ logemailPatt: true })
+            } else {
+
+              const userData = await User.findOne({ email: email });
+              if (userData && userData.is_admin == 0) {
+                if (userData.is_varified == 1) {
+                  const passwordMatch = await bcrypt.compare(password, userData.password);
+                  if (passwordMatch) {
+                    if (userData.is_block == 0) {
+                      req.session.user_id = userData._id;
+                      req.session.name = userData.name
+                      req.session.regSuccess = false;
+                      res.json({ success: true })
+                    } else {
+                      res.json({ blocked: true })
+                    }
+                  } else {
+
+                    res.json({ wrong: true })
+                  }
+                } else {
+
+                  const randomNumber = Math.floor(Math.random() * 9000) + 1000;
+                  otp = randomNumber;
+                  req.session.email = req.body.email;
+                  sendVerifyMail(name, email, randomNumber);
+                  setTimeout(() => {
+                    otp = Math.floor(Math.random() * 9000) + 1000;
+                  }, 60000);
+                  req.session.verifyErr = true;
+                  res.json({ verify: true })
+                }
+              } else {
+                res.json({ register: true })
+              }
+
+            }
+          }
+        }
+      }
     }
-        
-  }  
+
+
+
+
   } catch (error) {
     console.error(error.massage);
   }
@@ -181,75 +185,106 @@ const insertuser = async (req, res) => {
     const password = req.body.password;
     const confirmPassword = req.body.confirmPassword;
 
-    if (name && name.length <= 2) {
-      res.json({ name: true })
-      console.log({ name, email, mobile, password, confirmPassword });
-
-    } else { 
-      console.log({ name, email, mobile, password, confirmPassword });
-
-      if (email.trim() === "" || mobile.trim() === "" || password.trim() === "" || name.trim() === "" || confirmPassword.trim() === "") {
-        res.json({ require: true })
-        console.log({ name, email, mobile, password, confirmPassword });
-
+    if (name.trim() === "") {
+      res.json({ name_require: true })
+    } else {
+      if (email.trim() === "") {
+        res.json({ email_require: true })
       } else {
-
-        let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
-
-        if (!emailPattern.test(req.body.email)) {
-          res.json({ emailPatt: true })
+        if (mobile.trim() === "") {
+          res.json({ mobile_require: true })
         } else {
-          let mobilePattern = /^\d{10}$/;
-          if (!mobilePattern.test(mobile) || mobile === "0000000000") {
-            res.json({ mobile: true })
+          if (password.trim() === "") {
+            res.json({ password_require: true })
           } else {
-            if (password.length < 4) {
-              res.json({ password: true })
+            if (confirmPassword.trim() === "") {
+              res.json({ confirm_require: true })
             } else {
-
-              const emailchek = await User.findOne({ email: req.body.email })
-              if (emailchek) {
-                res.json({ emailalready: true })
+              if (name.startsWith(" ")) {
+                res.json({ name_space: true })
               } else {
-                if (password == confirmPassword) {
-
-                  const spassword = await securePassword(req.body.password);
-                  const user = new User({
-
-                    name: req.body.name,
-                    email: req.body.email,
-                    phone: req.body.number,
-                    password: spassword,
-                    is_admin:0,
-
-                  });
-
-                  const userData = await user.save();
-
-                  if (userData) {
-
-                  let randomNumber = Math.floor(Math.random() * 9000) + 1000;
-                  otp = randomNumber;
-
-                    req.session.email = req.body.email;
-                    req.session.pass = spassword;
-                    req.session.userName = req.body.name;
-                    req.session.number = req.body.number;
-
-                    sendVerifyMail(req.body.name, req.body.email, randomNumber);
-                    setTimeout(() => {
-                      otp = Math.floor(Math.random() * 9000) + 1000;
-                    }, 60000)
-                    req.session.otpsent = true
-                    res.json({ success: true })
-                  } else {
-                    res.json({ notsaved: true })
-                  }
+                if (email.startsWith(" ") || email.includes(" ")) {
+                  res.json({ email_space: true })
                 } else {
-                  res.json({ wrongpass: true })
+                  if (mobile.startsWith(" ") || mobile.includes(" ")) {
+                    res.json({ mobile_space: true })
+                  } else {
+                    if (password.startsWith(" ") || password.includes(" ")) {
+                      res.json({ password_space: true })
+                    } else {
+                      if (confirmPassword.startsWith(" ") || confirmPassword.includes(" ")) {
+                        res.json({ confirm_space: true })
+                      } else {
+                        if (name && name.length <= 2) {
+                          res.json({ name: true })
+                        } else {
+                          const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+                          if (!emailPattern.test(req.body.email)) {
+                            res.json({ emailPatt: true })
+                          } else {
+                            let mobilePattern = /^\d{10}$/;
+                            if (!mobilePattern.test(mobile) || mobile === "0000000000") {
+                              res.json({ mobile: true })
+                            } else {
+                              if (password.length < 4) {
+                                res.json({ password: true })
+                              } else {
+                                const alphanumeric = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
+                                if (!alphanumeric.test(password)) {
+                                  res.json({ alphanumeric: true })
+                                } else {
+                                  const emailchek = await User.findOne({ email: req.body.email })
+                                  if (emailchek) {
+                                    res.json({ emailalready: true })
+                                  } else {
+                                    if (password == confirmPassword) {
+
+                                      const spassword = await securePassword(req.body.password);
+                                      const user = new User({
+
+                                        name: req.body.name,
+                                        email: req.body.email,
+                                        phone: req.body.number,
+                                        password: spassword,
+                                        is_admin: 0,
+
+                                      });
+
+                                      const userData = await user.save();
+
+                                      if (userData) {
+
+                                        let randomNumber = Math.floor(Math.random() * 9000) + 1000;
+                                        otp = randomNumber;
+
+                                        req.session.email = req.body.email;
+                                        req.session.pass = spassword;
+                                        req.session.userName = req.body.name;
+                                        req.session.number = req.body.number;
+
+                                        sendVerifyMail(req.body.name, req.body.email, randomNumber);
+                                        setTimeout(() => {
+                                          otp = Math.floor(Math.random() * 9000) + 1000;
+                                        }, 60000)
+                                        req.session.otpsent = true
+                                        res.json({ success: true })
+                                      } else {
+                                        res.json({ notsaved: true })
+                                      }
+                                    } else {
+                                      res.json({ wrongpass: true })
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
-
             }
           }
         }
@@ -269,22 +304,22 @@ const otpload = async (req, res) => {
     let verifyErr = req.session.verifyErr;
     let otpsend = req.session.otpsend
 
-    res.render("otp",{verifyErr,otpsend})
-    
+    res.render("otp", { verifyErr, otpsend })
+
     console.log("otp page loaded")
 
   } catch (error) {
     console.error(error.message)
   }
-  
-  
+
+
 }
 
 //---------------------RESEND OTP--------------------------
 
-const resendotp = async(req,res)=>{
+const resendotp = async (req, res) => {
   try {
-    
+
     let otpsend = req.session.otpsend
     let verifyErr = req.session.verifyErr
     let email = req.session.email
@@ -294,8 +329,8 @@ const resendotp = async(req,res)=>{
     setTimeout(() => {
       otp = Math.floor(Math.random() * 9000) + 1000;
     }, 60000);
-    sendVerifyMail(name,email,randomNumber)
-    res.render("otp",{verifyErr,otpsend,resend: "Resend the otp to your email address."})
+    sendVerifyMail(name, email, randomNumber)
+    res.render("otp", { verifyErr, otpsend, resend: "Resend the otp to your email address." })
 
 
   } catch (error) {
@@ -323,15 +358,15 @@ const verifyOtp = async (req, res) => {
       if (verified) {
         console.log("account verified")
         req.session.regSuccess = true;
-        res.json({success:true})
+        res.json({ success: true })
 
       } else {
         console.log("not verified !!")
-        res.json({error:true})
+        res.json({ error: true })
       }
 
     } else {
-      res.json({wrong:true})
+      res.json({ wrong: true })
     }
 
   } catch (error) {
@@ -388,9 +423,9 @@ const sendPassResetMail = async (name, email, token) => {
       to: email,
       subject: "For Reset Password",
       html:
-        '<p>Hello ' +
+        '<h2>Hello ' +
         name +
-        ', This message for reset your password. click here to <a href="http://localhost:3000/forget-password?token=' + token + '">Reset</a>your password.</p>,'
+        '. <br> This message for reset your password. <br> <strong>click here to <a href="http://localhost:3000/forget-password?token=' + token + '">Reset</strong ></a> your password.</h2>,'
     };
 
     transporter.sendMail(mailOptions, function (err, info) {
@@ -423,36 +458,44 @@ const forgetverify = async (req, res) => {
   try {
 
     const email = req.body.email
-    const userData = await User.findOne({ email: email })
-    
-    let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
-    if (!emailPattern.test(req.body.email)) {
 
-      res.json({ emailPatt: true })
-    }else{
-      if (userData) {
-      if (userData.is_varified == 1) {
-
-        const random_String = randomString.generate();
-
-        const updatedData = await User.updateOne({ email: email }, { $set: { token: random_String } })
-
-        const user = await User.findOne({ email: email });
-
-        sendPassResetMail(user.name, user.email, random_String)
-
-        res.json({response:true})
-
-      } else {
-        res.json({mailverify:true})
-        
-      }
-
+    if (email.trim() === "") {
+      res.json({ email_require: true })
     } else {
-      res.json({wrong:true})
+      if (email.startsWith(" ") || email.includes(" ")) {
+        res.json({ email_space: true })
+      } else {
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+        if (!emailPattern.test(email)) {
+          res.json({ emailPatt: true })
+        } else {
+          const userData = await User.findOne({ email: email })
+
+          if (userData) {
+            if (userData.is_varified == 1) {
+
+              const random_String = randomString.generate();
+
+              await User.updateOne({ email: email }, { $set: { token: random_String } })
+
+              const user = await User.findOne({ email: email });
+
+              sendPassResetMail(user.name, user.email, random_String)
+
+              res.json({ response: true })
+
+            } else {
+              res.json({ mailverify: true })
+
+            }
+
+          } else {
+            res.json({ wrong: true })
+          }
+        }
+      }
     }
-    }
-    
+
   } catch (error) {
     console.error(error.message)
   }
@@ -464,12 +507,11 @@ const forgetpasswordload = async (req, res) => {
   try {
 
     const token = req.query.token;
-    console.log(token)
     const tokenData = await User.findOne({ token: token })
 
     if (tokenData) {
-
-      res.render("forget-password", { user_id: tokenData._id ,email:tokenData.email})
+      req.session.email = tokenData.email
+      res.render("forget-password",)
 
     } else {
       console.log("No token")
@@ -486,19 +528,61 @@ const forgetpasswordload = async (req, res) => {
 const resetpassword = async (req, res) => {
   try {
 
-    const userPassword = req.body.password
-    const user_id = req.body.user_id
-    const secure_Password = await securePassword(userPassword)
-    const updatedData = await User.findByIdAndUpdate({ _id: user_id }, { $set: { password: secure_Password, token: '' } })
+    const Password = req.body.password
+    const confirm = req.body.confirm
 
-    if(updatedData){
-       res.redirect("/")
-    }else{
-      res.status(404).render(404);
-      console.log("pass not reset");
+    if (Password.trim() === "") {
+      res.json({ password_require: true })
+    } else {
+      if (Password.startsWith(" ") || Password.includes(" ")) {
+        res.json({ password_space: true })
+      } else {
+        const alphanumeric = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
+        if (!alphanumeric.test(Password)) {
+          res.json({ password: true })
+        } else {
+          if (Password.length < 4) {
+            res.json({ passlength: true })
+          } else {
+            if (confirm.trim() === "") {
+              res.json({ confirm_require: true })
+            } else {
+              if (confirm.startsWith(" ") || confirm.includes(" ")) {
+                res.json({ confirm_space: true })
+              } else {
+                if (Password !== confirm) {
+                  res.json({ wrong: true })
+                } else {
+                  console.log(req.body.email)
+
+                  const email = req.session.email
+                  
+                  const secure_Password = await securePassword(Password)
+                  const updatedData = await User.updateOne({ email: email }, { $set: { password: secure_Password, token: '' } })
+                  if (updatedData) {
+                    req.session.email = false
+                    res.json({response:true})
+
+                  } else {
+                    res.status(404).render(404);
+
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
-   
+  } catch (error) {
+    console.error(error.message)
+  }
+}
 
+//---------------------- SEARCH PRODUCTS SHOPE ------------------------
+const searchProduct = async(req,res)=>{
+  try {
+    const category = await Category.find()
   } catch (error) {
     console.error(error.message)
   }
@@ -522,6 +606,6 @@ module.exports = {
   forgetverify,
   resetpassword,
   forgetpasswordload,
-  
+
 
 };
