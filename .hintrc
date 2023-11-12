@@ -9,5 +9,15 @@
     "not firefox <= 116",
     "not ios_saf <= 16.5",
     "not safari <= 16.5"
-  ]
+  ],
+  "hints": {
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "-webkit-text-size-adjust"
+        ]
+      }
+    ]
+  }
 }

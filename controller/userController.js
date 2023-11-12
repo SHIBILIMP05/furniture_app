@@ -582,7 +582,36 @@ const resetpassword = async (req, res) => {
 //---------------------- SEARCH PRODUCTS SHOPE ------------------------
 const searchProduct = async(req,res)=>{
   try {
-    const category = await Category.find()
+    const category = await Category.find({blocked:0})
+    const name = req.query.q
+    const regex = new RegExp(`^${name}`,'i')
+
+    const products = await Products.find({name:{$regex:regex},blocked:0})
+    const count =  await Products.find({name:{$regex:regex},blocked:0}).count()
+    res.render("productspage",{products:products,category,count,name:req.session.name})
+  } catch (error) {
+    console.error(error.message)
+  }
+}
+
+//-------------------------FILTER PRODUCTS-----------------
+
+const filterProducts = async (req,res)=>{
+  try {
+    const cate = req.body.category
+    const priceSort = parseInt(req.body.price)
+    const category = await Category.find({blocked:0})
+    let filtered;
+    let count;
+    if(req.body.category == "allCate"){
+      filtered = await Products.find({blocked:0}).sort({price:priceSort})
+      count = await Products.find({blocked:0}).count()
+    }else{
+      filtered = await Products.find({category: cate,blocked:0}).sort({price:priceSort})
+      count =await Products.find({category: cate,blocked:0}).count()
+    } 
+     
+    res.render('productspage',{category,count,name:req.session.name,products:filtered})
   } catch (error) {
     console.error(error.message)
   }
@@ -606,6 +635,7 @@ module.exports = {
   forgetverify,
   resetpassword,
   forgetpasswordload,
-
+  searchProduct,
+  filterProducts,
 
 };

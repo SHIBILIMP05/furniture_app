@@ -201,11 +201,12 @@ const productdetailspage = async(req,res)=>{
     try {
         
         const viewProduct = await Products.findOne({_id:req.query.id})
-        
+        const products = await Products.find({blocked:0})
+        const category = await Category.find({blocked:0})
         if(viewProduct){
-            const products = await Products.find({blocked:0})
+            
         
-            res.render("productdetailspage",{products:products,view:viewProduct,name:req.session.name})
+            res.render("productdetailspage",{products,category,view:viewProduct,name:req.session.name})
         }else{
             res.status(404).render("404");
         }

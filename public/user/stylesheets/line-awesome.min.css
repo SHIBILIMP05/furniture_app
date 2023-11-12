@@ -23,20 +23,20 @@
 }
 @font-face {
   font-family: LineAwesome;
-  src: url(../fonts/line-awesomeeb4f.eot?v=1.1.);
-  src: url(../fonts/line-awesome0176.eot??v=1.1.#iefix)
+  src: url(./fonts/line-awesomeeb4f.eot?v=1.1.);
+  src: url(./fonts/line-awesome0176.eot??v=1.1.#iefix)
       format("embedded-opentype"),
-    url(../fonts/line-awesomeeb4f.woff2?v=1.1.) format("woff2"),
-    url(../fonts/line-awesomeeb4f.woff?v=1.1.) format("woff"),
-    url(../fonts/line-awesomeeb4f.ttf?v=1.1.) format("truetype"),
-    url(../fonts/line-awesomeeb4f.svg?v=1.1.#fa) format("svg");
+    url(./fonts/line-awesomeeb4f.woff2?v=1.1.) format("woff2"),
+    url(./fonts/line-awesomeeb4f.woff?v=1.1.) format("woff"),
+    url(./fonts/line-awesomeeb4f.ttf?v=1.1.) format("truetype"),
+    url(./fonts/line-awesomeeb4f.svg?v=1.1.#fa) format("svg");
   font-weight: 400;
   font-style: normal;
 }
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   @font-face {
     font-family: LineAwesome;
-    src: url(../fonts/line-awesomeeb4f.svg?v=1.1.#fa) format("svg");
+    src: url(./fonts/line-awesomeeb4f.svg?v=1.1.#fa) format("svg");
   }
 }
 .la {
