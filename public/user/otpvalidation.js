@@ -16,6 +16,9 @@ $.ajax({
         if(response.wrong){
         message.style.display = "block";
         message.textContent = "Enter the valid OTP."
+        }else if(response.fill){
+        message.style.display = "block";
+        message.textContent = "Please fill this field"
         }else if(response.error){
         message.style.display = "block";
         message.textContent = "Sorry , Got some technical issues, please enter the otp again."

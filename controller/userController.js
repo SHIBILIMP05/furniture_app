@@ -5,8 +5,6 @@ const bcrypt = require("bcrypt");
 const randomString = require("randomstring")
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
-const { name, render } = require("ejs");
-const { Collection } = require("mongoose");
 dotenv.config();
 
 //-------------------bcrypt-----------------------------------
@@ -26,7 +24,7 @@ let nameResend;
 let email2;
 
 
-//!------------------for send mail-------------------------------
+//!------------------SEND MAIL FOR EMAIL VERIFICATION-------------------------------
 const sendVerifyMail = async (name, email, otp) => {
   try {
     const transporter = nodemailer.createTransport({
@@ -154,10 +152,6 @@ const verifylogin = async (req, res) => {
         }
       }
     }
-
-
-
-
   } catch (error) {
     console.error(error.massage);
   }
@@ -349,25 +343,31 @@ const verifyOtp = async (req, res) => {
     const otpInput = parseInt(req.body.otp)
     const email = req.session.email
 
-    if (otpInput == otp) {
-      const verified = await User.updateOne(
-        { email: email },
-        { $set: { is_varified: 1 } }
-      );
+    if (req.body.otp.trim() === "") {
+      res.json({ fill: true })
+    } else {
+      if (otpInput == otp) {
+        const verified = await User.updateOne(
+          { email: email },
+          { $set: { is_varified: 1 } }
+        );
 
-      if (verified) {
-        console.log("account verified")
-        req.session.regSuccess = true;
-        res.json({ success: true })
+        if (verified) {
+          console.log("account verified")
+          req.session.regSuccess = true;
+          res.json({ success: true })
+
+        } else {
+          console.log("not verified !!")
+          res.json({ error: true })
+        }
 
       } else {
-        console.log("not verified !!")
-        res.json({ error: true })
+        res.json({ wrong: true })
       }
-
-    } else {
-      res.json({ wrong: true })
     }
+
+
 
   } catch (error) {
     console.log(error.message);
@@ -556,12 +556,12 @@ const resetpassword = async (req, res) => {
                   console.log(req.body.email)
 
                   const email = req.session.email
-                  
+
                   const secure_Password = await securePassword(Password)
                   const updatedData = await User.updateOne({ email: email }, { $set: { password: secure_Password, token: '' } })
                   if (updatedData) {
                     req.session.email = false
-                    res.json({response:true})
+                    res.json({ response: true })
 
                   } else {
                     res.status(404).render(404);
@@ -580,15 +580,15 @@ const resetpassword = async (req, res) => {
 }
 
 //---------------------- SEARCH PRODUCTS SHOPE ------------------------
-const searchProduct = async(req,res)=>{
+const searchProduct = async (req, res) => {
   try {
-    const category = await Category.find({blocked:0})
+    const category = await Category.find({ blocked: 0 })
     const name = req.query.q
-    const regex = new RegExp(`^${name}`,'i')
+    const regex = new RegExp(`^${name}`, 'i')
 
-    const products = await Products.find({name:{$regex:regex},blocked:0})
-    const count =  await Products.find({name:{$regex:regex},blocked:0}).count()
-    res.render("productspage",{products:products,category,count,name:req.session.name})
+    const products = await Products.find({ name: { $regex: regex }, blocked: 0 })
+    const count = await Products.find({ name: { $regex: regex }, blocked: 0 }).count()
+    res.render("productspage", { products: products, category, count, name: req.session.name })
   } catch (error) {
     console.error(error.message)
   }
@@ -596,26 +596,27 @@ const searchProduct = async(req,res)=>{
 
 //-------------------------FILTER PRODUCTS-----------------
 
-const filterProducts = async (req,res)=>{
+const filterProducts = async (req, res) => {
   try {
     const cate = req.body.category
     const priceSort = parseInt(req.body.price)
-    const category = await Category.find({blocked:0})
+    const category = await Category.find({ blocked: 0 })
     let filtered;
     let count;
-    if(req.body.category == "allCate"){
-      filtered = await Products.find({blocked:0}).sort({price:priceSort})
-      count = await Products.find({blocked:0}).count()
-    }else{
-      filtered = await Products.find({category: cate,blocked:0}).sort({price:priceSort})
-      count =await Products.find({category: cate,blocked:0}).count()
-    } 
-     
-    res.render('productspage',{category,count,name:req.session.name,products:filtered})
+    if (req.body.category == "allCate") {
+      filtered = await Products.find({ blocked: 0 }).sort({ price: priceSort })
+      count = await Products.find({ blocked: 0 }).count()
+    } else {
+      filtered = await Products.find({ category: cate, blocked: 0 }).sort({ price: priceSort })
+      count = await Products.find({ category: cate, blocked: 0 }).count()
+    }
+
+    res.render('productspage', { category, count, name: req.session.name, products: filtered })
   } catch (error) {
     console.error(error.message)
   }
 }
+
 
 
 
