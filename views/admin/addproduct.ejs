@@ -1,110 +1,152 @@
 <%-include("../admin/leyouts/header.ejs")%>
+<style>
+  /* Style for the file input container */
+.file-input-container {
+  margin-bottom: 20px;
+}
+
+/* Style for the file input label */
+.image-label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+/* Style for the file input itself */
+.imageInput {
+  display: none;
+}
+
+/* Style for the custom file input button */
+.custom-file-upload {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff; /* Adjust the background color to your preference */
+  cursor: pointer;
+}
+
+/* Style for the chosen file names display */
+.chosen-files {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+</style>
 
 
-<div class="main-panel">
+  <div class="main-panel">
     <div class="content-wrapper">
-  <div class="col-12 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title">Add Products</h4>
-          <p class="card-description"> Give product details </p>
-          <form class="forms-sample" action="/admin/addproduct" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="exampleInputName1">Product Name</label>
-              <input type="text" class="form-control" id="Name" name="name" placeholder="Name">
-              <%if(nameAlready){ %>
-                <h6 id="" style=" font-size: small; top: 100px;left: 645px;position: absolute;color: rgb(117 35 35);font-family: system-ui;
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Add Products</h4>
+            <p class="card-description"> Give product details </p>
+            <form class="forms-sample" action="/admin/addproduct" method="post" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="exampleInputName1">Product Name</label>
+                <input type="text" class="form-control" id="Name" name="name" placeholder="Name">
+                <%if(nameAlready){ %>
+                  <h6 id="" style=" font-size: small; top: 100px;left: 645px;position: absolute;color: rgb(117 35 35);font-family: system-ui;
               ">Product name is already exist.</h6>
-                <% }%>
-              
-            </div>
-            <div class="form-group">
-              <label for="exampleInputEmail3">Product Price</label>
-              <input type="number" class="form-control" id="price" name="price" placeholder="Price">
-            </div>
-            <div class="form-group">
-              <label for="Catagory">Category</label>
-  
-              <select class="form-select form-control" aria-label="Default select example" id="" name="category">
-                <% if(categoryData.length > 0){
-  
-                  for( let i=0;i<categoryData.length;i++){   %>
-  
-                  <option value="<%= categoryData[i].name %>"><%= categoryData[i].name %></option>
-  
-                 <% }
-                }else{ %>
-  
-                  <option value="">No Categories</option>
-  
-              <%  } %>
-                
-               </select>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword4">Quantity</label>
-              <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Quantity">
-            </div>
-  
-  
-             <div>
-              <div class="col-lg-3 col-md-6 rounded-image-preview ">
-                <label for="imageInput1" class="image-label ">Image 1
-                  <div class="rounded-image-preview">
+                  <% }%>
+
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail3">Product Price</label>
+                <input type="number" class="form-control" id="price" name="price" placeholder="Price">
+              </div>
+              <div class="form-group">
+                <label for="Catagory">Category</label>
+
+                <select class="form-select form-control" aria-label="Default select example" id="" name="category">
+                  <% if(categoryData.length> 0){
+
+                    for( let i=0;i<categoryData.length;i++){ %>
+
+                      <option value="<%= categoryData[i].name %>">
+                        <%= categoryData[i].name %>
+                      </option>
+
+                      <% } }else{ %>
+
+                        <option value="">No Categories</option>
+
+                        <% } %>
+
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword4">Quantity</label>
+                <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Quantity">
+              </div>
+
+
+              <div>
+                <div class="form-group">
+                  <label for="imageInput" class="image-label">Images</label>
+                  <div class="file-input-container">
+                     <input type="file" class="imageInput" id="imageInput" name="images" accept="image/*" multiple>
+                     <label class="custom-file-upload" for="imageInput">Choose files</label>
+                  </div>
+                  <div class="chosen-files" id="chosenFiles"></div>
+               </div>
+               
+                <!-- <div class="col-lg-3 col-md-6 rounded-image-preview ">
+                  <label for="imageInput1" class="image-label ">Image 1
+                    <div class="rounded-image-preview">
                     <img id="imagePreview1"
                     src=""
                       alt="Preview" />
                   </div>
-                  <input name="image1" type="file" accept="image/*" id="imageInput1" class="imageInput" >
-                </label>
+                    <input name="image1" type="file" accept="image/*" id="imageInput1" class="imageInput" >
+
+                  </label>
+                </div> -->
+                <!-- <div class="col-lg-3 col-md-6 rounded-image-preview ">
+                  <label for="imageInput2" class="image-label ">Image 2
+                    <div class="rounded-image-preview">
+                      <img id="imagePreview2" src="" alt="Preview" />
+                    </div>
+                    <input name="image2" type="file" accept="image/*" id="imageInput2" class="imageInput">
+                  </label>
+                </div> -->
+                <!-- <div class="col-lg-3 col-md-6 rounded-image-preview ">
+                  <label for="imageInput3" class="image-label ">Image 3
+                    <div class="rounded-image-preview">
+                      <img id="imagePreview3" src="" alt="Preview" />
+                    </div>
+                    <input name="image3" type="file" accept="image/*" id="imageInput3" class="imageInput">
+                  </label>
+                </div>
+                <div class="col-lg-3 col-md-6 rounded-image-preview ">
+                  <label for="imageInput4" class="image-label ">Image 4
+                    <div class="rounded-image-preview">
+                      <img id="imagePreview4" src="" alt="Preview" />
+                    </div>
+                    <input name="image4" type="file" accept="image/*" id="imageInput4" class="imageInput">
+                  </label>
+                </div> -->
+
               </div>
-              <div class="col-lg-3 col-md-6 rounded-image-preview ">
-                <label for="imageInput2" class="image-label ">Image 2
-                  <div class="rounded-image-preview">
-                    <img id="imagePreview2"
-                    src=""
-                      alt="Preview" />
-                  </div>
-                  <input name="image2" type="file" accept="image/*" id="imageInput2" class="imageInput" >
-                </label>
+
+              <div class="form-group">
+                <label for="exampleTextarea1">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="4"></textarea>
               </div>
-              <div class="col-lg-3 col-md-6 rounded-image-preview ">
-                <label for="imageInput3" class="image-label ">Image 3
-                  <div class="rounded-image-preview">
-                    <img id="imagePreview3"
-                    src=""
-                      alt="Preview" />
-                  </div>
-                  <input name="image3" type="file" accept="image/*" id="imageInput3" class="imageInput" >
-                </label>
-              </div>
-              <div class="col-lg-3 col-md-6 rounded-image-preview ">
-                <label for="imageInput4" class="image-label ">Image 4
-                  <div class="rounded-image-preview">
-                    <img id="imagePreview4"
-                    src=""
-                      alt="Preview" />
-                  </div>
-                  <input name="image4" type="file" accept="image/*" id="imageInput4" class="imageInput" >
-                </label>
-              </div>
-              
-            </div>
-            
-            <div class="form-group">
-              <label for="exampleTextarea1">Description</label>
-              <textarea class="form-control" id="description" name="description" rows="4"></textarea>
-            </div>
-            <button type="submit" id="addproductsubmit" class="btn btn-primary mr-2">Submit</button>
-            <button class="btn btn-inverse-danger"><a href="/admin/productmanagement">Cancel</a></button>
-            <h6 id="error-message" style="display: none; font-size: small; top: 100px;left: 645px;position: absolute;color: rgb(117 35 35);font-family: system-ui;
+              <button type="submit" id="addproductsubmit" class="btn btn-primary mr-2">Submit</button>
+              <button class="btn btn-inverse-danger"><a href="/admin/productmanagement">Cancel</a></button>
+              <h6 id="error-message" style="display: none; font-size: small; top: 100px;left: 645px;position: absolute;color: rgb(117 35 35);font-family: system-ui;
             "></h6>
 
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-    </div>
     <script src="/admin/addproductvalidation.js"></script>
-  
+
     <%-include("../admin/leyouts/footer.ejs")%>

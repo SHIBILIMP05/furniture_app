@@ -2,9 +2,7 @@ const User = require("../model/userModel")
 const Admin = require("../model/adminModel")
 const Category = require("../model/categoryModel")
 const Products = require("../model/productsModel")
-const fs = require("fs");
-const multer = require("../middleware/multer");
-const path = require("path");
+const Cart = require("../model/cartModel")
 const sharp = require("sharp");
 
 
@@ -37,51 +35,94 @@ const loadaddproduct = async (req, res) => {
 
 const addproduct = async (req, res) => {
     try {
-
-        const already = await Products.findOne({ name: req.body.name })
-        if (already) {
-            req.session.proNameAlready = true
-            res.redirect("/admin/loadaddproduct")
-        } else {
-            const details = req.body
-            const files = req.files
-
-            const img = [
-                files.image1[0].filename,
-                files.image2[0].filename,
-                files.image3[0].filename,
-                files.image4[0].filename,
-            ]
-            for (let i = 0; i < img.length; i++) {
-                await sharp("public/products/images/" + img[i])
-                    .resize(500, 500)
-                    .toFile("public/products/crops/" + img[i])
-            }
-
-
-            let product = new Products({
-                name: details.name,
-                price: details.price,
-                quantity: details.quantity,
-                category: details.category,
-                description: details.description,
-                blocked: 0,
-                "images.image1": files.image1[0].filename,
-                "images.image2": files.image2[0].filename,
-                "images.image3": files.image3[0].filename,
-                "images.image4": files.image4[0].filename,
-            })
-
-
-            const result = await product.save()
-            res.redirect("/admin/productmanagement")
-
-        }
-
+       const already = await Products.findOne({ name: req.body.name });
+       if (already) {
+          req.session.proNameAlready = true;
+          return res.redirect("/admin/loadaddproduct");
+       }
+ 
+       const details = req.body;
+       const files = req.files;
+ 
+       // Process each uploaded image
+       const img = files.map((file) => file.filename);
+ 
+       for (let i = 0; i < img.length; i++) {
+          await sharp("public/products/images/" + img[i])
+             .resize(500, 500)
+             .toFile("public/products/crops/" + img[i]);
+       }
+ 
+       let product = new Products({
+          name: details.name,
+          price: details.price,
+          quantity: details.quantity,
+          category: details.category,
+          description: details.description,
+          blocked: 0,
+       });
+ 
+       // Set images in the product document
+       img.forEach((filename, index) => {
+          product.images["image" + (index + 1)] = filename;
+       });
+ 
+       const result = await product.save();
+       res.redirect("/admin/productmanagement");
     } catch (error) {
-        console.error(error.message)
+       console.error(error.message);
+       res.status(500).send("Internal Server Error");
     }
-}
+ };
+ 
+
+// const addproduct = async (req, res) => {
+//     try {
+
+//         const already = await Products.findOne({ name: req.body.name })
+//         if (already) {
+//             req.session.proNameAlready = true
+//             res.redirect("/admin/loadaddproduct")
+//         } else {
+//             const details = req.body
+//             const files = req.files
+
+//             const img = [
+//                 files.image1[0].filename,
+//                 files.image2[0].filename,
+//                 files.image3[0].filename,
+//                 files.image4[0].filename,
+//             ]
+//             for (let i = 0; i < img.length; i++) {
+//                 await sharp("public/products/images/" + img[i])
+//                     .resize(500, 500)
+//                     .toFile("public/products/crops/" + img[i])
+//             }
+
+
+//             let product = new Products({
+//                 name: details.name,
+//                 price: details.price,
+//                 quantity: details.quantity,
+//                 category: details.category,
+//                 description: details.description,
+//                 blocked: 0,
+//                 "images.image1": files.image1[0].filename,
+//                 "images.image2": files.image2[0].filename,
+//                 "images.image3": files.image3[0].filename,
+//                 "images.image4": files.image4[0].filename,
+//             })
+
+
+//             const result = await product.save()
+//             res.redirect("/admin/productmanagement")
+
+//         }
+
+//     } catch (error) {
+//         console.error(error.message)
+//     }
+// }
 
 //---------------------BLOCK AND UNBLOCK PRODUCTS IN ADMIN SIDE---------------
 
@@ -169,6 +210,8 @@ const editedProduct = async (req, res) => {
     }
 }
 
+
+
 //----------------------DELETING PRODUCT FROM PRODUCT MANAGEMENT-------------------
 
 const deleteProduct = async (req, res) => {
@@ -192,12 +235,16 @@ const loadproductsPage = async (req, res) => {
         if (req.query.page) {
             page = req.query.page;
         }
+        const cart = await Cart.findOne({userId:req.session.user_id})
+        let cartCount=0; 
+        if(cart){cartCount = cart.products.length}
+
         const products = await Products.find({ blocked: 0 })
             .limit(limit * 1)
             .skip((page - 1) * limit);
         const count = await Products.find({ blocked: 0 }).count()
         const totalPages = Math.ceil(count / limit);
-        res.render("productspage", { totalPages: totalPages, category: category, products: products, count: count, name: req.session.name })
+        res.render("productspage", { cartCount,totalPages: totalPages, category: category, products: products, count: count, name: req.session.name })
     } catch (error) {
         console.error(error.message)
     }
@@ -211,10 +258,13 @@ const productdetailspage = async (req, res) => {
         const viewProduct = await Products.findOne({ _id: req.query.id })
         const products = await Products.find({ blocked: 0 })
         const category = await Category.find({ blocked: 0 })
+        const cart = await Cart.findOne({userId:req.session.user_id})
+        let cartCount=0; 
+        if(cart){cartCount = cart.products.length}
         if (viewProduct) {
 
 
-            res.render("productdetailspage", { products, category, view: viewProduct, name: req.session.name })
+            res.render("productdetailspage", { cartCount,products, category, view: viewProduct, name: req.session.name })
         } else {
             res.status(404).render("404");
         }

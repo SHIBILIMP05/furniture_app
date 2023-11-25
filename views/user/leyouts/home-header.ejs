@@ -37,6 +37,7 @@
 
     <link rel="stylesheet" href="/user/css/skins/skin-demo-2.css">
     <link rel="stylesheet" href="/user/css/demos/demo-2.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     
 </head>
@@ -140,10 +141,10 @@
                         </div><!-- End .compare-dropdown -->
 
                         <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                            <a href="/cartLoad" class="dropdown-toggle" role="button"  aria-haspopup="true">
                                 <div class="icon">
                                     <i class="icon-shopping-cart"></i>
-                                    <span class="cart-count">2</span>
+                                    <span class="cart-count"><%= cartCount %></span>
                                 </div>
                                 <p>Cart</p>
                             </a>

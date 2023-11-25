@@ -151,7 +151,7 @@
                                         <!-- <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required> -->
                                         <!-- </div>End .product-details-quantity -->
 
-                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <a href="" onclick="addToCart('<%= view._id%>')" class="btn-product btn-cart"><span>add to cart</span></a>
                                     </div><!-- End .details-action-col -->
 
                                     <div class="details-action-wrapper">
@@ -346,22 +346,22 @@
                                 </div><!-- End .product-action-vertical -->
 
                                 <div class="product-action">
-                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    <a href="#" onclick="addToCart('<%= data._id%>')" class="btn-product btn-cart"><span>add to cart</span></a>
                                 </div><!-- End .product-action -->
                             </figure><!-- End .product-media -->
 
                             <div class="product-body">
                                 <div class="product-cat">
-                                    <a href="<%= data.category %>"></a>
+                                    <a href=""><%= data.category %></a>
                                 </div><!-- End .product-cat -->
                                 <h3 class="product-title"><a href="product.html"></a></h3><!-- End .product-title -->
                                 <div class="product-price">
                                     Rs. <%= data.price %>
                                     <% if(data.quantity == 0){ %>
                                      &nbsp&nbsp<p style="color: red;">(Out of stock !)</p>
-                                     <% }else if(data.quantity < 10){ %>
+                                    <% }else if(data.quantity < 10){ %>
                                          &nbsp&nbsp<p style="color: red;">(Only&nbsp <%= data.quantity %> &nbsp left !)</p>
-                                         <% } %>
+                                    <% } %>
                                 </div><!-- End .product-price -->
                                 <div class="ratings-container">
                                     <div class="ratings">

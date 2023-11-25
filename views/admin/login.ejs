@@ -57,12 +57,9 @@
             background-color: #198585;
         }
 
-        #error-text{
+        .error-message {
             font-family: system-ui;
-            color: rgb(117 35 35);
-            position: absolute;
-            left: 895px;
-            bottom: 290px;
+            color: rgb(161 17 17);
             font-size: small;
         }
     </style>
@@ -74,28 +71,29 @@
         <h2>Admin Login</h2>
         <div class="input-group">
             <input type="email" name="email" id="email" placeholder="Email" >
+            <div class="error-message" id="email-error"></div>
         </div>
         <div class="input-group">
             <input type="password" name="password" id="password" placeholder="Password" >
+            <div class="error-message" id="password-error"></div>
         </div>
         <div class="input-group">
             <button id="admin-log-submit" type="submit">Login</button>
         </div>
-        <!-- <% if(typeof message !== 'undefined'){ %>
-            <h6 id="error-text"> <%= message %> </h6> 
-          <% } %> -->
-          <h6 style="display: none;" id="error-text">  </h6> 
+        
         </form>
     </div>
 
     <script>
 
         const inputs = document.querySelectorAll('input')
-        const errorMessage = document.getElementById('error-text')
-        
+        const emailMessage = document.getElementById('email-error')
+        const passwordMessage = document.getElementById('password-error')
+
         inputs.forEach(input=>{
           input.addEventListener('input',function(){
-            errorMessage.textContent = ""
+            emailMessage.textContent = ""
+            passwordMessage.textContent = ""
           })
         })
         

@@ -1,6 +1,7 @@
 const User = require("../model/userModel.js");
 const Products = require("../model/productsModel.js")
 const Category = require("../model/categoryModel.js")
+const Cart = require("../model/cartModel.js")
 const bcrypt = require("bcrypt");
 const randomString = require("randomstring")
 const nodemailer = require("nodemailer");
@@ -67,7 +68,10 @@ const loadHome = async (req, res) => {
   try {
 
     const products = await Products.find({ blocked: 0 }).limit(10)
-    res.render("home", { name: req.session.name, products: products });
+    const cart = await Cart.findOne({userId:req.session.user_id})
+    let cartCount=0;
+    if(cart){cartCount = cart.products.length}
+    res.render("home", { name: req.session.name, products: products,cartCount });
 
   } catch (error) {
     console.error(err.massage);
@@ -381,7 +385,10 @@ const verifyOtp = async (req, res) => {
 const accountload = async (req, res) => {
   try {
 
-    res.render("userDashboard")
+    const cart = await Cart.findOne({userId:req.session.user_id})
+        let cartCount=0; 
+        if(cart){cartCount = cart.products.length}
+    res.render("userDashboard",{cartCount})
 
   } catch (error) {
     console.error(error.message)
@@ -586,9 +593,13 @@ const searchProduct = async (req, res) => {
     const name = req.query.q
     const regex = new RegExp(`^${name}`, 'i')
 
+    const cart = await Cart.findOne({ userId: req.session.user_id })
+    let cartCount = 0;
+    if (cart) { cartCount = cart.products.length }
+
     const products = await Products.find({ name: { $regex: regex }, blocked: 0 })
     const count = await Products.find({ name: { $regex: regex }, blocked: 0 }).count()
-    res.render("productspage", { products: products, category, count, name: req.session.name })
+    res.render("productspage", { products: products, category, count, name: req.session.name,cartCount,totalPages: 0, })
   } catch (error) {
     console.error(error.message)
   }
@@ -603,6 +614,9 @@ const filterProducts = async (req, res) => {
     const category = await Category.find({ blocked: 0 })
     let filtered;
     let count;
+    const cart = await Cart.findOne({ userId: req.session.user_id })
+    let cartCount = 0;
+    if (cart) { cartCount = cart.products.length }
     if (req.body.category == "allCate") {
       filtered = await Products.find({ blocked: 0 }).sort({ price: priceSort })
       count = await Products.find({ blocked: 0 }).count()
@@ -611,7 +625,7 @@ const filterProducts = async (req, res) => {
       count = await Products.find({ category: cate, blocked: 0 }).count()
     }
 
-    res.render('productspage', { category, count, name: req.session.name, products: filtered })
+    res.render('productspage', { category, count, name: req.session.name, products: filtered ,cartCount,totalPages: 0,})
   } catch (error) {
     console.error(error.message)
   }

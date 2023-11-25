@@ -2,8 +2,8 @@ document.getElementById('admin-log-submit').addEventListener('click',function(e)
     e.preventDefault()
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const message = document.getElementById('error-text');
-
+    const emailMessage = document.getElementById('email-error')
+    const passwordMessage = document.getElementById('password-error')
     $.ajax({
         url:'',
         data:{
@@ -14,20 +14,29 @@ document.getElementById('admin-log-submit').addEventListener('click',function(e)
         success: (response)=>{
 
             if ((response.require)) {
-                message.style.display = "block";
-                message.textContent = "Must fillout all the fields."
+              emailMessage.style.display = "block";
+              emailMessage.textContent = "Pleas fill this field."
+              }else if(response.passrequire){
+                passwordMessage.style.display = "block";
+                passwordMessage.textContent = "Pleas fill this field."
+              }else if(response.emailspace){
+                emailMessage.style.display = "block";
+                emailMessage.textContent = " Email can't contains spaces."
+              }else if(response.passwordspace){
+                passwordMessage.style.display = "block";
+                passwordMessage.textContent = "password can't contains spaces."
               }else if(response.emailPatt){
-                message.style.display = "block";
-                message.textContent = "Enter the valid email address."
+                emailMessage.style.display = "block";
+                emailMessage.textContent = "Enter the valid email address."
               }else if(response.emailnot){
-                message.style.display = "block";
-                message.textContent = " You can't get access in this email."
+                emailMessage.style.display = "block";
+                emailMessage.textContent = " You can't get access in this email."
               }else if(response.wrongpass){
-                message.style.display = "block";
-                message.textContent = "  Incorrect password."
+                passwordMessage.style.display = "block";
+                passwordMessage.textContent = "  Incorrect password."
               }else if(response.notregister){
-                message.style.display = "block";
-                message.textContent = "  Mail not registered."
+                emailMessage.style.display = "block";
+                emailMessage.textContent = "  Mail not registered."
               }else{
                 window.location.href = "/admin/home"
               }

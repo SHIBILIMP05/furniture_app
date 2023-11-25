@@ -5,6 +5,7 @@ const session = require("express-session")
 const config = require('../../config/config')
 const userController = require("../../controller/userController")
 const productController =require("../../controller/productController")
+const cartController = require("../../controller/cartController")
 const auth = require("../../middleware/auth")
 
 user_Rout.use(session({secret:config.sessionSecret}))
@@ -48,6 +49,11 @@ user_Rout.get("/loadproduct",productController.loadproductsPage)
 user_Rout.get("/productdetails",productController.productdetailspage)
 user_Rout.get("/searchPro",userController.searchProduct)
 user_Rout.post("/filterProduct",userController.filterProducts)
+
+user_Rout.get("/cartLoad",cartController.loadCart)
+user_Rout.post("/addToCart",cartController.addToCart)
+user_Rout.post("/cartQuantityUpdation",auth.isLogin,cartController.quantityUpdation)
+user_Rout.post("/removeCartItem",auth.isLogin,cartController.removeCartItem)
 
 
 
