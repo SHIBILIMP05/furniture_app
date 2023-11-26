@@ -40,11 +40,11 @@
                                   <%
                                   if(users[i].is_block == 0){
                                     %>
-                                    <p><a href="/admin/block-user?id=<%= users[i]._id %>" class="badge badge-success">BLOCK USER</a></p>
+                                    <p onclick="blockUser('<%= users[i]._id %>')" ><a class="badge badge-success">BLOCK USER</a></p>
                                     <%
                                   }else{
                                     %>
-                                    <p><a href="/admin/block-user?id=<%= users[i]._id %>" class="badge badge-danger">UNBLOCK</a></p>
+                                    <p onclick="blockUser('<%= users[i]._id %>')"><a  class="badge badge-danger">UNBLOCK</a></p>
                                     <%
                                   }
                                     %>
@@ -66,5 +66,43 @@
           <!-- partial -->
         </div>
         <!-- main-panel ends -->
+        <script>
+          function blockUser(userId){
+            swal
+        .fire({
+          title: "Are You Sure?",
+          Text: "",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes",
+          cancelButtonText: "cancel",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "/admin/block-user",
+              data: {
+                userId: userId,
+              },
+              method: "post",
+              success: (response) => {
+                if ((response.remove = true)) {
+                  location.reload();
+                  swal.fire({
+                    title: "Done",
+                    text: "",
+                    icon: "Suscces",
+                    timer: 1500,
+                    showConfirmButton: false,
+                  });
+                }
+              },
+            });
+          }
+        });
+          }
+        </script>
      
         <%-include("../admin/leyouts/footer.ejs")%>

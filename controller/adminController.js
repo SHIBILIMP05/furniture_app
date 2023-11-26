@@ -139,15 +139,21 @@ const usermanagementload = async (req, res) => {
 
 const blockUser = async (req, res) => {
     try {
-
-        const blockedUser = await User.findOne({ _id: req.query.id })
+        console.log("1")
+        const userId = req.body.userId
+        console.log(userId)
+        const blockedUser = await User.findOne({ _id: userId })
+        console.log(blockedUser)
         if (blockedUser.is_block == 0) {
-            await User.updateOne({ _id: req.query.id }, { $set: { is_block: 1 } })
-            res.redirect("/admin/usermanagement")
+            console.log("2")
+            await User.updateOne({ _id: userId }, { $set: { is_block: 1 } })
+            // res.redirect("/admin/usermanagement")
+            res.json({success:true})
         } else {
-
-            await User.updateOne({ _id: req.query.id }, { $set: { is_block: 0 } })
-            res.redirect("/admin/usermanagement")
+            console.log("3")
+            await User.updateOne({ _id: userId }, { $set: { is_block: 0 } })
+            // res.redirect("/admin/usermanagement")
+            res.json({success:true})
         }
 
     } catch (error) {
@@ -173,13 +179,15 @@ const loadcategory = async (req, res) => {
 const blockCategory = async (req, res) => {
     try {
 
-        const blockedcategory = await Category.findOne({ _id: req.query.id })
+        const blockedcategory = await Category.findOne({ _id: req.body.catId })
         if (blockedcategory.blocked == 0) {
-            await Category.updateOne({ _id: req.query.id }, { $set: { blocked: 1 } })
-            res.redirect("/admin/categorymanagement")
+            await Category.updateOne({ _id: req.body.catId }, { $set: { blocked: 1 } })
+            // res.redirect("/admin/categorymanagement")
+            res.json({success:true})
         } else {
-            await Category.updateOne({ _id: req.query.id }, { $set: { blocked: 0 } })
-            res.redirect("/admin/categorymanagement")
+            await Category.updateOne({ _id: req.body.catId }, { $set: { blocked: 0 } })
+            // res.redirect("/admin/categorymanagement")
+            res.json({success:true})
         }
 
     } catch (error) {
