@@ -1,4 +1,96 @@
 <%-include("../admin/leyouts/header.ejs")%>
+  <style>
+    /* Style for the rounded image preview container */
+    .rounded-image-preview {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    /* Style for the preview image */
+    .rounded-image-preview img {
+      width: 100%;
+      height: auto;
+      max-height: 200px;
+      /* Adjust the max height as needed */
+      object-fit: cover;
+    }
+
+    /* Style for the image label */
+    .image-label {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    /* Style for the file input itself */
+    .imageInput {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    /* Style for the custom file input button */
+    .custom-file-upload {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #3498db;
+      /* Adjust the background color to your preference */
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    /* Style for the chosen file names display */
+    .chosen-files {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+      max-width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    /* Hover effect for the custom file input button */
+    .custom-file-upload:hover {
+      background-color: #2980b9;
+      /* Adjust the hover background color */
+    }
+
+    /* Style for the remove button */
+    /* .remove-button {
+      display: inline-block;
+      padding: 5px 10px;
+      font-size: 14px;
+      color: #fff;
+      background-color: #e74c3c;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    } */
+
+    #imagePreviews {
+      margin-top: 10px;
+      /* Add some top margin for spacing */
+    }
+
+    .preview-image {
+      width: 100px;
+      /* Set a fixed width for the image previews */
+      height: auto;
+      /* Maintain the aspect ratio */
+      margin-right: 10px;
+      /* Add right margin for spacing between images */
+    }
+  </style>
 
   <div class="main-panel">
     <div class="content-wrapper">
@@ -7,8 +99,7 @@
           <div class="card-body">
             <h4 class="card-title">Update Product</h4>
             <p class="card-description"> Details</p>
-            <form class="forms-sample" method="post" action="/admin/editProduct?id=<%= product._id %>""
-              enctype="multipart/form-data">
+            <form class="forms-sample" method="post" action="/admin/editProduct?id=<%= product._id %>" enctype="multipart/form-data">
               <div class="form-group">
                 <label for="exampleInputName1">Product Name</label>
                 <input type="text" class="form-control" id="Name" name="name" value="<%=product.name%>">
@@ -53,8 +144,9 @@
 
 
 
-              <div>
+              
 
+                
                 <div class="col-lg-3 col-md-6">
                   <div class="rounded-image-preview">
                     <label for="imageInput1" class="image-label">Image 1
@@ -112,8 +204,8 @@
                     onclick="removeImagePreview('imagePreview4', '/products/images/<%= product.images.image4 %>', 'removeButton4','imageInput4')">Remove</button>
                 </div>
 
-              </div>
-              <button  type="submit" id="editProductsubmit" class="btn btn-primary mr-2">Submit</button>
+              
+              <button type="submit" id="editProductsubmit" class="btn btn-primary mr-2">Submit</button>
               <button class="btn btn-inverse-danger"><a href="/admin/productmanagement">Cancel</a></button>
               <h6 id="error-message" style="display: none; font-size: small; top: 100px;left: 645px;position: absolute;color: rgb(117 35 35);font-family: system-ui;
             "></h6>
@@ -123,7 +215,9 @@
         </div>
       </div>
     </div>
+    
+    
+    
 
-   
     <script src="/admin/editproductvalidation.js"></script>
     <%-include("../admin/leyouts/footer.ejs")%>

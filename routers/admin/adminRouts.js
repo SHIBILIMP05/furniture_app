@@ -2,6 +2,7 @@ const express = require("express")
 const admin_Rout = express()
 const path =require("path")
 const multer = require("../../middleware/multer")
+const multer2 = require("../../middleware/multer2")
 
 const session = require("express-session")
 const config = require('../../config/config')
@@ -35,7 +36,7 @@ admin_Rout.post("/addproduct",auth.isLogin,multer.productImagesUpload,productCon
 admin_Rout.get("/block-product",auth.isLogin,productController.blockProduct)
 admin_Rout.get("/delete-product",auth.isLogin,productController.deleteProduct)
 admin_Rout.get("/edit-product-page",auth.isLogin,productController.loadeditProduct)
-admin_Rout.post("/editProduct",auth.isLogin,multer.productImagesUpload,productController.editedProduct)
+admin_Rout.post("/editProduct", auth.isLogin, multer2.productImagesUpload2, productController.editedProduct);
 
 admin_Rout.get("/categorymanagement",auth.isLogin,adminController.loadcategory)
 admin_Rout.get("/loadaddcategory",auth.isLogin,adminController.loadAddCategory)

@@ -160,12 +160,17 @@ const loadeditProduct = async (req, res) => {
 
 //----------------------UPDATING PRODUCTS ----------------------------------------
 
+
 const editedProduct = async (req, res) => {
     try {
 
         let details = req.body;
-        let imagesFiles = await req.files;
+        let imagesFiles =  req.files;
+        console.log('imagesFiles:', imagesFiles)
         let currentData = await Products.findOne({ _id: req.query.id });
+        console.log('currentData:', currentData);
+        console.log('Entire req object:', req);
+
 
         const img = [
             imagesFiles.image1 ? imagesFiles.image1[0].filename : currentData.images.image1,

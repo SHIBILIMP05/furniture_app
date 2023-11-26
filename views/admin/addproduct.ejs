@@ -34,7 +34,16 @@
   font-size: 14px;
   color: #555;
 }
+#imagePreviews {
+    margin-top: 10px; /* Add some top margin for spacing */
+  }
 
+  .preview-image {
+    width: 100px; /* Set a fixed width for the image previews */
+    height: auto; /* Maintain the aspect ratio */
+    margin-left: 15px;
+    margin-bottom: 10px; /* Add right margin for spacing between images */
+  }
 </style>
 
 
@@ -94,6 +103,10 @@
                   </div>
                   <div class="chosen-files" id="chosenFiles"></div>
                </div>
+
+               <div class="row" id="imagePreviews">
+                <!-- Image previews will be added here dynamically -->
+              </div>
                
                 <!-- <div class="col-lg-3 col-md-6 rounded-image-preview ">
                   <label for="imageInput1" class="image-label ">Image 1
@@ -147,6 +160,32 @@
         </div>
       </div>
     </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+  const imageInput = document.getElementById('imageInput');
+  const imagePreviews = document.getElementById('imagePreviews');
+
+  imageInput.addEventListener('change', function () {
+    imagePreviews.innerHTML = ''; // Clear existing previews
+
+    const files = this.files;
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.classList.add('preview-image');
+        imagePreviews.appendChild(img);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  });
+});
+
+    </script>
     <script src="/admin/addproductvalidation.js"></script>
 
     <%-include("../admin/leyouts/footer.ejs")%>
