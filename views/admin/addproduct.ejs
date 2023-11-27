@@ -1,50 +1,56 @@
 <%-include("../admin/leyouts/header.ejs")%>
-<style>
-  /* Style for the file input container */
-.file-input-container {
-  margin-bottom: 20px;
-}
+  <style>
+    /* Style for the file input container */
+    .file-input-container {
+      margin-bottom: 20px;
+    }
 
-/* Style for the file input label */
-.image-label {
-  display: block;
-  font-size: 16px;
-  margin-bottom: 5px;
-}
+    /* Style for the file input label */
+    .image-label {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
 
-/* Style for the file input itself */
-.imageInput {
-  display: none;
-}
+    /* Style for the file input itself */
+    .imageInput {
+      display: none;
+    }
 
-/* Style for the custom file input button */
-.custom-file-upload {
-  display: inline-block;
-  padding: 10px 15px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #fff;
-  background-color: #007bff; /* Adjust the background color to your preference */
-  cursor: pointer;
-}
+    /* Style for the custom file input button */
+    .custom-file-upload {
+      display: inline-block;
+      padding: 10px 15px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #007bff;
+      /* Adjust the background color to your preference */
+      cursor: pointer;
+    }
 
-/* Style for the chosen file names display */
-.chosen-files {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #555;
-}
-#imagePreviews {
-    margin-top: 10px; /* Add some top margin for spacing */
-  }
+    /* Style for the chosen file names display */
+    .chosen-files {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+    }
 
-  .preview-image {
-    width: 100px; /* Set a fixed width for the image previews */
-    height: auto; /* Maintain the aspect ratio */
-    margin-left: 15px;
-    margin-bottom: 10px; /* Add right margin for spacing between images */
-  }
-</style>
+    #imagePreviews {
+      margin-top: 10px;
+      /* Add some top margin for spacing */
+    }
+
+    .preview-image {
+      width: 100px;
+      /* Set a fixed width for the image previews */
+      height: auto;
+      /* Maintain the aspect ratio */
+      margin-left: 15px;
+      margin-bottom: 10px;
+      /* Add right margin for spacing between images */
+    }
+  </style>
 
 
   <div class="main-panel">
@@ -59,7 +65,7 @@
                 <label for="exampleInputName1">Product Name</label>
                 <input type="text" class="form-control" id="Name" name="name" placeholder="Name">
                 <%if(nameAlready){ %>
-                  <h6 id="" style=" font-size: small; top: 100px;left: 645px;position: absolute;color: rgb(117 35 35);font-family: system-ui;
+                  <h6 id="err_message2" style="  top: 100px;left: 645px;position: absolute;color: red;font-family: system-ui;
               ">Product name is already exist.</h6>
                   <% }%>
 
@@ -98,51 +104,15 @@
                 <div class="form-group">
                   <label for="imageInput" class="image-label">Images</label>
                   <div class="file-input-container">
-                     <input type="file" class="imageInput" id="imageInput" name="images" accept="image/*" multiple>
-                     <label class="custom-file-upload" for="imageInput">Choose files</label>
+                    <input type="file" class="imageInput" id="imageInput" name="images" accept="image/*" multiple>
+                    <label class="custom-file-upload" for="imageInput">Choose files</label>
                   </div>
                   <div class="chosen-files" id="chosenFiles"></div>
-               </div>
-
-               <div class="row" id="imagePreviews">
-                <!-- Image previews will be added here dynamically -->
-              </div>
-               
-                <!-- <div class="col-lg-3 col-md-6 rounded-image-preview ">
-                  <label for="imageInput1" class="image-label ">Image 1
-                    <div class="rounded-image-preview">
-                    <img id="imagePreview1"
-                    src=""
-                      alt="Preview" />
-                  </div>
-                    <input name="image1" type="file" accept="image/*" id="imageInput1" class="imageInput" >
-
-                  </label>
-                </div> -->
-                <!-- <div class="col-lg-3 col-md-6 rounded-image-preview ">
-                  <label for="imageInput2" class="image-label ">Image 2
-                    <div class="rounded-image-preview">
-                      <img id="imagePreview2" src="" alt="Preview" />
-                    </div>
-                    <input name="image2" type="file" accept="image/*" id="imageInput2" class="imageInput">
-                  </label>
-                </div> -->
-                <!-- <div class="col-lg-3 col-md-6 rounded-image-preview ">
-                  <label for="imageInput3" class="image-label ">Image 3
-                    <div class="rounded-image-preview">
-                      <img id="imagePreview3" src="" alt="Preview" />
-                    </div>
-                    <input name="image3" type="file" accept="image/*" id="imageInput3" class="imageInput">
-                  </label>
                 </div>
-                <div class="col-lg-3 col-md-6 rounded-image-preview ">
-                  <label for="imageInput4" class="image-label ">Image 4
-                    <div class="rounded-image-preview">
-                      <img id="imagePreview4" src="" alt="Preview" />
-                    </div>
-                    <input name="image4" type="file" accept="image/*" id="imageInput4" class="imageInput">
-                  </label>
-                </div> -->
+
+                <div class="row" id="imagePreviews">
+                  <!-- Image previews will be added here dynamically -->
+                </div>
 
               </div>
 
@@ -152,7 +122,7 @@
               </div>
               <button type="submit" id="addproductsubmit" class="btn btn-primary mr-2">Submit</button>
               <button class="btn btn-inverse-danger"><a href="/admin/productmanagement">Cancel</a></button>
-              <h6 id="error-message" style="display: none; font-size: small; top: 100px;left: 645px;position: absolute;color: rgb(117 35 35);font-family: system-ui;
+              <h6 id="error-message" style="display: none; top: 100px;left: 645px;position: absolute;color: red;font-family: system-ui;
             "></h6>
 
             </form>
@@ -161,29 +131,45 @@
       </div>
     </div>
     <script>
+
+      const inputs = document.querySelectorAll('input')
+
+      const message = document.getElementById('error-message');
+      const message2 = document.getElementById('err_message2');
+       
+      inputs.forEach(input=>{
+        input.addEventListener('input',function(){
+          message.textContent = ""
+          message2.textContent = ""
+          
+        })
+      })
+      
+    </script>
+    <script>
       document.addEventListener('DOMContentLoaded', function () {
-  const imageInput = document.getElementById('imageInput');
-  const imagePreviews = document.getElementById('imagePreviews');
+        const imageInput = document.getElementById('imageInput');
+        const imagePreviews = document.getElementById('imagePreviews');
 
-  imageInput.addEventListener('change', function () {
-    imagePreviews.innerHTML = ''; // Clear existing previews
+        imageInput.addEventListener('change', function () {
+          imagePreviews.innerHTML = ''; // Clear existing previews
 
-    const files = this.files;
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const reader = new FileReader();
+          const files = this.files;
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
 
-      reader.onload = function (e) {
-        const img = document.createElement('img');
-        img.src = e.target.result;
-        img.classList.add('preview-image');
-        imagePreviews.appendChild(img);
-      };
+            reader.onload = function (e) {
+              const img = document.createElement('img');
+              img.src = e.target.result;
+              img.classList.add('preview-image');
+              imagePreviews.appendChild(img);
+            };
 
-      reader.readAsDataURL(file);
-    }
-  });
-});
+            reader.readAsDataURL(file);
+          }
+        });
+      });
 
     </script>
     <script src="/admin/addproductvalidation.js"></script>

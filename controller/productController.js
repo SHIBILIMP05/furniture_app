@@ -128,14 +128,16 @@ const addproduct = async (req, res) => {
 
 const blockProduct = async (req, res) => {
     try {
-
-        const blockedproduct = await Products.findOne({ _id: req.query.id })
+        console.log(req.body.proId)
+        const blockedproduct = await Products.findOne({ _id: req.body.proId })
         if (blockedproduct.blocked == 0) {
-            await Products.updateOne({ _id: req.query.id }, { $set: { blocked: 1 } })
-            res.redirect("/admin/productmanagement")
+            await Products.updateOne({ _id: req.body.proId }, { $set: { blocked: 1 } })
+            // res.redirect("/admin/productmanagement")
+            res.json({success:true})
         } else {
-            await Products.updateOne({ _id: req.query.id }, { $set: { blocked: 0 } })
-            res.redirect("/admin/productmanagement")
+            await Products.updateOne({ _id: req.body.proId }, { $set: { blocked: 0 } })
+            // res.redirect("/admin/productmanagement")
+            res.json({success:true})
         }
 
 

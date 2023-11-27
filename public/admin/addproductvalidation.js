@@ -11,7 +11,7 @@ document.getElementById('addproductsubmit').addEventListener('click',function(ev
 
     if(price.trim() === "" && quantity.trim() == "" && description.trim() == ""){
         message.style.display = "block"
-        message.textContent = "Must fillout all the fields."
+        message.textContent = "Please fill all the fields."
         event.preventDefault()
       }else if(name.trim() == ""){
         message.style.display = "block"
@@ -19,14 +19,14 @@ document.getElementById('addproductsubmit').addEventListener('click',function(ev
         event.preventDefault()
       }else if(price < 1){
         message.style.display = "block"
-        message.textContent = "Price must be positive value."
+        message.textContent = "Price should be positive value."
         event.preventDefault()
       }else if(quantity < 1){
         message.style.display = "block"
-        message.textContent = "Quantity must be positive value."
+        message.textContent = "Quantity should be positive value."
         event.preventDefault()
       }else if(description.length < 10){
         message.style.display = "block"
-        message.textContent = "Description atleast 10 letters."
+        message.textContent = "Description should contain atleast 10 letters."
       }
 })  

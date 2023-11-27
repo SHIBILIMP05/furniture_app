@@ -33,7 +33,7 @@ admin_Rout.post("/block-user",auth.isLogin,adminController.blockUser)
 admin_Rout.get("/productmanagement",auth.isLogin,productController.product)
 admin_Rout.get("/loadaddproduct",auth.isLogin,productController.loadaddproduct)
 admin_Rout.post("/addproduct",auth.isLogin,multer.productImagesUpload,productController.addproduct)
-admin_Rout.get("/block-product",auth.isLogin,productController.blockProduct)
+admin_Rout.post("/block-product",auth.isLogin,productController.blockProduct)
 admin_Rout.get("/delete-product",auth.isLogin,productController.deleteProduct)
 admin_Rout.get("/edit-product-page",auth.isLogin,productController.loadeditProduct)
 admin_Rout.post("/editProduct", auth.isLogin, multer2.productImagesUpload2, productController.editedProduct);
