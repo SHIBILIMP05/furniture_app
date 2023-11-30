@@ -39,6 +39,8 @@ user_Rout.get("/resendOtp",userController.resendotp)
 
 user_Rout.get("/logout",auth.isLogin,userController.userLogout)
 user_Rout.get("/account",auth.isLogin,userController.accountload)
+user_Rout.post("/editProfile",auth.isLogin,userController.editingProfile)
+user_Rout.post("/changePassword",auth.isLogin,userController.changePassword)
 
 user_Rout.get("/forgetpage",auth.isLogout,userController.loadForget)
 user_Rout.post("/forget",userController.forgetverify)
@@ -54,6 +56,8 @@ user_Rout.get("/cartLoad",cartController.loadCart)
 user_Rout.post("/addToCart",cartController.addToCart)
 user_Rout.post("/cartQuantityUpdation",auth.isLogin,cartController.quantityUpdation)
 user_Rout.post("/removeCartItem",auth.isLogin,cartController.removeCartItem)
+
+// express.Router.get("/loadcheckout",auth.isLogin,userController.checkoutPage)
 
 
 

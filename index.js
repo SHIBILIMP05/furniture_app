@@ -1,11 +1,13 @@
 const mongoDB = require("./config/mongoAuth");
-mongoDB.mongoDB()
+
 
 //*------------------------------------------------------
 
 const express = require("express");
 const path = require("path");
 const app = express();
+
+mongoDB.conectDB()
 
 app.use(express.static(path.join(__dirname, "public")));
 

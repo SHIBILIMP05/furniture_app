@@ -23,6 +23,8 @@
     <meta name="msapplication-TileColor" content="#cc9966">
     <meta name="msapplication-config" content="user/images/icons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Plugins CSS File -->
     <link rel="stylesheet" href="/user/css/bootstrap.min.css">
     <!-- Main CSS File -->
@@ -175,19 +177,19 @@
 	                		<aside class="col-md-4 col-lg-3">
 	                			<ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
 								    <li class="nav-item">
-								        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Dashboard</a>
+								        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Profile</a>
 								    </li>
 								    <li class="nav-item">
 								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
 								    </li>
-								    <li class="nav-item">
+								    <!-- <li class="nav-item">
 								        <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
-								    </li>
+								    </li> -->
 								    <li class="nav-item">
 								        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
 								    </li>
 								    <li class="nav-item">
-								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
+								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Password</a>
 								    </li>
 								    <li class="nav-item">
 								        <a class="nav-link" href="/logout">Sign Out</a>
@@ -198,9 +200,72 @@
 	                		<div class="col-md-8 col-lg-9">
 	                			<div class="tab-content">
 								    <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
-								    	<p>Hello <span class="font-weight-normal text-dark">User</span> (not <span class="font-weight-normal text-dark">User</span>? <a href="#">Log out</a>) 
-								    	<br>
-								    	From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-address" class="tab-trigger-link">shipping and billing addresses</a>, and <a href="#tab-account" class="tab-trigger-link">edit your password and account details</a>.</p>
+								    	<div class="col-lg-6" id="formDiv">
+                                            <h2 class="title mb-1">Manage Your Details &nbsp;&nbsp;<i class="fa-duotone fa-address-card"></i></h2>
+                        
+                                            <form
+                                              class="contact-form mb-3"
+                                              id="myForm"
+                                            >
+                                              <div class="col-sm-14">
+                                                <label for="cname" class="sr-only">Full Name</label>
+                                                <input
+                                                  name="fullname"
+                                                  type="text"
+                                                  class="form-control"
+                                                  id="name"
+                                                  value="<%= userData.name %>"
+                                                  required
+                                                />
+                                              </div>
+                                              <div id="nameError" style="display: none; color: red;"></div>
+                                              <!-- End .col-sm-6 -->
+                        
+                                              <!-- End .row -->
+                        
+                                              
+                                                <div class="col-sm-14">
+                                                  <label for="cphone" class="sr-only">Phone</label>
+                                                  <input
+                                                    name="mobile"
+                                                    type="tel"
+                                                    class="form-control"
+                                                    id="phoneNumber"
+                                                    value="<%= userData.phone%>"
+                                                    required
+                                                    minlength="10"
+                                                  />
+                                                </div>
+                                                <div id="numberError" style="display: none; color: red;" ></div>
+                                                <!-- End .col-sm-6 -->
+                        
+                                              <div class="col-sm-14">
+                                                <label for="csubject" class="sr-only">Email Id</label>
+                                                <input
+                                                  name="email"
+                                                  type="email"
+                                                  class="form-control"
+                                                  id="email"
+                                                  value="<%= userData.email%>"
+                                                  required
+                                                />
+                                              </div>
+                                              <div id="emailError" style="display: none; color: red;"></div>
+                                              <!-- End .row -->
+                                              <div id="profileSuccess" style="display: none; color: green;"></div>
+                                              
+                        
+                                              <button
+                                                type="submit"
+                                                class="btn btn-outline-primary-2 btn-minwidth-sm"
+                                                id="submitBtn"
+                                              >
+                                                <span>SUBMIT</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                              </button>
+                                            </form>
+                                            
+                                          </div>
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
@@ -208,15 +273,16 @@
 								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
 								    </div><!-- .End .tab-pane -->
 
-								    <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
+								    <!-- <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
 								    	<p>No downloads available yet.</p>
 								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
-								    </div><!-- .End .tab-pane -->
+								    </div>.End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
 								    	<p>The following addresses will be used on the checkout page by default.</p>
 
 								    	<div class="row">
+
 								    		<div class="col-lg-6">
 								    			<div class="card card-dashboard">
 								    				<div class="card-body">
@@ -233,54 +299,186 @@
 								    			</div><!-- End .card-dashboard -->
 								    		</div><!-- End .col-lg-6 -->
 
-								    		<div class="col-lg-6">
+                                            <form>
+                                                <label>Full Name *</label>
+                                                <input
+                                                  type="text"
+                                                  name="fullname"
+                                                  class="form-control"
+                                                  placeholder="Full Name"
+                                                  id="fullname"
+                                                />
+                                                <div id="fnameError" style="display: none; color: red;"></div>
+                                                <div class="row">
+                                                  <div class="col-sm-6">
+                                                    <label>Phone *</label>
+                                                    <input
+                                                      name="mobile"
+                                                      type="tel"
+                                                      class="form-control"
+                                                      id="phone"
+                                                      placeholder="Phone"
+                                                      
+                                                    />
+                                                    <div id="phoneError" style="display: none; color: red;"></div>
+                                                  </div>
+                                                  <!-- End .col-sm-6 -->
+                            
+                                                  <div class="col-sm-6">
+                                                    <label>Pin Code *</label>
+                                                    <input
+                                                      name="pin"
+                                                      type="tel"
+                                                      class="form-control"
+                                                      id="pin"
+                                                      placeholder="Pincode"
+                                                      
+                                                    />
+                                                    <div id="pinError" style="display: none; color: red;"></div>
+                                                  </div>
+                                                  <!-- End .col-sm-6 -->
+                                                </div>
+                                                <!-- End .row -->
+                            
+                                                <label>Email address *</label>
+                                                <input
+                                                  name="email"
+                                                  type="email"
+                                                  class="form-control"
+                                                  id="addressEmail"
+                                                  placeholder="Email Id"
+                                                  
+                                                />
+                                                <div id="addEmailError" style="display: none; color: red;"></div>
+                                                <label>House Name *</label>
+                                                <input
+                                                  name="houseName"
+                                                  type="text"
+                                                  class="form-control"
+                                                  id="houseName"
+                                                  placeholder="House name and street name *"
+                                                  
+                                                />
+                                                <div id="houseError" style="display: none; color: red;"></div>
+                            
+                                                <div class="row">
+                                                  <div class="col-sm-6">
+                                                    <label>City *</label>
+                                                    <input
+                                                      name="city"
+                                                      type="text"
+                                                      class="form-control"
+                                                      id="city"
+                                                      placeholder="City *"
+                                                      
+                                                    />
+                                                    <div id="cityError" style="display: none; color: red;"></div>
+                                                  </div>
+                                                  <!-- End .col-sm-6 -->
+                            
+                                                  <div class="col-sm-6">
+                                                    <label>State *</label>
+                                                    <input
+                                                      name="state"
+                                                      type="text"
+                                                      class="form-control"
+                                                      id="state"
+                                                      placeholder="State *"
+                                                      
+                                                    />
+                                                    <div id="stateError" style="display: none; color: red;"></div>
+                                                  </div>
+                                                  <!-- End .col-sm-6 -->
+                                                </div>
+                                                <!-- End .row -->
+                            
+                                                <button id="multiAddress" class="btn btn-outline-primary-2">
+                                                  <span>SUBMIT</span>
+                                                  <i class="icon-long-arrow-right"></i>
+                                                </button>
+                                              </form>
+								    		<!-- <div class="col-lg-6">
 								    			<div class="card card-dashboard">
 								    				<div class="card-body">
-								    					<h3 class="card-title">Shipping Address</h3><!-- End .card-title -->
+								    					<h3 class="card-title">Shipping Address</h3>End .card-title -->
 
-														<p>You have not set up this type of address yet.<br>
+														<!-- <p>You have not set up this type of address yet.<br>
 														<a href="#">Edit <i class="icon-edit"></i></a></p>
-								    				</div><!-- End .card-body -->
-								    			</div><!-- End .card-dashboard -->
-								    		</div><!-- End .col-lg-6 -->
+								    				</div>End .card-body -->
+								    			<!-- </div>End .card-dashboard -->
+								    		<!-- </div>End .col-lg-6 -->
 								    	</div><!-- End .row -->
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-								    	<form action="#">
-			                				<div class="row">
-			                					<div class="col-sm-6">
-			                						<label>First Name *</label>
-			                						<input type="text" class="form-control" required>
-			                					</div><!-- End .col-sm-6 -->
-
-			                					<div class="col-sm-6">
-			                						<label>Last Name *</label>
-			                						<input type="text" class="form-control" required>
-			                					</div><!-- End .col-sm-6 -->
-			                				</div><!-- End .row -->
-
-		            						<label>Display Name *</label>
-		            						<input type="text" class="form-control" required>
-		            						<small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
-
-		                					<label>Email address *</label>
-		        							<input type="email" class="form-control" required>
-
-		            						<label>Current password (leave blank to leave unchanged)</label>
-		            						<input type="password" class="form-control">
-
-		            						<label>New password (leave blank to leave unchanged)</label>
-		            						<input type="password" class="form-control">
-
-		            						<label>Confirm new password</label>
-		            						<input type="password" class="form-control mb-2">
-
-		                					<button type="submit" class="btn btn-outline-primary-2">
-			                					<span>SAVE CHANGES</span>
-			            						<i class="icon-long-arrow-right"></i>
-			                				</button>
-			                			</form>
+								    	<div class="col-lg-6" id="changePassDiv">
+                                            <h2 class="title mb-1">Change Password &nbsp;&nbsp;<i class="fa-duotone fa-lock"></i></h2>
+                        
+                                            <form
+                                              class="contact-form mb-3"
+                                             id="passForm"
+                                            >
+                                              <div class="col-sm-14">
+                                                <label for="password" class="sr-only">Current Password</label>
+                                                <input
+                                                placeholder="Current Password *"
+                                                  name="currentPass"
+                                                  type="password"
+                                                  class="form-control"
+                                                  id="password"
+                                                  
+                                                  required
+                                                />
+                                              </div>
+                                              <div id="currError" style="display: none; color: red;"></div>
+                                              <!-- End .col-sm-6 -->
+                        
+                                              <!-- End .row -->
+                        
+                                              
+                                                <div class="col-sm-14">
+                                                  <label for="password" class="sr-only">New Password</label>
+                                                  <input
+                                                  placeholder="New Password *"
+                                                    name="newPass"
+                                                    type="password"
+                                                    class="form-control"
+                                                    id="newPass"
+                                                    minlength="4"
+                                                    required
+                                                  />
+                                                </div>
+                                                <div id="newpassError" style="display: none; color: red;"></div>
+                                                <!-- End .col-sm-6 -->
+                        
+                                              <div class="col-sm-14">
+                                                <label for="password" class="sr-only">Confirm Password</label>
+                                                <input
+                                                placeholder="Confirm Password *"
+                                                  name="ConfirmPass"
+                                                  type="password"
+                                                  class="form-control"
+                                                  id="conPass"
+                                                  minlength="4"
+                                                  required
+                                                />
+                                              </div>
+                                              <div id="conpassError" style="display: none; color: red;"></div>
+                                              <!-- End .row -->
+                                              
+                                              
+                        
+                                              <button
+                                                type="submit"
+                                                class="btn btn-outline-primary-2 btn-minwidth-sm"
+                                                id="changePass"
+                                              >
+                                                <span>SUBMIT</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                              </button>
+                                            </form>
+                                            <a href="/forget"><b class="text-dark">Forget Password ?</b></a>
+                                          </div>
 								    </div><!-- .End .tab-pane -->
 								</div>
 	                		</div><!-- End .col-lg-9 -->
@@ -289,5 +487,27 @@
                 </div><!-- End .dashboard -->
             </div><!-- End .page-content -->
         </main><!-- End .main -->
+        <script>
+const inputs = document.querySelectorAll('input')
+
+const name_message = document.getElementById('nameError');
+const email_message = document.getElementById('emailError');
+const phone_message = document.getElementById('numberError');
+const currError = document.getElementById('currError');
+const newpassError = document.getElementById('newpassError');
+const conpassError = document.getElementById('conpassError');
+inputs.forEach(input=>{
+  input.addEventListener('input',function(){
+    name_message.textContent = ""
+    email_message.textContent = ""
+    phone_message.textContent = ""
+    currError.textContent = ""
+    newpassError.textContent = ""
+    conpassError.textContent = ""
+
+  })
+})        </script>
+
+        <script src="/user/userAccountEdits.js"></script>
 
         <%-include("../user/leyouts/footer.ejs")%>

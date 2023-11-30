@@ -35,7 +35,7 @@
                                       <img
                                         id="product-zoom"
                                         src="/products/crops/<%= view.images.image1 %>"
-                                        data-zoom-image="/products/images/<%= view.images.image1 %>"
+                                        data-zoom-image="/products/crops/<%= view.images.image1 %>"
                                         alt="product image"
                                       />
                                     </figure>
@@ -49,11 +49,11 @@
                                         class="product-gallery-item active"
                                         href="#"
                                         data-image="/products/crops/<%= view.images.image1 %>"
-                                        data-zoom-image="/products/images/<%= view.images.image1 %>"
+                                        data-zoom-image="/products/crops/<%= view.images.image1 %>"
                                       >
                                         <img
                                           src="/products/crops/<%= view.images.image1 %>"
-                                          alt="product side"
+                                          alt="product image"
                                         />
                                       </a>
               
@@ -61,7 +61,7 @@
                                         class="product-gallery-item"
                                         href="#"
                                         data-image="/products/crops/<%= view.images.image2 %>"
-                                        data-zoom-image="/products/images/<%= view.images.image2 %>"
+                                        data-zoom-image="/products/crops/<%= view.images.image2 %>"
                                       >
                                         <img
                                           src="/products/crops/<%= view.images.image2 %>"
@@ -73,7 +73,7 @@
                                         class="product-gallery-item"
                                         href="#"
                                         data-image="/products/crops/<%= view.images.image3 %>"
-                                        data-zoom-image="/products/images/<%= view.images.image3 %>"
+                                        data-zoom-image="/products/crops/<%= view.images.image3 %>"
                                       >
                                         <img
                                           src="/products/crops/<%= view.images.image3 %>"
@@ -85,7 +85,7 @@
                                         class="product-gallery-item"
                                         href="#"
                                         data-image="/products/crops/<%= view.images.image4 %>"
-                                        data-zoom-image="/products/images/<%= view.images.image4 %>"
+                                        data-zoom-image="/products/crops/<%= view.images.image4 %>"
                                       >
                                         <img
                                           src="/products/crops/<%= view.images.image4 %>"
@@ -346,7 +346,7 @@
                                 </div><!-- End .product-action-vertical -->
 
                                 <div class="product-action">
-                                    <a href="#" onclick="addToCart('<%= data._id%>')" class="btn-product btn-cart"><span>add to cart</span></a>
+                                    <a  onclick="addToCart('<%= data._id%>')" class="btn-product btn-cart"><span>add to cart</span></a>
                                 </div><!-- End .product-action -->
                             </figure><!-- End .product-media -->
 

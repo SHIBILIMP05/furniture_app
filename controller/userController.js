@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const randomString = require("randomstring")
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
+const session = require("express-session");
 dotenv.config();
 
 //-------------------bcrypt-----------------------------------
@@ -68,10 +69,10 @@ const loadHome = async (req, res) => {
   try {
 
     const products = await Products.find({ blocked: 0 }).limit(10)
-    const cart = await Cart.findOne({userId:req.session.user_id})
-    let cartCount=0;
-    if(cart){cartCount = cart.products.length}
-    res.render("home", { name: req.session.name, products: products,cartCount });
+    const cart = await Cart.findOne({ userId: req.session.user_id })
+    let cartCount = 0;
+    if (cart) { cartCount = cart.products.length }
+    res.render("home", { name: req.session.name, products: products, cartCount });
 
   } catch (error) {
     console.error(err.massage);
@@ -385,10 +386,11 @@ const verifyOtp = async (req, res) => {
 const accountload = async (req, res) => {
   try {
 
-    const cart = await Cart.findOne({userId:req.session.user_id})
-        let cartCount=0; 
-        if(cart){cartCount = cart.products.length}
-    res.render("userDashboard",{cartCount})
+    const userData = await User.findOne({_id:req.session.user_id})
+    const cart = await Cart.findOne({ userId: req.session.user_id })
+    let cartCount = 0;
+    if (cart) { cartCount = cart.products.length }
+    res.render("userDashboard", { cartCount,userData })
 
   } catch (error) {
     console.error(error.message)
@@ -599,7 +601,7 @@ const searchProduct = async (req, res) => {
 
     const products = await Products.find({ name: { $regex: regex }, blocked: 0 })
     const count = await Products.find({ name: { $regex: regex }, blocked: 0 }).count()
-    res.render("productspage", { products: products, category, count, name: req.session.name,cartCount,totalPages: 0, })
+    res.render("productspage", { products: products, category, count, name: req.session.name, cartCount, totalPages: 0, })
   } catch (error) {
     console.error(error.message)
   }
@@ -625,14 +627,43 @@ const filterProducts = async (req, res) => {
       count = await Products.find({ category: cate, blocked: 0 }).count()
     }
 
-    res.render('productspage', { category, count, name: req.session.name, products: filtered ,cartCount,totalPages: 0,})
+    res.render('productspage', { category, count, name: req.session.name, products: filtered, cartCount, totalPages: 0, })
   } catch (error) {
     console.error(error.message)
   }
 }
 
+//------------------------EDIT PROFILE IN PROFILE-------------------
 
+const editingProfile = async(req,res)=>{
+  try {
+    const updated = await User.updateOne({_id:req.session.user_id},{$set:{name:req.body.name,email:req.body.email,phone:req.body.number}})
+    if(updated){
+      res.json({success:true})
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });  }
+}
 
+//-------------------------CHANGING PASSWORD IN PROFILE--------------------
+
+const changePassword = async(req,res)=>{
+  try {
+    const userData = await User.findOne({_id:req.session.user_id})
+    const passwordMatch = await bcrypt.compare(req.body.currPass, userData.password)
+    if(passwordMatch){
+      const securePass = await securePassword(req.body.newPass)
+      await User.updateOne({_id:req.session.user_id},{$set:{password:securePass}})
+      res.json({changed:true})
+    }else{
+      console.log("wrong")
+      res.json({wrongpass:true})
+    }
+  } catch (error) {
+    console.error(error.message)
+  }
+}
 
 module.exports = {
 
@@ -652,5 +683,8 @@ module.exports = {
   forgetpasswordload,
   searchProduct,
   filterProducts,
+  editingProfile,
+  changePassword,
+
 
 };

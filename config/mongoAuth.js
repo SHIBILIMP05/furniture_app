@@ -5,7 +5,7 @@ dotenv.config()
 
 module.exports = {
 
-    mongoDB:()=>{
+    conectDB:()=>{
 
         mongoose.connect(process.env.Mongo_url,{
 
