@@ -2,6 +2,7 @@ const User = require("../model/userModel.js");
 const Products = require("../model/productsModel.js")
 const Category = require("../model/categoryModel.js")
 const Cart = require("../model/cartModel.js")
+const Address = require("../model/addressModel.js")
 const bcrypt = require("bcrypt");
 const randomString = require("randomstring")
 const nodemailer = require("nodemailer");
@@ -387,10 +388,15 @@ const accountload = async (req, res) => {
   try {
 
     const userData = await User.findOne({_id:req.session.user_id})
+    const address = await Address.findOne({user:req.session.user_id})
+    let addressData
+    if(address){
+       addressData = address.address
+    }
     const cart = await Cart.findOne({ userId: req.session.user_id })
     let cartCount = 0;
     if (cart) { cartCount = cart.products.length }
-    res.render("userDashboard", { cartCount,userData })
+    res.render("userDashboard", { cartCount,userData,addressData})
 
   } catch (error) {
     console.error(error.message)

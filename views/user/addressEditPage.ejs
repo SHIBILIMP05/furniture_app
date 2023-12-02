@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Furni Hub</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Furni Hub">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/user/images/icons/apple-touch-icon.png">
+    <!-- <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png"> -->
+    <link rel="manifest" href="/user/images/icons/site.html">
+    <link rel="mask-icon" href="/user/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="/user/images/logo/Furni Hub-logos.jpeg">
+    <meta name="apple-mobile-web-app-title" content="Furni Hub">
+    <meta name="application-name" content="Furni Hub">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="user/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="/user/css/bootstrap.min.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="/user/css/style.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+
+
+            <div class="header-middle sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+
+                        <a href="index.html" class="logo">
+                            <img src="/user/images/logo/Furni Hub-logos_black.png" alt="Furni Hub" width="125"
+                                height="40">
+                        </a>
+
+                        <nav class="main-nav">
+                            <ul class="menu sf-arrows">
+                                <li class="megamenu-container active">
+                                    <a href="/home" class="sf-with-ul">Home</a>
+                                </li>
+                                <li>
+                                    <a href="/loadproduct" class="sf-with-ul">Shop</a>
+                                </li>
+                                <!-- <li>
+                                    <a href="product.html" class="sf-with-ul">Product</a>
+                                </li> -->
+                                <!-- <li>
+                                    <a href="#" class="sf-with-ul">Pages</a>
+                                </li> -->
+                                <li>
+                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+                                </li>
+                                <!-- <li>
+                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                </li> -->
+                            </ul><!-- End .menu -->
+                        </nav><!-- End .main-nav -->
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+                        <div class="header-search">
+                            <a href="#" class="search-toggle" role="button" title="Search"><i
+                                    class="icon-search"></i></a>
+                            <form action="/searchPro" method="get">
+                                <div class="header-search-wrapper">
+                                    <label for="q" class="sr-only">Search</label>
+                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..."
+                                        required>
+                                </div><!-- End .header-search-wrapper -->
+                            </form>
+                        </div><!-- End .header-search -->
+                        <div class="dropdown compare-dropdown">
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" data-display="static"
+                                title="Compare Products" aria-label="Compare Products">
+                                <i class="icon-random"></i>
+                            </a>
+                        </div><!-- End .compare-dropdown -->
+
+                        <div class="dropdown cart-dropdown">
+                            <a href="/cartLoad" class="dropdown-toggle" role="button" aria-haspopup="true">
+                                <i class="icon-shopping-cart"></i>
+                                <span class="cart-count">
+                                    <%= cartCount %>
+                                </span>
+                            </a>
+
+                            <!-- <div class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-cart-products">
+                                    <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <a href="product.html">Beige knitted elastic runner shoes</a>
+                                            </h4>
+
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x $84.00
+                                            </span>
+                                        </div>End .product-cart-details -->
+
+                            <!-- <figure class="product-image-container">
+                                            <a href="product.html" class="product-image">
+                                                <img src="/user/images/products/cart/product-1.jpg" alt="product">
+                                            </a>
+                                        </figure>
+                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                    </div>End .product -->
+
+                            <!-- <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <a href="product.html">Blue utility pinafore denim dress</a>
+                                            </h4>
+
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x $76.00
+                                            </span>
+                                        </div>End .product-cart-details -->
+
+                            <!-- <figure class="product-image-container">
+                                            <a href="product.html" class="product-image">
+                                                <img src="/user/images/products/cart/product-2.jpg" alt="product">
+                                            </a>
+                                        </figure>
+                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                    </div>End .product -->
+                            <!-- </div>End .cart-product -->
+                            <!-- 
+                                <div class="dropdown-cart-total">
+                                    <span>Total</span>
+
+                                    <span class="cart-total-price">$160.00</span>
+                                </div>End .dropdown-cart-total -->
+
+                            <!-- <div class="dropdown-cart-action">
+                                    <a href="cart.html" class="btn btn-primary">View Cart</a>
+                                    <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                </div>End .dropdown-cart-total -->
+                            <!-- </div>End .dropdown-menu -->
+                        </div><!-- End .cart-dropdown -->
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-middle -->
+        </header><!-- End .header -->
+
+        <main>
+
+            <div class="page-header text-center" style="background-image: url('')">
+                <div class="container">
+                    <h1 class="page-title">Edit<span>Address</span></h1>
+                </div>
+                <!-- End .container -->
+            </div>
+            <!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a>Profile</a></li>
+
+                        <li class="breadcrumb-item active" aria-current="page">Edit Address</li>
+                    </ol>
+                </div>
+                <!-- End .container -->
+            </nav>
+            <div class="page-content pb-0">
+                <div class="container">
+                    <div class="row">
+
+
+
+                        <div class="col-lg-12">
+                            <h2 class="title mb-1">Edit Your Address</h2>
+                            <!-- End .title mb-2 -->
+
+
+                            <form class="contact-form mb-3">
+                                <input id="userId" type="text" value="<%= address._id %>" hidden>
+
+                                <div class="col-sm-14">
+                                    <label for="cname" class="sr-only">Full Name</label>
+                                    <input name="fullname" type="text" class="form-control" id="fullname"
+                                        value="<%= address.fullname %>" />
+                                </div>
+                                <div id="fnameError" style="display: none; color: red;"></div>
+                                <!-- End .col-sm-6 -->
+
+                                <!-- End .row -->
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="cphone" class="sr-only">Phone</label>
+                                        <input name="mobile" type="tel" class="form-control" id="phone"
+                                            value="<%= address.mobile %>" />
+                                    </div>
+                                    <div id="phoneError" style="display: none; color: red;"></div>
+                                    <!-- End .col-sm-6 -->
+
+                                    <div class="col-sm-6">
+                                        <label for="cphone" class="sr-only">Pincode</label>
+                                        <input name="pin" type="tel" class="form-control" id="pin"
+                                            value="<%= address.pin %>" />
+                                    </div>
+                                    <div id="pinError" style="display: none; color: red;"></div>
+
+                                    <!-- End .col-sm-6 -->
+                                </div>
+                                <div class="col-sm-14">
+                                    <label for="csubject" class="sr-only">Email Id</label>
+                                    <input name="email" type="email" class="form-control" id="addressEmail"
+                                        value="<%= address.email %>" />
+                                </div>
+                                <div id="addEmailError" style="display: none; color: red;"></div>
+                                <!-- End .row -->
+                                <div class="col-sm-14">
+                                    <label for="csubject" class="sr-only">House Name</label>
+                                    <input name="houseName" type="text" class="form-control" id="houseName"
+                                        value="<%= address.houseName %>" />
+                                </div>
+                                <div id="houseError" style="display: none; color: red;"></div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label for="csubject" class="sr-only">City</label>
+                                        <input name="city" type="text" class="form-control" id="city"
+                                            value="<%= address.city %>" />
+                                    </div>
+                                    <div id="cityError" style="display: none; color: red;"></div>
+                                    <div class="col-sm-6">
+                                        <label for="csubject" class="sr-only">State</label>
+                                        <input name="state" type="text" class="form-control" id="state"
+                                            value="<%= address.city %>" />
+                                    </div>
+                                    <div id="stateError" style="display: none; color: red;"></div>
+                                </div>
+
+
+
+
+                                <button id="editAddress" class="btn btn-outline-primary-2 btn-minwidth-sm">
+                                    <span>SAVE CHANGES</span>
+                                    <i class="icon-long-arrow-right"></i>
+                                </button>
+
+                            </form>
+
+                            <!-- End .contact-form -->
+                        </div>
+
+                        <!-- End .col-lg-6 -->
+                    </div>
+
+                    <!-- End .row -->
+
+
+                </div>
+                <!-- End .container -->
+            </div>
+        </main>
+        <script>
+            const inputs = document.querySelectorAll('input')
+            
+            const fnameError = document.getElementById('fnameError');
+            const phoneError = document.getElementById('phoneError');
+            const pinError = document.getElementById('pinError');
+            const addEmailError = document.getElementById('addEmailError');
+            const houseError = document.getElementById('houseError');
+            const cityError = document.getElementById('cityError');
+            const stateError = document.getElementById('stateError');
+            
+            inputs.forEach(input=>{
+              input.addEventListener('input',function(){
+                
+                fnameError.textContent = ""
+                phoneError.textContent = ""
+                pinError.textContent = ""
+                addEmailError.textContent = ""
+                houseError.textContent = ""
+                cityError.textContent = ""
+                stateError.textContent = ""
+            
+              })
+            })        </script>
+        <script src="/user/addressEdit.js"></script>
+
+        <%-include("../user/leyouts/footer.ejs")%>

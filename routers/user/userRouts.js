@@ -6,6 +6,7 @@ const config = require('../../config/config')
 const userController = require("../../controller/userController")
 const productController =require("../../controller/productController")
 const cartController = require("../../controller/cartController")
+const addressController = require("../../controller/addressController")
 const auth = require("../../middleware/auth")
 
 user_Rout.use(session({secret:config.sessionSecret}))
@@ -38,11 +39,15 @@ user_Rout.post("/verifyOtp",userController.verifyOtp)
 user_Rout.get("/resendOtp",userController.resendotp)
 
 user_Rout.get("/logout",auth.isLogin,userController.userLogout)
+
 user_Rout.get("/account",auth.isLogin,userController.accountload)
 user_Rout.post("/editProfile",auth.isLogin,userController.editingProfile)
 user_Rout.post("/changePassword",auth.isLogin,userController.changePassword)
+user_Rout.post("/addBillingAddress",auth.isLogin,addressController.addMultiAaddress)
+user_Rout.get("/editAddressPage",auth.isLogin,addressController.addressEditingPage)
+user_Rout.post("/editBillingAddress",auth.isLogin,addressController.addressEditing)
 
-user_Rout.get("/forgetpage",auth.isLogout,userController.loadForget)
+user_Rout.get("/forgetpage",userController.loadForget)
 user_Rout.post("/forget",userController.forgetverify)
 user_Rout.get("/forget-password",auth.isLogout,userController.forgetpasswordload)
 user_Rout.post("/forget-password",userController.resetpassword)
@@ -57,7 +62,6 @@ user_Rout.post("/addToCart",cartController.addToCart)
 user_Rout.post("/cartQuantityUpdation",auth.isLogin,cartController.quantityUpdation)
 user_Rout.post("/removeCartItem",auth.isLogin,cartController.removeCartItem)
 
-// express.Router.get("/loadcheckout",auth.isLogin,userController.checkoutPage)
 
 
 
