@@ -7,6 +7,7 @@ const userController = require("../../controller/userController")
 const productController =require("../../controller/productController")
 const cartController = require("../../controller/cartController")
 const addressController = require("../../controller/addressController")
+const orderController = require("../../controller/orderController")
 const auth = require("../../middleware/auth")
 
 user_Rout.use(session({secret:config.sessionSecret}))
@@ -46,6 +47,7 @@ user_Rout.post("/changePassword",auth.isLogin,userController.changePassword)
 user_Rout.post("/addBillingAddress",auth.isLogin,addressController.addMultiAaddress)
 user_Rout.get("/editAddressPage",auth.isLogin,addressController.addressEditingPage)
 user_Rout.post("/editBillingAddress",auth.isLogin,addressController.addressEditing)
+user_Rout.post("/removeAddress",auth.isLogin,addressController.removeAddress)
 
 user_Rout.get("/forgetpage",userController.loadForget)
 user_Rout.post("/forget",userController.forgetverify)
@@ -61,6 +63,9 @@ user_Rout.get("/cartLoad",cartController.loadCart)
 user_Rout.post("/addToCart",cartController.addToCart)
 user_Rout.post("/cartQuantityUpdation",auth.isLogin,cartController.quantityUpdation)
 user_Rout.post("/removeCartItem",auth.isLogin,cartController.removeCartItem)
+user_Rout.get("/checkout",auth.isLogin,userController.loadCheckoutpage)
+user_Rout.post("/placeOrder",auth.isLogin,orderController.orderPlace)
+user_Rout.get("/orderSuccess/:id",auth.isLogin,orderController.successPage)
 
 
 

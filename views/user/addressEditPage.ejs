@@ -75,7 +75,7 @@
                     </div><!-- End .header-left -->
 
                     <div class="header-right">
-                        <div class="header-search">
+                        <!-- <div class="header-search">
                             <a href="#" class="search-toggle" role="button" title="Search"><i
                                     class="icon-search"></i></a>
                             <form action="/searchPro" method="get">
@@ -83,9 +83,9 @@
                                     <label for="q" class="sr-only">Search</label>
                                     <input type="search" class="form-control" name="q" id="q" placeholder="Search in..."
                                         required>
-                                </div><!-- End .header-search-wrapper -->
-                            </form>
-                        </div><!-- End .header-search -->
+                                </div>End .header-search-wrapper -->
+                            <!-- </form>
+                        </div>End .header-search -->
                         <div class="dropdown compare-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false" data-display="static"
@@ -195,6 +195,7 @@
 
                             <form class="contact-form mb-3">
                                 <input id="userId" type="text" value="<%= address._id %>" hidden>
+                                <input id="page" type="text" value="<%= page %>" hidden>
 
                                 <div class="col-sm-14">
                                     <label for="cname" class="sr-only">Full Name</label>
@@ -298,7 +299,8 @@
                 stateError.textContent = ""
             
               })
-            })        </script>
+            })        
+            </script>
         <script src="/user/addressEdit.js"></script>
 
         <%-include("../user/leyouts/footer.ejs")%>

@@ -3,98 +3,102 @@
 
 
 <!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Furni Hub</title>
-    <meta name="keywords" content="HTML5 Template">
-    <meta name="description" content="Furni Hub">
-    <meta name="author" content="p-themes">
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/user/images/icons/apple-touch-icon.png">
-    <!-- <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png"> -->
-    <link rel="manifest" href="/user/images/icons/site.html">
-    <link rel="mask-icon" href="/user/images/icons/safari-pinned-tab.svg" color="#666666">
-    <link rel="shortcut icon" href="/user/images/logo/Furni Hub-logos.jpeg">
-    <meta name="apple-mobile-web-app-title" content="Furni Hub">
-    <meta name="application-name" content="Furni Hub">
-    <meta name="msapplication-TileColor" content="#cc9966">
-    <meta name="msapplication-config" content="user/images/icons/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Plugins CSS File -->
-    <link rel="stylesheet" href="/user/css/bootstrap.min.css">
-    <!-- Main CSS File -->
-    <link rel="stylesheet" href="/user/css/style.css">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Furni Hub</title>
+  <meta name="keywords" content="HTML5 Template">
+  <meta name="description" content="Furni Hub">
+  <meta name="author" content="p-themes">
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/user/images/icons/apple-touch-icon.png">
+  <!-- <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png"> -->
+  <link rel="manifest" href="/user/images/icons/site.html">
+  <link rel="mask-icon" href="/user/images/icons/safari-pinned-tab.svg" color="#666666">
+  <link rel="shortcut icon" href="/user/images/logo/Furni Hub-logos.jpeg">
+  <meta name="apple-mobile-web-app-title" content="Furni Hub">
+  <meta name="application-name" content="Furni Hub">
+  <meta name="msapplication-TileColor" content="#cc9966">
+  <meta name="msapplication-config" content="user/images/icons/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Plugins CSS File -->
+  <link rel="stylesheet" href="/user/css/bootstrap.min.css">
+  <!-- Main CSS File -->
+  <link rel="stylesheet" href="/user/css/style.css">
 </head>
 
 <body>
-    <div class="page-wrapper">
-        <header class="header">
-            
+  <div class="page-wrapper">
+    <header class="header">
 
-            <div class="header-middle sticky-header">
-                <div class="container">
-                    <div class="header-left">
-                        <button class="mobile-menu-toggler">
-                            <span class="sr-only">Toggle mobile menu</span>
-                            <i class="icon-bars"></i>
-                        </button>
 
-                        <a href="index.html" class="logo">
-                            <img src="/user/images/logo/Furni Hub-logos_black.png" alt="Furni Hub" width="125" height="40">
-                        </a>
+      <div class="header-middle sticky-header">
+        <div class="container">
+          <div class="header-left">
+            <button class="mobile-menu-toggler">
+              <span class="sr-only">Toggle mobile menu</span>
+              <i class="icon-bars"></i>
+            </button>
 
-                        <nav class="main-nav">
-                            <ul class="menu sf-arrows">
-                                <li class="megamenu-container active">
-                                    <a href="/home" class="sf-with-ul">Home</a>
-                                </li>
-                                <li>
-                                    <a href="/loadproduct" class="sf-with-ul">Shop</a>
-                                </li>
-                                <!-- <li>
+            <a href="index.html" class="logo">
+              <img src="/user/images/logo/Furni Hub-logos_black.png" alt="Furni Hub" width="125" height="40">
+            </a>
+
+            <nav class="main-nav">
+              <ul class="menu sf-arrows">
+                <li class="megamenu-container active">
+                  <a href="/home" class="sf-with-ul">Home</a>
+                </li>
+                <li>
+                  <a href="/loadproduct" class="sf-with-ul">Shop</a>
+                </li>
+                <!-- <li>
                                     <a href="product.html" class="sf-with-ul">Product</a>
                                 </li> -->
-                                <!-- <li>
+                <!-- <li>
                                     <a href="#" class="sf-with-ul">Pages</a>
                                 </li> -->
-                                <li>
-                                    <a href="blog.html" class="sf-with-ul">Blog</a>
-                                </li>
-                                <!-- <li>
+                <li>
+                  <a href="blog.html" class="sf-with-ul">Blog</a>
+                </li>
+                <!-- <li>
                                     <a href="elements-list.html" class="sf-with-ul">Elements</a>
                                 </li> -->
-                            </ul><!-- End .menu -->
-                        </nav><!-- End .main-nav -->
-                    </div><!-- End .header-left -->
+              </ul><!-- End .menu -->
+            </nav><!-- End .main-nav -->
+          </div><!-- End .header-left -->
 
-                    <div class="header-right">
-                        <div class="header-search">
+          <div class="header-right">
+            <!-- <div class="header-search">
                             <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
                             <form action="/searchPro" method="get">
                                 <div class="header-search-wrapper">
                                     <label for="q" class="sr-only">Search</label>
                                     <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
-                                </div><!-- End .header-search-wrapper -->
-                            </form>
-                        </div><!-- End .header-search -->
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
-                                <i class="icon-random"></i>
-                            </a>
-                        </div><!-- End .compare-dropdown -->
+                                </div>End .header-search-wrapper -->
+            <!-- </form>
+                        </div>End .header-search -->
+            <div class="dropdown compare-dropdown">
+              <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
+                <i class="icon-random"></i>
+              </a>
+            </div><!-- End .compare-dropdown -->
 
-                        <div class="dropdown cart-dropdown">
-                            <a href="/cartLoad" class="dropdown-toggle" role="button" aria-haspopup="true" >
-                                <i class="icon-shopping-cart"></i>
-                                <span class="cart-count"><%= cartCount %></span>
-                            </a>
+            <div class="dropdown cart-dropdown">
+              <a href="/cartLoad" class="dropdown-toggle" role="button" aria-haspopup="true">
+                <i class="icon-shopping-cart"></i>
+                <span class="cart-count">
+                  <%= cartCount %>
+                </span>
+              </a>
 
-                            <!-- <div class="dropdown-menu dropdown-menu-right">
+              <!-- <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-cart-products">
                                     <div class="product">
                                         <div class="product-cart-details">
@@ -108,7 +112,7 @@
                                             </span>
                                         </div>End .product-cart-details -->
 
-                                        <!-- <figure class="product-image-container">
+              <!-- <figure class="product-image-container">
                                             <a href="product.html" class="product-image">
                                                 <img src="/user/images/products/cart/product-1.jpg" alt="product">
                                             </a>
@@ -116,7 +120,7 @@
                                         <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
                                     </div>End .product -->
 
-                                    <!-- <div class="product">
+              <!-- <div class="product">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
                                                 <a href="product.html">Blue utility pinafore denim dress</a>
@@ -128,406 +132,390 @@
                                             </span>
                                         </div>End .product-cart-details -->
 
-                                        <!-- <figure class="product-image-container">
+              <!-- <figure class="product-image-container">
                                             <a href="product.html" class="product-image">
                                                 <img src="/user/images/products/cart/product-2.jpg" alt="product">
                                             </a>
                                         </figure>
                                         <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
                                     </div>End .product -->
-                                <!-- </div>End .cart-product -->
-<!-- 
+              <!-- </div>End .cart-product -->
+              <!-- 
                                 <div class="dropdown-cart-total">
                                     <span>Total</span>
 
                                     <span class="cart-total-price">$160.00</span>
                                 </div>End .dropdown-cart-total -->
 
-                                <!-- <div class="dropdown-cart-action">
+              <!-- <div class="dropdown-cart-action">
                                     <a href="cart.html" class="btn btn-primary">View Cart</a>
                                     <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
                                 </div>End .dropdown-cart-total -->
-                            <!-- </div>End .dropdown-menu -->
-                        </div><!-- End .cart-dropdown -->
-                    </div><!-- End .header-right -->
-                </div><!-- End .container -->
-            </div><!-- End .header-middle -->
-        </header><!-- End .header -->
+              <!-- </div>End .dropdown-menu -->
+            </div><!-- End .cart-dropdown -->
+          </div><!-- End .header-right -->
+        </div><!-- End .container -->
+      </div><!-- End .header-middle -->
+    </header><!-- End .header -->
 
-        <main class="main">
-        	<div class="page-header text-center" style="background-image: url('/user/images/page-header-bg.jpg')">
-        		<div class="container">
-        			<h1 class="page-title">My Account<span>Shop</span></h1>
-        		</div><!-- End .container -->
-        	</div><!-- End .page-header -->
-            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
-                <div class="container">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">My Account</li>
-                    </ol>
-                </div><!-- End .container -->
-            </nav><!-- End .breadcrumb-nav -->
+    <main class="main">
+      <div class="page-header text-center" style="background-image: url('/user/images/page-header-bg.jpg')">
+        <div class="container">
+          <h1 class="page-title">
+            <%=userData.name%><span>Account</span>
+          </h1>
+        </div><!-- End .container -->
+      </div><!-- End .page-header -->
+      <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+        <div class="container">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Shop</a></li>
+            <li class="breadcrumb-item active" aria-current="page">My Account</li>
+          </ol>
+        </div><!-- End .container -->
+      </nav><!-- End .breadcrumb-nav -->
 
-            <div class="page-content">
-            	<div class="dashboard">
-	                <div class="container">
-	                	<div class="row">
-	                		<aside class="col-md-4 col-lg-3">
-	                			<ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
-								    <li class="nav-item">
-								        <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Profile</a>
-								    </li>
-								    <li class="nav-item">
-								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
-								    </li>
-								    <!-- <li class="nav-item">
+      <div class="page-content">
+        <div class="dashboard">
+          <div class="container">
+            <div class="row">
+              <aside class="col-md-4 col-lg-3">
+                <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard"
+                      role="tab" aria-controls="tab-dashboard" aria-selected="true">Profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab"
+                      aria-controls="tab-orders" aria-selected="false">Orders</a>
+                  </li>
+                  <!-- <li class="nav-item">
 								        <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
 								    </li> -->
-								    <li class="nav-item">
-								        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
-								    </li>
-								    <li class="nav-item">
-								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Password</a>
-								    </li>
-								    <li class="nav-item">
-								        <a class="nav-link" href="/logout">Sign Out</a>
-								    </li>
-								</ul>
-	                		</aside><!-- End .col-lg-3 -->
+                  <li class="nav-item">
+                    <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab"
+                      aria-controls="tab-address" aria-selected="false">Adresses</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab"
+                      aria-controls="tab-account" aria-selected="false">Password</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/logout">Sign Out</a>
+                  </li>
+                </ul>
+              </aside><!-- End .col-lg-3 -->
 
-	                		<div class="col-md-8 col-lg-9">
-	                			<div class="tab-content">
-								    <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
-								    	<div class="col-lg-6" id="formDiv">
-                                            <h2 class="title mb-1">Manage Your Details &nbsp;&nbsp;<i class="fa-duotone fa-address-card"></i></h2>
-                        
-                                            <form
-                                              class="contact-form mb-3"
-                                              id="myForm"
-                                            >
-                                              <div class="col-sm-14">
-                                                <label for="cname" class="sr-only">Full Name</label>
-                                                <input
-                                                  name="fullname"
-                                                  type="text"
-                                                  class="form-control"
-                                                  id="name"
-                                                  value="<%= userData.name %>"
-                                                  required
-                                                />
-                                              </div>
-                                              <div id="nameError" style="display: none; color: red;"></div>
-                                              <!-- End .col-sm-6 -->
-                        
-                                              <!-- End .row -->
-                        
-                                              
-                                                <div class="col-sm-14">
-                                                  <label for="cphone" class="sr-only">Phone</label>
-                                                  <input
-                                                    name="mobile"
-                                                    type="tel"
-                                                    class="form-control"
-                                                    id="phoneNumber"
-                                                    value="<%= userData.phone%>"
-                                                    required
-                                                    minlength="10"
-                                                  />
-                                                </div>
-                                                <div id="numberError" style="display: none; color: red;" ></div>
-                                                <!-- End .col-sm-6 -->
-                        
-                                              <div class="col-sm-14">
-                                                <label for="csubject" class="sr-only">Email Id</label>
-                                                <input
-                                                  name="email"
-                                                  type="email"
-                                                  class="form-control"
-                                                  id="email"
-                                                  value="<%= userData.email%>"
-                                                  required
-                                                />
-                                              </div>
-                                              <div id="emailError" style="display: none; color: red;"></div>
-                                              <!-- End .row -->
-                                              <div id="profileSuccess" style="display: none; color: green;"></div>
-                                              
-                        
-                                              <button
-                                                type="submit"
-                                                class="btn btn-outline-primary-2 btn-minwidth-sm"
-                                                id="submitBtn"
-                                              >
-                                                <span>SUBMIT</span>
-                                                <i class="icon-long-arrow-right"></i>
-                                              </button>
-                                            </form>
-                                            
-                                          </div>
-								    </div><!-- .End .tab-pane -->
+              <div class="col-md-8 col-lg-9">
+                <div class="tab-content">
+                  <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel"
+                    aria-labelledby="tab-dashboard-link">
+                    <div class="col-lg-6" id="formDiv">
+                      <h2 class="title mb-1">Manage Your Details &nbsp;&nbsp;<i class="fa-duotone fa-address-card"></i>
+                      </h2>
 
-								    <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
-								    	<p>No order has been made yet.</p>
-								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
-								    </div><!-- .End .tab-pane -->
+                      <form class="contact-form mb-3" id="myForm">
+                        <div class="col-sm-14">
+                          <label for="cname" class="sr-only">Full Name</label>
+                          <input name="fullname" type="text" class="form-control" id="name" value="<%= userData.name %>"
+                            required />
+                        </div>
+                        <div id="nameError" style="display: none; color: red;"></div>
+                        <!-- End .col-sm-6 -->
 
-								    <!-- <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
+                        <!-- End .row -->
+
+
+                        <div class="col-sm-14">
+                          <label for="cphone" class="sr-only">Phone</label>
+                          <input name="mobile" type="tel" class="form-control" id="phoneNumber"
+                            value="<%= userData.phone%>" required minlength="10" />
+                        </div>
+                        <div id="numberError" style="display: none; color: red;"></div>
+                        <!-- End .col-sm-6 -->
+
+                        <div class="col-sm-14">
+                          <label for="csubject" class="sr-only">Email Id</label>
+                          <input name="email" type="email" class="form-control" id="email" value="<%= userData.email%>"
+                            required />
+                        </div>
+                        <div id="emailError" style="display: none; color: red;"></div>
+                        <!-- End .row -->
+                        <div id="profileSuccess" style="display: none; color: green;"></div>
+
+
+                        <button type="submit" class="btn btn-outline-primary-2 btn-minwidth-sm" id="submitBtn">
+                          <span>SUBMIT</span>
+                          <i class="icon-long-arrow-right"></i>
+                        </button>
+                      </form>
+
+                    </div>
+                  </div><!-- .End .tab-pane -->
+
+                  <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
+                    <h2 class="title mb-1">Order History &nbsp;&nbsp;<i class="fa-duotone fa-shopping-bag"></i></h2>
+                
+                    <div class="table-responsive">
+                        <!-- <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Order ID.</th>
+                                    <th>Date</th>
+                                    <th>Payment</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody> -->
+                                <!-- Loop through orderData to display orders -->
+                                <!-- <% if(orderData !== undefined) { 
+                                    orderData.forEach((order) => { %>
+                                        <tr>
+                                            <td><%= order.uniqueId %></td>
+                                            <td><%= order.date %></td>
+                                            <td><%= order.paymentMethod %></td>
+                                            <td><%= order.totalAmount %></td>
+                                            <td><%= order.status %></td>
+                                            <td><a href="/orderDetails?id=<%= order.orderId %>">View Details</a></td>
+                                        </tr>
+                                <% })} else { %> -->
+                                    <!-- If there are no orders -->
+                                    <!-- <tr>
+                                        <td colspan="6">No orders available.</td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table> -->
+<!-- ---------------------------------------------------------- -->
+<table class="table">
+  <thead>
+    <tr>
+      <th>Order ID.</th>
+      <th>Date</th>
+      <th>Payment</th>
+      <th>Amount</th>
+      <th>Status</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if(orderData !== undefined) { 
+      orderData.forEach((order) => { %>
+    <tr>
+      <td>#<%= order.uniqueId %></td>
+      <td><%= order.date %></td>
+      <td><%= order.paymentMethod %></td>
+      <td>₹<%= order.totalAmount %></td>
+      <td><%= order.status %></td>
+      <td><a href="/orderDetails?id=<%= order.orderId %>">View Details</a></td>
+    </tr>
+    <% })} else { %>
+   <!-- If there are no orders -->
+   <tr>
+    <td colspan="6">No orders available.</td>
+</tr>
+<% } %>
+  </tbody>
+</table>
+
+                    </div><!-- End .table-responsive -->
+                </div><!-- .End .tab-pane -->
+
+
+
+                  <!-- <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
 								    	<p>No downloads available yet.</p>
 								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
 								    </div>.End .tab-pane -->
 
-								    <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
-								    	<p>The following addresses will be used on the checkout page by default.</p>
+                  <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
+                    <p>The following addresses will be used on the checkout page by default.</p>
 
-								    	<div class="row">
+                    <div id="addressReload" class="row">
 
-                        <%if(addressData !=undefined){
-                          addressData.forEach((addressData,i)=>{ %>
-                            <div class="col-lg-6">
-								    			<div class="card card-dashboard">
-								    				<div class="card-body">
-								    					<h3 class="card-title">Billing Address <%=i+1%></h3><!-- End .card-title -->
+                      <%if(addressData !=undefined){ addressData.forEach((addressData,i)=>{ %>
+                        <div class="col-lg-6">
+                          <div class="card card-dashboard">
+                            <div class="card-body">
+                              <h3 class="card-title">Billing Address <%=i+1%>
+                              </h3><!-- End .card-title -->
 
-														<p><%=addressData.fullname%><br>
-                              <%=addressData.houseName%><br>
-                              <%=addressData.city%><br>
-														<%=addressData.state%> , <%=addressData.pin%><br>
-														<%=addressData.mobile%><br>
-														<%=addressData.email%><br>
-														<a href="/editAddressPage?id=<%=addressData._id%>">Edit <i class="icon-edit"></i></a></p>
-								    				</div><!-- End .card-body -->
-								    			</div><!-- End .card-dashboard -->
-								    		</div><!-- End .col-lg-6 -->
-                         <% })} %>
+                              <p>
+                                <%=addressData.fullname%><br>
+                                  <%=addressData.houseName%><br>
+                                    <%=addressData.city%><br>
+                                      <%=addressData.state%> , <%=addressData.pin%><br>
+                                          <%=addressData.mobile%><br>
+                                            <%=addressData.email%><br>
+                                              <a href="/editAddressPage?id=<%=addressData._id%>&page=account">Edit <i
+                                                  class="icon-edit"></i></a>
+                                              <a style="color: red;"
+                                                onclick="removeAddress('<%= addressData._id %>')">Remove<i
+                                                  class="fas fa-trash"></i></a>
+                              </p>
+                            </div><!-- End .card-body -->
+                          </div><!-- End .card-dashboard -->
+                        </div><!-- End .col-lg-6 -->
+                        <% })} %>
 
-								    		
 
-                                            <form>
-                                                <label>Full Name *</label>
-                                                <input
-                                                  type="text"
-                                                  name="fullname"
-                                                  class="form-control"
-                                                  placeholder="Full Name"
-                                                  id="fullname"
-                                                />
-                                                <div id="fnameError" style="display: none; color: red;"></div>
-                                                <div class="row">
-                                                  <div class="col-sm-6">
-                                                    <label>Phone *</label>
-                                                    <input
-                                                      name="mobile"
-                                                      type="tel"
-                                                      class="form-control"
-                                                      id="phone"
-                                                      placeholder="Phone"
-                                                      
-                                                    />
-                                                    <div id="phoneError" style="display: none; color: red;"></div>
-                                                  </div>
-                                                  <!-- End .col-sm-6 -->
-                            
-                                                  <div class="col-sm-6">
-                                                    <label>Pin Code *</label>
-                                                    <input
-                                                      name="pin"
-                                                      type="tel"
-                                                      class="form-control"
-                                                      id="pin"
-                                                      placeholder="Pincode"
-                                                      
-                                                    />
-                                                    <div id="pinError" style="display: none; color: red;"></div>
-                                                  </div>
-                                                  <!-- End .col-sm-6 -->
-                                                </div>
-                                                <!-- End .row -->
-                            
-                                                <label>Email address *</label>
-                                                <input
-                                                  name="email"
-                                                  type="email"
-                                                  class="form-control"
-                                                  id="addressEmail"
-                                                  placeholder="Email Id"
-                                                  
-                                                />
-                                                <div id="addEmailError" style="display: none; color: red;"></div>
-                                                <label>House Name *</label>
-                                                <input
-                                                  name="houseName"
-                                                  type="text"
-                                                  class="form-control"
-                                                  id="houseName"
-                                                  placeholder="House name and street name *"
-                                                  
-                                                />
-                                                <div id="houseError" style="display: none; color: red;"></div>
-                            
-                                                <div class="row">
-                                                  <div class="col-sm-6">
-                                                    <label>City *</label>
-                                                    <input
-                                                      name="city"
-                                                      type="text"
-                                                      class="form-control"
-                                                      id="city"
-                                                      placeholder="City *"
-                                                      
-                                                    />
-                                                    <div id="cityError" style="display: none; color: red;"></div>
-                                                  </div>
-                                                  <!-- End .col-sm-6 -->
-                            
-                                                  <div class="col-sm-6">
-                                                    <label>State *</label>
-                                                    <input
-                                                      name="state"
-                                                      type="text"
-                                                      class="form-control"
-                                                      id="state"
-                                                      placeholder="State *"
-                                                      
-                                                    />
-                                                    <div id="stateError" style="display: none; color: red;"></div>
-                                                  </div>
-                                                  <!-- End .col-sm-6 -->
-                                                </div>
-                                                <!-- End .row -->
-                            
-                                                <button id="multiAddress" class="btn btn-outline-primary-2">
-                                                  <span>SUBMIT</span>
-                                                  <i class="icon-long-arrow-right"></i>
-                                                </button>
-                                              </form>
-								    		<!-- <div class="col-lg-6">
+
+                          <form>
+                            <label>Full Name *</label>
+                            <input type="text" name="fullname" class="form-control" placeholder="Full Name"
+                              id="fullname" />
+                            <div id="fnameError" style="display: none; color: red;"></div>
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <label>Phone *</label>
+                                <input name="mobile" type="tel" class="form-control" id="phone" placeholder="Phone" />
+                                <div id="phoneError" style="display: none; color: red;"></div>
+                              </div>
+                              <!-- End .col-sm-6 -->
+
+                              <div class="col-sm-6">
+                                <label>Pin Code *</label>
+                                <input name="pin" type="tel" class="form-control" id="pin" placeholder="Pincode" />
+                                <div id="pinError" style="display: none; color: red;"></div>
+                              </div>
+                              <!-- End .col-sm-6 -->
+                            </div>
+                            <!-- End .row -->
+
+                            <label>Email address *</label>
+                            <input name="email" type="email" class="form-control" id="addressEmail"
+                              placeholder="Email Id" />
+                            <div id="addEmailError" style="display: none; color: red;"></div>
+                            <label>House Name *</label>
+                            <input name="houseName" type="text" class="form-control" id="houseName"
+                              placeholder="House name and street name *" />
+                            <div id="houseError" style="display: none; color: red;"></div>
+
+                            <div class="row">
+                              <div class="col-sm-6">
+                                <label>City *</label>
+                                <input name="city" type="text" class="form-control" id="city" placeholder="City *" />
+                                <div id="cityError" style="display: none; color: red;"></div>
+                              </div>
+                              <!-- End .col-sm-6 -->
+
+                              <div class="col-sm-6">
+                                <label>State *</label>
+                                <input name="state" type="text" class="form-control" id="state" placeholder="State *" />
+                                <div id="stateError" style="display: none; color: red;"></div>
+                              </div>
+                              <!-- End .col-sm-6 -->
+                            </div>
+                            <!-- End .row -->
+
+                            <button id="multiAddress" class="btn btn-outline-primary-2">
+                              <span>SUBMIT</span>
+                              <i class="icon-long-arrow-right"></i>
+                            </button>
+                          </form>
+                          <!-- <div class="col-lg-6">
 								    			<div class="card card-dashboard">
 								    				<div class="card-body">
 								    					<h3 class="card-title">Shipping Address</h3>End .card-title -->
 
-														<!-- <p>You have not set up this type of address yet.<br>
+                          <!-- <p>You have not set up this type of address yet.<br>
 														<a href="#">Edit <i class="icon-edit"></i></a></p>
 								    				</div>End .card-body -->
-								    			<!-- </div>End .card-dashboard -->
-								    		<!-- </div>End .col-lg-6 -->
-								    	</div><!-- End .row -->
-								    </div><!-- .End .tab-pane -->
+                          <!-- </div>End .card-dashboard -->
+                          <!-- </div>End .col-lg-6 -->
+                    </div><!-- End .row -->
+                  </div><!-- .End .tab-pane -->
 
-								    <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-								    	<div class="col-lg-6" id="changePassDiv">
-                                            <h2 class="title mb-1">Change Password &nbsp;&nbsp;<i class="fa-duotone fa-lock"></i></h2>
-                        
-                                            <form
-                                              class="contact-form mb-3"
-                                             id="passForm"
-                                            >
-                                              <div class="col-sm-14">
-                                                <label for="password" class="sr-only">Current Password</label>
-                                                <input
-                                                placeholder="Current Password *"
-                                                  name="currentPass"
-                                                  type="password"
-                                                  class="form-control"
-                                                  id="password"
-                                                  
-                                                  required
-                                                />
-                                              </div>
-                                              <div id="currError" style="display: none; color: red;"></div>
-                                              <!-- End .col-sm-6 -->
-                        
-                                              <!-- End .row -->
-                        
-                                              
-                                                <div class="col-sm-14">
-                                                  <label for="password" class="sr-only">New Password</label>
-                                                  <input
-                                                  placeholder="New Password *"
-                                                    name="newPass"
-                                                    type="password"
-                                                    class="form-control"
-                                                    id="newPass"
-                                                    minlength="4"
-                                                    required
-                                                  />
-                                                </div>
-                                                <div id="newpassError" style="display: none; color: red;"></div>
-                                                <!-- End .col-sm-6 -->
-                        
-                                              <div class="col-sm-14">
-                                                <label for="password" class="sr-only">Confirm Password</label>
-                                                <input
-                                                placeholder="Confirm Password *"
-                                                  name="ConfirmPass"
-                                                  type="password"
-                                                  class="form-control"
-                                                  id="conPass"
-                                                  minlength="4"
-                                                  required
-                                                />
-                                              </div>
-                                              <div id="conpassError" style="display: none; color: red;"></div>
-                                              <!-- End .row -->
-                                              
-                                              
-                        
-                                              <button
-                                                type="submit"
-                                                class="btn btn-outline-primary-2 btn-minwidth-sm"
-                                                id="changePass"
-                                              >
-                                                <span>SUBMIT</span>
-                                                <i class="icon-long-arrow-right"></i>
-                                              </button>
-                                            </form>
-                                            <a href="/forgetpage"><b class="text-dark">Forget Password ?</b></a>
-                                          </div>
-								    </div><!-- .End .tab-pane -->
-								</div>
-	                		</div><!-- End .col-lg-9 -->
-	                	</div><!-- End .row -->
-	                </div><!-- End .container -->
-                </div><!-- End .dashboard -->
-            </div><!-- End .page-content -->
-        </main><!-- End .main -->
-        <script>
-const inputs = document.querySelectorAll('input')
+                  <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
+                    <div class="col-lg-6" id="changePassDiv">
+                      <h2 class="title mb-1">Change Password &nbsp;&nbsp;<i class="fa-duotone fa-lock"></i></h2>
 
-const name_message = document.getElementById('nameError');
-const email_message = document.getElementById('emailError');
-const phone_message = document.getElementById('numberError');
-const currError = document.getElementById('currError');
-const newpassError = document.getElementById('newpassError');
-const conpassError = document.getElementById('conpassError');
-const fnameError = document.getElementById('fnameError');
-const phoneError = document.getElementById('phoneError');
-const pinError = document.getElementById('pinError');
-const addEmailError = document.getElementById('addEmailError');
-const houseError = document.getElementById('houseError');
-const cityError = document.getElementById('cityError');
-const stateError = document.getElementById('stateError');
+                      <form class="contact-form mb-3" id="passForm">
+                        <div class="col-sm-14">
+                          <label for="password" class="sr-only">Current Password</label>
+                          <input placeholder="Current Password *" name="currentPass" type="password"
+                            class="form-control" id="password" required />
+                        </div>
+                        <div id="currError" style="display: none; color: red;"></div>
+                        <!-- End .col-sm-6 -->
 
-inputs.forEach(input=>{
-  input.addEventListener('input',function(){
-    name_message.textContent = ""
-    email_message.textContent = ""
-    phone_message.textContent = ""
-    currError.textContent = ""
-    newpassError.textContent = ""
-    conpassError.textContent = ""
-    fnameError.textContent = ""
-    phoneError.textContent = ""
-    pinError.textContent = ""
-    addEmailError.textContent = ""
-    houseError.textContent = ""
-    cityError.textContent = ""
-    stateError.textContent = ""
+                        <!-- End .row -->
 
-  })
-})        </script>
 
-        <script src="/user/userAccountEdits.js"></script>
+                        <div class="col-sm-14">
+                          <label for="password" class="sr-only">New Password</label>
+                          <input placeholder="New Password *" name="newPass" type="password" class="form-control"
+                            id="newPass" minlength="4" required />
+                        </div>
+                        <div id="newpassError" style="display: none; color: red;"></div>
+                        <!-- End .col-sm-6 -->
 
-        <%-include("../user/leyouts/footer.ejs")%>
+                        <div class="col-sm-14">
+                          <label for="password" class="sr-only">Confirm Password</label>
+                          <input placeholder="Confirm Password *" name="ConfirmPass" type="password"
+                            class="form-control" id="conPass" minlength="4" required />
+                        </div>
+                        <div id="conpassError" style="display: none; color: red;"></div>
+                        <!-- End .row -->
+
+
+
+                        <button type="submit" class="btn btn-outline-primary-2 btn-minwidth-sm" id="changePass">
+                          <span>SUBMIT</span>
+                          <i class="icon-long-arrow-right"></i>
+                        </button>
+                      </form>
+                      <a href="/forgetpage"><b class="text-dark">Forget Password ?</b></a>
+                    </div>
+                  </div><!-- .End .tab-pane -->
+                </div>
+              </div><!-- End .col-lg-9 -->
+            </div><!-- End .row -->
+          </div><!-- End .container -->
+        </div><!-- End .dashboard -->
+      </div><!-- End .page-content -->
+    </main><!-- End .main -->
+    <script>
+      const inputs = document.querySelectorAll('input')
+
+      const name_message = document.getElementById('nameError');
+      const email_message = document.getElementById('emailError');
+      const phone_message = document.getElementById('numberError');
+      const currError = document.getElementById('currError');
+      const newpassError = document.getElementById('newpassError');
+      const conpassError = document.getElementById('conpassError');
+      const fnameError = document.getElementById('fnameError');
+      const phoneError = document.getElementById('phoneError');
+      const pinError = document.getElementById('pinError');
+      const addEmailError = document.getElementById('addEmailError');
+      const houseError = document.getElementById('houseError');
+      const cityError = document.getElementById('cityError');
+      const stateError = document.getElementById('stateError');
+
+      inputs.forEach(input => {
+        input.addEventListener('input', function () {
+          name_message.textContent = ""
+          email_message.textContent = ""
+          phone_message.textContent = ""
+          currError.textContent = ""
+          newpassError.textContent = ""
+          conpassError.textContent = ""
+          fnameError.textContent = ""
+          phoneError.textContent = ""
+          pinError.textContent = ""
+          addEmailError.textContent = ""
+          houseError.textContent = ""
+          cityError.textContent = ""
+          stateError.textContent = ""
+
+        })
+      })        </script>
+      
+    
+
+    <script src="/user/userAccountEdits.js"></script>
+
+    <%-include("../user/leyouts/footer.ejs")%>

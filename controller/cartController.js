@@ -38,7 +38,7 @@ const loadCart = async (req, res) => {
                     totalamount,
                     user: userName,
                     cartCount,
-                    name: req.session.name
+                    name:req.session.name
                 });
             } else {
                 res.render("cartPage", { cartCount });

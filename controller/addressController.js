@@ -75,8 +75,8 @@ const addressEditingPage = async (req, res) => {
       { "address.$": 1 }
     );
     const address = addressData.address[0];
-    console.log(address)
-    res.render("addressEditPage", { cartCount, address });
+    const page=req.query.page
+    res.render("addressEditPage", { cartCount, address,page });
   } catch (error) {
     console.error(error.message);
   }
@@ -102,14 +102,28 @@ const addressEditing = async (req, res) => {
         },
       }
     );
+    
     res.json({success:true})
   } catch (error) {
     console.error(error.message);
   }
 };
 
+//------------------------------DELETING ADDRESS FROME PROFILE--------------------
+
+const removeAddress = async(req,res)=>{
+  try {
+    const id = req.body.id
+    await Address.updateOne({user:req.session.user_id},{$pull:{address:{_id:id}}})
+    res.json({remove:true})
+  } catch (error) {
+    console.error(error.message)
+  }
+}
+
 module.exports = {
   addMultiAaddress,
   addressEditingPage,
   addressEditing,
+  removeAddress,
 };

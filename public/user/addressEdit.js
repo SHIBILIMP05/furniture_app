@@ -2,6 +2,7 @@ document.getElementById('editAddress').addEventListener('click',function(e){
     e.preventDefault()
 console.log("1qefewrf32rf")
     const id = document.getElementById('userId').value;
+    const page = document.getElementById('page').value;
     const fullname = document.getElementById('fullname').value;
     const pin = document.getElementById('pin').value;
     const phone = document.getElementById('phone').value;
@@ -95,9 +96,16 @@ console.log("1qefewrf32rf")
                       icon: 'success',
                       title: 'Billing address updated successfully.'
                     })
-                    setTimeout(() => {
+                    if(page === "account"){
+                      setTimeout(() => {
                       window.location.href = "/account"
                     }, 3000);
+                    }else if(page === "checkout"){
+                      setTimeout(() => {
+                        window.location.href = "/checkout"
+                      }, 3000);
+                    }
+                    
                   }else{
                     const Toast = Swal.mixin({
                       toast: true,
