@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Furni Hub</title>
+  <meta name="keywords" content="HTML5 Template">
+  <meta name="description" content="Furni Hub">
+  <meta name="author" content="p-themes">
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/user/images/icons/apple-touch-icon.png">
+  <!-- <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png"> -->
+  <link rel="manifest" href="/user/images/icons/site.html">
+  <link rel="mask-icon" href="/user/images/icons/safari-pinned-tab.svg" color="#666666">
+  <link rel="shortcut icon" href="/user/images/logo/Furni Hub-logos.jpeg">
+  <meta name="apple-mobile-web-app-title" content="Furni Hub">
+  <meta name="application-name" content="Furni Hub">
+  <meta name="msapplication-TileColor" content="#cc9966">
+  <meta name="msapplication-config" content="user/images/icons/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Plugins CSS File -->
+  <link rel="stylesheet" href="/user/css/bootstrap.min.css">
+  <!-- Main CSS File -->
+  <link rel="stylesheet" href="/user/css/style.css">
+</head>
+
+<body>
+    <style>
+        .product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.product-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.details-box {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.action-buttons {
+  margin-top: 20px;
+}
+
+/* Add any additional styling as needed */
+
+    </style>
+  <div class="page-wrapper">
+    <header class="header">
+
+
+      <div class="header-middle sticky-header">
+        <div class="container">
+          <div class="header-left">
+            <button class="mobile-menu-toggler">
+              <span class="sr-only">Toggle mobile menu</span>
+              <i class="icon-bars"></i>
+            </button>
+
+            <a href="index.html" class="logo">
+              <img src="/user/images/logo/Furni Hub-logos_black.png" alt="Furni Hub" width="125" height="40">
+            </a>
+
+            <nav class="main-nav">
+              <ul class="menu sf-arrows">
+                <li class="megamenu-container active">
+                  <a href="/home" class="sf-with-ul">Home</a>
+                </li>
+                <li>
+                  <a href="/loadproduct" class="sf-with-ul">Shop</a>
+                </li>
+                <!-- <li>
+                                    <a href="product.html" class="sf-with-ul">Product</a>
+                                </li> -->
+                <!-- <li>
+                                    <a href="#" class="sf-with-ul">Pages</a>
+                                </li> -->
+                <li>
+                  <a href="blog.html" class="sf-with-ul">Blog</a>
+                </li>
+                <!-- <li>
+                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                </li> -->
+              </ul><!-- End .menu -->
+            </nav><!-- End .main-nav -->
+          </div><!-- End .header-left -->
+
+          <div class="header-right">
+            <!-- <div class="header-search">
+                            <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                            <form action="/searchPro" method="get">
+                                <div class="header-search-wrapper">
+                                    <label for="q" class="sr-only">Search</label>
+                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
+                                </div>End .header-search-wrapper -->
+            <!-- </form>
+                        </div>End .header-search -->
+            <div class="dropdown compare-dropdown">
+              <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
+                <i class="icon-random"></i>
+              </a>
+            </div><!-- End .compare-dropdown -->
+
+            <div class="dropdown cart-dropdown">
+              <a href="/cartLoad" class="dropdown-toggle" role="button" aria-haspopup="true">
+                <i class="icon-shopping-cart"></i>
+                <span class="cart-count">
+                  <%= cartCount %>
+                </span>
+              </a>
+
+              <!-- <div class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-cart-products">
+                                    <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <a href="product.html">Beige knitted elastic runner shoes</a>
+                                            </h4>
+
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x $84.00
+                                            </span>
+                                        </div>End .product-cart-details -->
+
+              <!-- <figure class="product-image-container">
+                                            <a href="product.html" class="product-image">
+                                                <img src="/user/images/products/cart/product-1.jpg" alt="product">
+                                            </a>
+                                        </figure>
+                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                    </div>End .product -->
+
+              <!-- <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <a href="product.html">Blue utility pinafore denim dress</a>
+                                            </h4>
+
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x $76.00
+                                            </span>
+                                        </div>End .product-cart-details -->
+
+              <!-- <figure class="product-image-container">
+                                            <a href="product.html" class="product-image">
+                                                <img src="/user/images/products/cart/product-2.jpg" alt="product">
+                                            </a>
+                                        </figure>
+                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                    </div>End .product -->
+              <!-- </div>End .cart-product -->
+              <!-- 
+                                <div class="dropdown-cart-total">
+                                    <span>Total</span>
+
+                                    <span class="cart-total-price">$160.00</span>
+                                </div>End .dropdown-cart-total -->
+
+              <!-- <div class="dropdown-cart-action">
+                                    <a href="cart.html" class="btn btn-primary">View Cart</a>
+                                    <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                </div>End .dropdown-cart-total -->
+              <!-- </div>End .dropdown-menu -->
+            </div><!-- End .cart-dropdown -->
+          </div><!-- End .header-right -->
+        </div><!-- End .container -->
+      </div><!-- End .header-middle -->
+    </header><!-- End .header -->
+
+    <main>
+        <section class="order-details">
+          <div class="product-details">
+            <table class="product-table">
+              <tr>
+                <td rowspan="6">
+                  <img src="/path/to/product/image.jpg" alt="Product Image">
+                </td>
+                <td colspan="2"><h2>Product Name</h2></td>
+              </tr>
+              <tr>
+                <td>Status:</td>
+                <td>Order Placed</td>
+              </tr>
+              <tr>
+                <td>Category:</td>
+                <td>Product Category</td>
+              </tr>
+              <tr>
+                <td>Price:</td>
+                <td>$50.00</td>
+              </tr>
+              <tr>
+                <td>Quantity:</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>Total:</td>
+                <td>$100.00</td>
+              </tr>
+            </table>
+          </div>
+  
+          <div class="details-box delivery-address">
+            <h2>Delivery Address</h2>
+            <p>Name: John Doe</p>
+            <p>Mobile: 1234567890</p>
+            <p>House Name: 123, Street Name</p>
+            <p>City: City Name</p>
+            <p>State: State Name</p>
+            <p>Pincode: 123456</p>
+          </div>
+  
+          <div class="details-box order-summary">
+            <h2>Order Summary</h2>
+            <p>Order ID: #123456</p>
+            <p>Total Amount: $100.00</p>
+            <p>Discount: $10.00</p>
+            <p>Status: Order Placed</p>
+            <p>Delivered Date: January 1, 2023</p>
+            <p>Payment Method: Credit Card</p>
+          </div>
+  
+          <div class="action-buttons">
+            <button onclick="goBack()">Go Back</button>
+            <button onclick="cancelOrder()">Cancel Order</button>
+          </div>
+        </section>
+      </main>
+
+  <script src="/path/to/your/scripts.js"></script>
+
+  <%-include("../user/leyouts/footer.ejs")%>

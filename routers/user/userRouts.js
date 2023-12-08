@@ -48,6 +48,7 @@ user_Rout.post("/addBillingAddress",auth.isLogin,addressController.addMultiAaddr
 user_Rout.get("/editAddressPage",auth.isLogin,addressController.addressEditingPage)
 user_Rout.post("/editBillingAddress",auth.isLogin,addressController.addressEditing)
 user_Rout.post("/removeAddress",auth.isLogin,addressController.removeAddress)
+user_Rout.get("/orderDetails",auth.isLogin,orderController.orderDetailsPageUserside)
 
 user_Rout.get("/forgetpage",userController.loadForget)
 user_Rout.post("/forget",userController.forgetverify)

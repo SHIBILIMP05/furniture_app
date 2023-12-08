@@ -303,13 +303,13 @@
   </thead>
   <tbody>
     <% if(orderData !== undefined) { 
-      orderData.forEach((order) => { %>
+      orderData.forEach((order,i) => { %>
     <tr>
       <td>#<%= order.uniqueId %></td>
-      <td><%= order.date %></td>
+      <td><%= order.date.toLocaleDateString('en-US', { year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %></td>
       <td><%= order.paymentMethod %></td>
       <td>₹<%= order.totalAmount %></td>
-      <td><%= order.status %></td>
+      <td><%= order.products[i].status %></td>
       <td><a href="/orderDetails?id=<%= order.orderId %>">View Details</a></td>
     </tr>
     <% })} else { %>

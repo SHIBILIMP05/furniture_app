@@ -3,8 +3,8 @@ const mongoose = require("mongoose")
 const orderSchema = mongoose.Schema({
 
     deliveryDetails: {
-        type: String,
-        required: true,
+      type:String,
+      required:true
       },
       user: {
         type: mongoose.Types.ObjectId,
@@ -38,6 +38,21 @@ const orderSchema = mongoose.Schema({
           totalPrice: {
             type: Number,
             required: true,
+          },
+          status:{
+            type:String,
+            default:"placed"
+          },image:{
+            type:String,
+            required:true
+          },
+          proName:{
+            type:String,
+            required:true
+          },
+          category:{
+            type:String,
+            required:true
           }
         },
       ],
@@ -57,13 +72,6 @@ const orderSchema = mongoose.Schema({
       },
       date: {
         type: Date,
-      },
-      status: {
-        type: String,
-      },
-      statusLevel: {
-        type: Number,
-        default: 0
       },
       paymentMethod: {
         type: String,

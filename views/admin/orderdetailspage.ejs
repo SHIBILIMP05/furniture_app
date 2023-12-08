@@ -1,0 +1,112 @@
+<%-include("../admin/leyouts/header.ejs")%>
+    <style>
+        .go-back-button {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 20px;
+            /* Adjust this margin as needed */
+        }
+    </style>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-lg-6 grid-margin stretch-card">
+                    <div class="card" style="text-align: center;">
+                        <div class="card-body">
+                            <h4 class="card-title">Order Details</h4>
+                            <!-- <p class="card-description"> Add class <code>.table-hover</code>
+                            </p> -->
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Name</th>
+                                            <th>Category</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (orderData !=null) { orderData.products.forEach((product, index)=> { %>
+                                            <tr>
+                                                <td><img src="/products/images/<%= product.image %>" alt=""></td>
+                                                <td>
+                                                    <%= product.proName %>
+                                                </td>
+                                                <td>
+                                                    <%= product.category %>
+                                                </td>
+                                                <td>
+                                                    <%= product.productPrice %>
+                                                </td>
+                                                <td>
+                                                    <%= product.count %>
+                                                </td>
+                                                <td>
+                                                    <%= product.totalPrice %>
+                                                </td>
+                                                <td><label class="badge badge-danger">Pending</label></td>
+                                            </tr>
+                                            <% }) } else { %>
+                                                <tr>
+                                                    <td colspan="6">Order not found.</td>
+                                                </tr>
+                                                <% } %>
+                                    </tbody>
+                                </table>
+                                <% if(deliveryData != undefined){ %>
+                                <div class="col-md-4 grid-margin stretch-card"
+                                    style="text-align: center; float: left; margin-left: 26vh;">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Delivery address </h4>
+                                            <!-- <p class="card-description">Add class <code>.list-arrow</code> to <code>&lt;ul&gt;</code></p> -->
+                                            <p class="list-arrow">
+                                                Name : <%= deliveryData.fullname %><br>
+                                                Mobile : <%= deliveryData.mobile %><br>
+                                                House Name : <%= deliveryData.houseName %><br>
+                                                City : <%= deliveryData.city %><br>
+                                                State : <%= deliveryData.state %><br>
+                                                Pincode : <%= deliveryData.pin %><br>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                                <% if(orderData !=undefined){ %>
+                                    <div class="col-md-4 grid-margin stretch-card"
+                                        style="text-align: center; float: left;">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Order summary</h4>
+                                                <!-- <p class="card-description">Add class <code>.list-arrow</code> to <code>&lt;ul&gt;</code></p> -->
+                                                <p class="list-arrow">
+                                                    Order Id : #<%= orderData.uniqueId %> <br>
+                                                    Purchase date : <%= orderData.date.toLocaleDateString('en-US', { year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %> <br>
+                                                    Total amount : ₹ <%= orderData.totalAmount %> <br>
+                                                    Status : <%= orderData.products[0].status %> <br>
+                                                    Payment method : <%= orderData.paymentMethod %> <br>
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                    <button type="button" class="btn-success go-back-button">
+                                        <a href="/admin//ordermanagement" style="text-decoration: none; color: azure;">
+                                            Go Back </a>
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-include("../admin/leyouts/footer.ejs")%>

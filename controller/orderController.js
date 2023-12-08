@@ -4,7 +4,10 @@ const Address = require("../model/addressModel");
 const Product = require("../model/productsModel");
 const Order = require("../model/ordersModel");
 const Coupon = require("../model/couponsModel");
+const mongoose = require("mongoose")
 const { render } = require("../routers/user/userRouts");
+const res = require("express/lib/response");
+
 //---------------------PLACE ORDER WITH COD-----------
 
 const orderPlace = async (req, res) => {
@@ -20,8 +23,6 @@ const orderPlace = async (req, res) => {
     const userData = await User.findOne({ _id: id });
     const name = userData.name;
     const uniNum = Math.floor(Math.random() * 900000) + 100000;
-    const status = paymentMethods === "COD" ? "placed" : "pending";
-    const statusLevel = status === "placed" ? 1 : 0;
     const code = req.body.code;
     //user limit decreasing
     await Coupon.updateOne({ couponCode: code }, { $inc: { usersLimit: -1 } });
@@ -30,6 +31,7 @@ const orderPlace = async (req, res) => {
       { couponCode: code },
       { $push: { usedUsers: req.session.user_id } }
     );
+    
     const order = new Order({
       deliveryDetails: address,
       uniqueId: uniNum,
@@ -39,8 +41,6 @@ const orderPlace = async (req, res) => {
       products: products,
       totalAmount: total,
       date: new Date(),
-      status: status,
-      statusLevel: statusLevel,
     });
     const orderData = await order.save();
     const orderid = order._id;
@@ -48,7 +48,6 @@ const orderPlace = async (req, res) => {
     if (orderData) {
       //--------------------CASH ON DELIVERY-------------------//
       console.log("2");
-      if (order.status === "placed") {
         console.log("3");
         await Cart.deleteOne({ userId: req.session.user_id });
         for (let i = 0; i < products.length; i++) {
@@ -70,7 +69,7 @@ const orderPlace = async (req, res) => {
           res.json({ codsuccess: true, orderid });
         }
         res.json({ codsuccess: true, orderid });
-      }
+      
     }
   } catch (error) {
     console.error(error.message);
@@ -95,7 +94,56 @@ const successPage = async(req,res)=>{
     }
 }
 
+//-----------------------ORDER MANAGEMENT PAGE IN ADMIN SIDE-----------
+
+const ordermanagementpage = async(req,res)=>{
+  try {
+    const orderData = await Order.find()
+    res.render("ordermanagement",{orderData})
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+//------------------ORDER DETALS PAGE  IN ADMIN SIDE-------------
+
+const orderDetailsPage = async(req,res)=>{
+  try {
+
+    const uniqueId = req.query.id
+    const orderData = await Order.findOne({uniqueId:uniqueId})
+    const userId =  orderData.userId
+    const addressId = orderData.deliveryDetails.trim()
+    console.log('Address ID:', addressId);
+    const addressData = await Address.findOne(
+      { user: userId },
+      { address: { $elemMatch: { _id: addressId } } }
+    );
+    const deliveryData = addressData.address[0]; // Get the first element of the array
+    
+    res.render("orderdetailspage",{orderData,deliveryData})
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+const orderDetailsPageUserside = async(req,res)=>{
+  try {
+    const cart = await Cart.findOne({ userId: req.session.user_id });
+    let cartCount = 0;
+    if (cart) {
+      cartCount = cart.products.length;
+    }
+    res.render("orderdetailsUserside",{cartCount})
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
 module.exports={
     orderPlace,
     successPage,
+    ordermanagementpage,
+    orderDetailsPage,
+    orderDetailsPageUserside,
 }

@@ -1,6 +1,7 @@
 const User = require("../model/userModel")
 const Cart = require("../model/cartModel")
 const Products = require("../model/productsModel")
+const { name } = require("ejs")
 
 //----------------------LOAD CART PAGE -------------------
 
@@ -63,6 +64,9 @@ const addToCart = async (req, res) => {
         const proId = req.body.id;
         const productData = await Products.findOne({ _id: proId });
         const productQuantity = productData.quantity;
+        const proname = productData.name
+        const category = productData.category
+        const proImage = productData.images.image1
 
         if (userId === undefined) {
             res.json({ login: true, message: "Please login and continue shopping!" });
@@ -108,6 +112,9 @@ const addToCart = async (req, res) => {
                 productId: proId,
                 productPrice: total,
                 totalPrice: total,
+                image:proImage,
+                category:category,
+                proName:proname,
             });
             await cartData.save();
         }

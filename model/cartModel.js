@@ -34,6 +34,19 @@ const cartSchema = mongoose.Schema({
             type: Number,
             default: 0,
           },
+          image:{
+            type:String,
+            required:true
+          },
+          proName:{
+            type:String,
+            required:true
+          },
+          category:{
+            type:String,
+            required:true
+          }
+
         },
       ],
     });

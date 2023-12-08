@@ -21,6 +21,7 @@ admin_Rout.use(bodyParser.urlencoded({extended:true}))
 
 const productController =require("../../controller/productController")
 const adminController = require("../../controller/adminController")
+const orderController = require("../../controller/orderController")
 const auth = require("../../middleware/adminAuth")
 
 admin_Rout.get("/",auth.isLogout,adminController.adminLoginPage)
@@ -45,6 +46,9 @@ admin_Rout.post("/block-category",auth.isLogin,adminController.blockCategory)
 admin_Rout.get("/edit-category",auth.isLogin,adminController.loadeditCategory)
 admin_Rout.post("/editCategory",auth.isLogin,adminController.updateCategory)
 admin_Rout.get("/delete-category",auth.isLogin,adminController.deleteCategory)
+
+admin_Rout.get("/ordermanagement",auth.isLogin,orderController.ordermanagementpage)
+admin_Rout.get("/orderdetailspage",auth.isLogin,orderController.orderDetailsPage)
 
 
 admin_Rout.get("*",function(req,res){
