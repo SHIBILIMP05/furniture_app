@@ -38,6 +38,30 @@ document.getElementById('log-btn-1').addEventListener('click', function(e){
           }else if(response.blocked){
             email_message.style.display = "block";
             email_message.textContent = "You can't access this account."
+          }else if(response.is_block){
+            
+            Swal.fire({
+              title: "This account is restricted, You can't access with this account. ",
+              showClass: {
+                popup: `
+                  animate__animated
+                  animate__fadeInUp
+                  animate__faster
+                `
+              },
+              hideClass: {
+                popup: `
+                  animate__animated
+                  animate__fadeOutDown
+                  animate__faster
+                `
+              }
+            }).then((data)=>{
+              window.location.href = "/login"
+            })
+            // setTimeout(()=>{
+              
+            // },1000)
           }else if(response.success){
             const Toast = Swal.mixin({
               toast: true,

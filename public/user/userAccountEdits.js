@@ -108,8 +108,8 @@ document.getElementById('changePass').addEventListener('click',function(e){
       passError.style.display = "block";
       passError.textContent = "Password should contain digits & alphabets."
     }else if(newPass != conPass){
-      conError.style.display = "block";
-      conError.textContent = "Confirm the correct password"
+      passError.style.display = "block";
+      passError.textContent = "Confirm the correct password"
     }else{
       Swal.fire({
         title: "Are you sure?",
@@ -148,6 +148,9 @@ document.getElementById('changePass').addEventListener('click',function(e){
               }else if(response.wrongpass == true){
                 currError.style.display = "block";
                 currError.textContent = "Current password is incorrect."
+              }else if(response.newPassSame == true){
+                currError.style.display = "block";
+                currError.textContent = "Use different Password,You can't use same."
               }
             },
           });

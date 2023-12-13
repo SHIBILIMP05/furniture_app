@@ -3,7 +3,7 @@ const Products = require("../model/productsModel.js");
 const Category = require("../model/categoryModel.js");
 const Cart = require("../model/cartModel.js");
 const Address = require("../model/addressModel.js");
-const Order = require("../model/ordersModel.js")
+const Order = require("../model/ordersModel.js");
 const bcrypt = require("bcrypt");
 const randomString = require("randomstring");
 const nodemailer = require("nodemailer");
@@ -64,7 +64,7 @@ const sendVerifyMail = async (name, email, otp) => {
   }
 };
 
-//-------------------load home page--------------------------
+//------------------- LOAD HOME PAGE -------------------------
 
 const loadHome = async (req, res) => {
   try {
@@ -106,19 +106,19 @@ const verifylogin = async (req, res) => {
     if (email.trim() == "") {
       res.json({ email_fillout: true });
     } else {
-      if (password.trim() == "") {
-        res.json({ password_fillout: true });
+      if (email.includes(" ") || /\s/.test(email)) {
+        res.json({ email_space: true });
       } else {
-        if (email.includes(" ") || /\s/.test(email)) {
-          res.json({ email_space: true });
-        } else {
-          if (password.includes(" ") || /\s/.test(password)) {
-            res.json({ password_space: true });
-          } else {
-            let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
 
-            if (!emailPattern.test(req.body.email)) {
-              res.json({ logemailPatt: true });
+        if (!emailPattern.test(req.body.email)) {
+          res.json({ logemailPatt: true });
+        } else {
+          if (password.trim() == "") {
+            res.json({ password_fillout: true });
+          } else {
+            if (password.includes(" ") || /\s/.test(password)) {
+              res.json({ password_space: true });
             } else {
               const userData = await User.findOne({ email: email });
               if (userData && userData.is_admin == 0) {
@@ -186,58 +186,59 @@ const insertuser = async (req, res) => {
     if (name.trim() === "") {
       res.json({ name_require: true });
     } else {
-      if (email.trim() === "") {
-        res.json({ email_require: true });
+      if (name.startsWith(" ") || name.includes(" ")) {
+        res.json({ name_space: true });
       } else {
-        if (mobile.trim() === "") {
-          res.json({ mobile_require: true });
+        if (name && name.length <= 2) {
+          res.json({ name: true });
         } else {
-          if (password.trim() === "") {
-            res.json({ password_require: true });
+          if (email.trim() === "") {
+            res.json({ email_require: true });
           } else {
-            if (confirmPassword.trim() === "") {
-              res.json({ confirm_require: true });
+            if (email.startsWith(" ") || email.includes(" ")) {
+              res.json({ email_space: true });
             } else {
-              if (name.startsWith(" ")) {
-                res.json({ name_space: true });
+              const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+              if (!emailPattern.test(req.body.email)) {
+                res.json({ emailPatt: true });
               } else {
-                if (email.startsWith(" ") || email.includes(" ")) {
-                  res.json({ email_space: true });
+                if (mobile.trim() === "") {
+                  res.json({ mobile_require: true });
                 } else {
                   if (mobile.startsWith(" ") || mobile.includes(" ")) {
                     res.json({ mobile_space: true });
                   } else {
-                    if (password.startsWith(" ") || password.includes(" ")) {
-                      res.json({ password_space: true });
+                    let mobilePattern = /^\d{10}$/;
+                    if (
+                      !mobilePattern.test(mobile) ||
+                      mobile === "0000000000"
+                    ) {
+                      res.json({ mobile: true });
                     } else {
-                      if (
-                        confirmPassword.startsWith(" ") ||
-                        confirmPassword.includes(" ")
-                      ) {
-                        res.json({ confirm_space: true });
+                      if (password.trim() === "") {
+                        res.json({ password_require: true });
                       } else {
-                        if (name && name.length <= 2) {
-                          res.json({ name: true });
+                        if (
+                          password.startsWith(" ") ||
+                          password.includes(" ")
+                        ) {
+                          res.json({ password_space: true });
                         } else {
-                          const emailPattern =
-                            /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
-                          if (!emailPattern.test(req.body.email)) {
-                            res.json({ emailPatt: true });
+                          if (password.length < 4) {
+                            res.json({ password: true });
                           } else {
-                            let mobilePattern = /^\d{10}$/;
-                            if (
-                              !mobilePattern.test(mobile) ||
-                              mobile === "0000000000"
-                            ) {
-                              res.json({ mobile: true });
+                            const alphanumeric = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
+                            if (!alphanumeric.test(password)) {
+                              res.json({ alphanumeric: true });
                             } else {
-                              if (password.length < 4) {
-                                res.json({ password: true });
+                              if (confirmPassword.trim() === "") {
+                                res.json({ confirm_require: true });
                               } else {
-                                const alphanumeric =
-                                  /^(?=.*[a-zA-Z])(?=.*\d).+$/;
-                                if (!alphanumeric.test(password)) {
-                                  res.json({ alphanumeric: true });
+                                if (
+                                  confirmPassword.startsWith(" ") ||
+                                  confirmPassword.includes(" ")
+                                ) {
+                                  res.json({ confirm_space: true });
                                 } else {
                                   const emailchek = await User.findOne({
                                     email: req.body.email,
@@ -394,13 +395,18 @@ const accountload = async (req, res) => {
     if (address) {
       addressData = address.address;
     }
-    const orderData = await Order.find({userId:req.session.user_id})
+    const orderData = await Order.find({ userId: req.session.user_id });
     const cart = await Cart.findOne({ userId: req.session.user_id });
     let cartCount = 0;
     if (cart) {
       cartCount = cart.products.length;
     }
-    res.render("userDashboard", {orderData, cartCount, userData, addressData });
+    res.render("userDashboard", {
+      orderData,
+      cartCount,
+      userData,
+      addressData,
+    });
   } catch (error) {
     console.error(error.message);
   }
@@ -692,12 +698,19 @@ const changePassword = async (req, res) => {
       userData.password
     );
     if (passwordMatch) {
-      const securePass = await securePassword(req.body.newPass);
+
+      const newpassSame = await bcrypt.compare(req.body.newPass,userData.password)
+      if(newpassSame){
+        res.json({newPassSame:true})
+      }else{
+         const securePass = await securePassword(req.body.newPass);
       await User.updateOne(
         { _id: req.session.user_id },
         { $set: { password: securePass } }
       );
       res.json({ changed: true });
+      }
+     
     } else {
       console.log("wrong");
       res.json({ wrongpass: true });
@@ -718,7 +731,7 @@ const loadCheckoutpage = async (req, res) => {
     if (address) {
       addressData = address.address;
     }
-    const userData = await User.findOne({ _id: req.session.user_id })
+    const userData = await User.findOne({ _id: req.session.user_id });
     const cartData = await Cart.findOne({
       userId: req.session.user_id,
     }).populate("products.productId");
@@ -768,7 +781,7 @@ const loadCheckoutpage = async (req, res) => {
           addressData,
           userData,
           cartCount,
-          name:req.session.name
+          name: req.session.name,
         });
       } else {
         res.render("cartLoad", {

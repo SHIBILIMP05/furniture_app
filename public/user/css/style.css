@@ -5821,8 +5821,8 @@ p {
 }
 .btn-primary {
   color: #fff;
-  background-color: #c96;
-  border-color: #c96;
+  background-color: #206566;
+  border-color: #206566;
   box-shadow: none;
 }
 .btn-primary:hover,
@@ -5832,8 +5832,8 @@ p {
 .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
   color: #fff;
-  background-color: #a6c76c;
-  border-color: #a6c76c;
+  background-color: #164f50;
+  border-color: #164f50;
   box-shadow: none;
 }
 .btn-primary.disabled,

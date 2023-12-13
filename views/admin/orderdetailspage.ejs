@@ -31,7 +31,7 @@
                                             <th>Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody >
                                         <% if (orderData !=null) { orderData.products.forEach((product, index)=> { %>
                                             <tr>
                                                 <td><img src="/products/images/<%= product.image %>" alt=""></td>
@@ -50,7 +50,31 @@
                                                 <td>
                                                     <%= product.totalPrice %>
                                                 </td>
-                                                <td><label class="badge badge-danger">Pending</label></td>
+                                                <td id="statusChange">
+                                                    <label ><%= product.status %></label>
+                                                </td>
+                                                <td>
+                                                    <% if(product.status == "cancelled"){%>
+                                                        <label class="badge badge-danger">Cancelled</label>
+                                                        <%}
+                                                        else if(product.status == "Delivered"){%>
+                                                            <label class="badge badge-success">Delivered</label>  <%}
+                                                        else{%>
+                                                            <div  class="dropdown">
+                                                                <button  class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown"
+                                                                  aria-haspopup="true" aria-expanded="false">
+                                                                  <%= orderData.products[index].status %>
+                                                                </button>
+                                                                <div class="dropdown-menu" aria-labelledby="statusDropdown">
+                                                                  <a onclick="changeStatus('<%=orderData.products[index].productId%>','1','<%=orderData.uniqueId%>')" class="dropdown-item" >Shipped</a>
+                                                                  <a onclick="changeStatus('<%=orderData.products[index].productId%>','2','<%=orderData.uniqueId%>')" class="dropdown-item" >Placed</a>
+                                                                  <a onclick="changeStatus('<%=orderData.products[index].productId%>','3','<%=orderData.uniqueId%>')" class="dropdown-item" >Out for Delivery</a>
+                                                                  <a onclick="changeStatus('<%=orderData.products[index].productId%>','4','<%=orderData.uniqueId%>')" class="dropdown-item" >Delivered</a>
+                                                                </div>
+                                                              </div>
+                                                            <%} %>
+                                                    
+                                                  </td>
                                             </tr>
                                             <% }) } else { %>
                                                 <tr>
@@ -89,9 +113,7 @@
                                                     Order Id : #<%= orderData.uniqueId %> <br>
                                                     Purchase date : <%= orderData.date.toLocaleDateString('en-US', { year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %> <br>
                                                     Total amount : ₹ <%= orderData.totalAmount %> <br>
-                                                    Status : <%= orderData.products[0].status %> <br>
                                                     Payment method : <%= orderData.paymentMethod %> <br>
-
                                                 </p>
                                             </div>
                                         </div>
@@ -108,5 +130,43 @@
             </div>
         </div>
     </div>
+    <script>
+        function changeStatus(id,num,uniqueId){
+            console.log("heiiii")
+            console.log(id);
+            console.log(uniqueId);
+        
+            
+            
+            $.ajax({
+                url: "/admin/statusChange",
+                data: {
+                  id: id,
+                  num: num,
+                  uniqueId: uniqueId,
+                },
+                method: "post",
+                success: (response) => {
+                  if ((response.success)) {
+                    // $("#statusChange").load("/orderdetailspage #statusChange");
+                    window.location.reload()
+
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000,
+                    })
+                    Toast.fire({
+                      icon: 'success',
+                      title: 'Successfully Changed.'
+                    })
+                }}})
+
+        
+        }
+        
+        
+    </script>
 
     <%-include("../admin/leyouts/footer.ejs")%>

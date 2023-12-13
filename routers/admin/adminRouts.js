@@ -13,11 +13,9 @@ admin_Rout.use(session({secret:config.sessionSecret}))
 //--------------view engine------------------
 admin_Rout.set("view engine","ejs")
 admin_Rout.set("views","./views/admin")
-
-//--------------body parser------------------
-const bodyParser = require("body-parser")
-admin_Rout.use(bodyParser.json())
-admin_Rout.use(bodyParser.urlencoded({extended:true}))
+//-------------------------------------------
+admin_Rout.use(express.json())
+admin_Rout.use(express.urlencoded({extended:true}))
 
 const productController =require("../../controller/productController")
 const adminController = require("../../controller/adminController")
@@ -49,7 +47,7 @@ admin_Rout.get("/delete-category",auth.isLogin,adminController.deleteCategory)
 
 admin_Rout.get("/ordermanagement",auth.isLogin,orderController.ordermanagementpage)
 admin_Rout.get("/orderdetailspage",auth.isLogin,orderController.orderDetailsPage)
-
+admin_Rout.post("/statusChange",auth.isLogin,orderController.statusChanging)
 
 admin_Rout.get("*",function(req,res){
     res.redirect("/admin")

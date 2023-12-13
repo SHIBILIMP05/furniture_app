@@ -16,10 +16,9 @@ user_Rout.use(session({secret:config.sessionSecret}))
 user_Rout.set("view engine","ejs")
 user_Rout.set("views","./views/user")
 
-//--------------body parser------------------
-const bodyParser = require("body-parser")
-user_Rout.use(bodyParser.json())
-user_Rout.use(bodyParser.urlencoded({extended:true}))
+//-------------------------------------------
+user_Rout.use(express.json())
+user_Rout.use(express.urlencoded({extended:true}))
 
 
 
@@ -49,6 +48,7 @@ user_Rout.get("/editAddressPage",auth.isLogin,addressController.addressEditingPa
 user_Rout.post("/editBillingAddress",auth.isLogin,addressController.addressEditing)
 user_Rout.post("/removeAddress",auth.isLogin,addressController.removeAddress)
 user_Rout.get("/orderDetails",auth.isLogin,orderController.orderDetailsPageUserside)
+user_Rout.get("/cancellOrder",auth.isLogin,orderController.cancellOrder)
 
 user_Rout.get("/forgetpage",userController.loadForget)
 user_Rout.post("/forget",userController.forgetverify)

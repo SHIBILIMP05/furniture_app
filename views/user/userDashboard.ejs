@@ -302,17 +302,25 @@
     </tr>
   </thead>
   <tbody>
-    <% if(orderData !== undefined) { 
-      orderData.forEach((order,i) => { %>
+    <% if(orderData !== undefined) { %>
+      <%  for(let i=0 ; i<orderData.length ; i++){%>
+        <% var productstatus = orderData[i].products  %>
     <tr>
-      <td>#<%= order.uniqueId %></td>
-      <td><%= order.date.toLocaleDateString('en-US', { year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %></td>
-      <td><%= order.paymentMethod %></td>
-      <td>₹<%= order.totalAmount %></td>
-      <td><%= order.products[i].status %></td>
-      <td><a href="/orderDetails?id=<%= order.orderId %>">View Details</a></td>
+      <td>#<%= orderData[i].uniqueId %></td>
+      <td><%= orderData[i].date.toLocaleDateString('en-US', { year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %></td>
+      <td><%= orderData[i].paymentMethod %></td>
+      <td>₹<%= orderData[i].totalAmount %></td>
+        <td>
+          <%  for(let j=0 ; j < productstatus.length ; j++){%>
+
+          <%= productstatus[j].status %>
+        
+        </td>
+        <%}%>
+      <td><a href="/orderDetails?id=<%= orderData[i].uniqueId %>">View Details</a></td>
     </tr>
-    <% })} else { %>
+    <%}%>
+    <% }else{ %>
    <!-- If there are no orders -->
    <tr>
     <td colspan="6">No orders available.</td>

@@ -127,6 +127,8 @@ const orderDetailsPage = async(req,res)=>{
   }
 }
 
+//-----------------------ORDER DETAILSE PAGE IN USER SIDE----------------
+
 const orderDetailsPageUserside = async(req,res)=>{
   try {
     const cart = await Cart.findOne({ userId: req.session.user_id });
@@ -134,7 +136,121 @@ const orderDetailsPageUserside = async(req,res)=>{
     if (cart) {
       cartCount = cart.products.length;
     }
-    res.render("orderdetailsUserside",{cartCount})
+    const uniqueId = req.query.id
+    const orderData = await Order.findOne({uniqueId:uniqueId})
+    const userId =  orderData.userId
+    const addressId = orderData.deliveryDetails.trim()
+    console.log('Address ID:', addressId);
+    const addressData = await Address.findOne(
+      { user: userId },
+      { address: { $elemMatch: { _id: addressId } } }
+    );
+    const deliveryData = addressData.address[0]
+
+    res.render("orderdetailsUserside",{cartCount,deliveryData,orderData})
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+//---------------------------ORDER STATUS CHANGING-------------------------
+
+const statusChanging = async(req,res)=>{
+  try {
+    const uniqueId = req.body.uniqueId
+    const statusVal = req.body.num
+    const proId = req.body.id
+    console.log(uniqueId)
+    console.log(statusVal)
+    console.log(proId);
+    let result
+    if(statusVal==1){
+
+      result = await Order.updateOne(
+        {uniqueId:uniqueId,
+        'products.productId':proId},
+        {
+          $set: {
+            'products.$.status': 'Shipped', 
+          }
+        }
+      );
+
+    }else if(statusVal==2){
+      result = await Order.updateOne(
+        {uniqueId:uniqueId,
+        'products.productId':proId},
+        {
+          $set: {
+            'products.$.status': 'Placed', 
+          }
+        }
+      );
+    }else if(statusVal == 3){
+      result = await Order.updateOne(
+        {uniqueId:uniqueId,
+        'products.productId':proId},
+        {
+          $set: {
+            'products.$.status': 'Out for delivery', 
+          }
+        }
+      );
+    }else if(statusVal == 4){
+       result = await Order.updateOne(
+        {uniqueId:uniqueId,
+        'products.productId':proId},
+        {
+          $set: {
+            'products.$.status': 'Delivered', 
+          }
+        }
+      );
+    }
+    if (result) {
+      // Successfully updated
+      res.json({success:true})
+    } else {
+      // No matching document found
+      console.log("not updated");
+      return res.status(404);
+      
+    }
+
+    
+  
+
+
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+//--------------------------- CANCELL ORDER ---------------------
+
+const cancellOrder = async(req,res)=>{
+  try {
+    
+    const proId = req.query.id
+    const count = req.query.count
+    const uniqueId = req.query.uniqueId
+
+    await Order.updateOne(
+      {uniqueId:uniqueId,
+      'products.productId':proId},
+      {
+        $set: {
+          'products.$.status': 'cancelled', 
+        }
+      }
+    );
+    
+      await Product.findOneAndUpdate(
+        { _id: proId },
+        { $inc: { quantity: count } }
+      );
+    res.json({success:true})
+
   } catch (error) {
     console.error(error.message);
   }
@@ -146,4 +262,6 @@ module.exports={
     ordermanagementpage,
     orderDetailsPage,
     orderDetailsPageUserside,
+    statusChanging,
+    cancellOrder
 }
