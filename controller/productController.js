@@ -4,7 +4,8 @@ const Category = require("../model/categoryModel")
 const Products = require("../model/productsModel")
 const Cart = require("../model/cartModel")
 const sharp = require("sharp");
-
+const fs = require("fs")
+const path = require("path")
 
 //--------------LOAD PRODUCT MANAGEMENT IN ADMIN SIDE------------------
 
@@ -174,12 +175,38 @@ const editedProduct = async (req, res) => {
         console.log('Entire req object:', req);
 
 
+        const oldImg = [
+            imagesFiles.image1 ?  currentData.images.image1 :false,
+            imagesFiles.image2 ?  currentData.images.image2 :false,
+            imagesFiles.image3 ?  currentData.images.image3 :false,
+            imagesFiles.image4 ?  currentData.images.image4 :false,
+        ];
+
+        
+
         const img = [
             imagesFiles.image1 ? imagesFiles.image1[0].filename : currentData.images.image1,
             imagesFiles.image2 ? imagesFiles.image2[0].filename : currentData.images.image2,
             imagesFiles.image3 ? imagesFiles.image3[0].filename : currentData.images.image3,
             imagesFiles.image4 ? imagesFiles.image4[0].filename : currentData.images.image4,
         ];
+
+        
+        for (let k = 0; k < oldImg.length; k++) {
+            if (oldImg[k] && !img.includes(oldImg[k])) {
+                let imagePath = path.resolve('public/products/images', oldImg[k]);
+                let cropPath = path.resolve('public/products/crops', oldImg[k]);
+                
+
+                // Delete original image
+                fs.unlinkSync(imagePath);
+
+                // Delete cropped image
+                fs.unlinkSync(cropPath);
+            }
+        }
+       
+
 
         for (let i = 0; i < img.length; i++) {
             await sharp("public/products/images/" + img[i])
