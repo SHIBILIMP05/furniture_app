@@ -297,7 +297,7 @@
       <th>Date</th>
       <th>Payment</th>
       <th>Amount</th>
-      <th>Status</th>
+      <!-- <th>Status</th> -->
       <th>Details</th>
     </tr>
   </thead>
@@ -310,13 +310,13 @@
       <td><%= orderData[i].date.toLocaleDateString('en-US', { year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %></td>
       <td><%= orderData[i].paymentMethod %></td>
       <td>₹<%= orderData[i].totalAmount %></td>
-        <td>
+        <!-- <td>
           <%  for(let j=0 ; j < productstatus.length ; j++){%>
 
           <%= productstatus[j].status %>
         
         </td>
-        <%}%>
+        <%}%> -->
       <td><a href="/orderDetails?id=<%= orderData[i].uniqueId %>">View Details</a></td>
     </tr>
     <%}%>
@@ -521,6 +521,8 @@
 
         })
       })        </script>
+
+      
       
     
 

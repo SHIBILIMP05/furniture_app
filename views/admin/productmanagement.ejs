@@ -42,10 +42,10 @@
                                 <td><%= productData[i].price %></td>
                                 <%  if(productData[i].blocked==0){ %>
                                 <td class="text-success">Active</td>
-                                <td onclick="productBlock('<%= productData[i]._id %>')"><a class="badge badge-danger" >Block</a></td>
+                                <td onclick="productBlock('<%= productData[i]._id %>')"><a class="badge badge-danger" >Unlink</a></td>
                                <% }else{ %>
                                 <td class="text-danger">Blocked</td>
-                                <td onclick="productBlock('<%= productData[i]._id %>')"><a  class="badge badge-success" >Unblock</a></td>
+                                <td onclick="productBlock('<%= productData[i]._id %>')"><a  class="badge badge-success" >Link</a></td>
                               <% } %>
                                 <td><a href="/admin/edit-product-page?id=<%= productData [i]._id %>" class="badge badge-warning">Update</a></td>
                                 

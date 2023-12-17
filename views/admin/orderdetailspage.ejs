@@ -31,7 +31,7 @@
                                             <th>Status</th>
                                         </tr>
                                     </thead>
-                                    <tbody >
+                                    <tbody>
                                         <% if (orderData !=null) { orderData.products.forEach((product, index)=> { %>
                                             <tr>
                                                 <td><img src="/products/images/<%= product.image %>" alt=""></td>
@@ -51,30 +51,48 @@
                                                     <%= product.totalPrice %>
                                                 </td>
                                                 <td id="statusChange">
-                                                    <label ><%= product.status %></label>
+                                                    <label>
+                                                        <%= product.status %>
+                                                    </label>
                                                 </td>
                                                 <td>
-                                                    <% if(product.status == "cancelled"){%>
+                                                    <% if(product.status=="cancelled" ){%>
                                                         <label class="badge badge-danger">Cancelled</label>
-                                                        <%}
-                                                        else if(product.status == "Delivered"){%>
-                                                            <label class="badge badge-success">Delivered</label>  <%}
-                                                        else{%>
-                                                            <div  class="dropdown">
-                                                                <button  class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown"
-                                                                  aria-haspopup="true" aria-expanded="false">
-                                                                  <%= orderData.products[index].status %>
-                                                                </button>
-                                                                <div class="dropdown-menu" aria-labelledby="statusDropdown">
-                                                                  <a onclick="changeStatus('<%=orderData.products[index].productId%>','1','<%=orderData.uniqueId%>')" class="dropdown-item" >Shipped</a>
-                                                                  <a onclick="changeStatus('<%=orderData.products[index].productId%>','2','<%=orderData.uniqueId%>')" class="dropdown-item" >Placed</a>
-                                                                  <a onclick="changeStatus('<%=orderData.products[index].productId%>','3','<%=orderData.uniqueId%>')" class="dropdown-item" >Out for Delivery</a>
-                                                                  <a onclick="changeStatus('<%=orderData.products[index].productId%>','4','<%=orderData.uniqueId%>')" class="dropdown-item" >Delivered</a>
-                                                                </div>
-                                                              </div>
-                                                            <%} %>
-                                                    
-                                                  </td>
+                                                        <%}else if(product.status=="Accepted" ){%>
+                                                            <label style="color: #000000;"
+                                                                class="badge badge-warning">Order Returned</label>
+                                                            <%} else if(product.status=="request" ){%>
+                                                                <button
+                                                                    onclick="returnOrder('<%=orderData.products[index].productId%>','<%=orderData.products[index].count%>','<%=orderData.uniqueId%>')"
+                                                                    class="badge badge-warning">Return request</button>
+                                                                <%} else if(product.status=="Delivered" ){%>
+                                                                    <label class="badge badge-success">Delivered</label>
+                                                                    <%} else{%>
+                                                                        <div class="dropdown">
+                                                                            <button
+                                                                                class="btn btn-secondary dropdown-toggle"
+                                                                                type="button" id="statusDropdown"
+                                                                                data-toggle="dropdown"
+                                                                                aria-haspopup="true"
+                                                                                aria-expanded="false">
+                                                                                <%= orderData.products[index].status %>
+                                                                            </button>
+                                                                            <div class="dropdown-menu"
+                                                                                aria-labelledby="statusDropdown">
+                                                                                <a onclick="changeStatus('<%=orderData.products[index].productId%>','1','<%=orderData.uniqueId%>')"
+                                                                                    class="dropdown-item">Shipped</a>
+                                                                                <a onclick="changeStatus('<%=orderData.products[index].productId%>','2','<%=orderData.uniqueId%>')"
+                                                                                    class="dropdown-item">Placed</a>
+                                                                                <a onclick="changeStatus('<%=orderData.products[index].productId%>','3','<%=orderData.uniqueId%>')"
+                                                                                    class="dropdown-item">Out for
+                                                                                    Delivery</a>
+                                                                                <a onclick="changeStatus('<%=orderData.products[index].productId%>','4','<%=orderData.uniqueId%>')"
+                                                                                    class="dropdown-item">Delivered</a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <%} %>
+
+                                                </td>
                                             </tr>
                                             <% }) } else { %>
                                                 <tr>
@@ -83,46 +101,47 @@
                                                 <% } %>
                                     </tbody>
                                 </table>
-                                <% if(deliveryData != undefined){ %>
-                                <div class="col-md-4 grid-margin stretch-card"
-                                    style="text-align: center; float: left; margin-left: 26vh;">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h4 class="card-title">Delivery address </h4>
-                                            <!-- <p class="card-description">Add class <code>.list-arrow</code> to <code>&lt;ul&gt;</code></p> -->
-                                            <p class="list-arrow">
-                                                Name : <%= deliveryData.fullname %><br>
-                                                Mobile : <%= deliveryData.mobile %><br>
-                                                House Name : <%= deliveryData.houseName %><br>
-                                                City : <%= deliveryData.city %><br>
-                                                State : <%= deliveryData.state %><br>
-                                                Pincode : <%= deliveryData.pin %><br>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <% } %>
-                                <% if(orderData !=undefined){ %>
+                                <% if(deliveryData !=undefined){ %>
                                     <div class="col-md-4 grid-margin stretch-card"
-                                        style="text-align: center; float: left;">
+                                        style="text-align: center; float: left; margin-left: 26vh;">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4 class="card-title">Order summary</h4>
+                                                <h4 class="card-title">Delivery address </h4>
                                                 <!-- <p class="card-description">Add class <code>.list-arrow</code> to <code>&lt;ul&gt;</code></p> -->
                                                 <p class="list-arrow">
-                                                    Order Id : #<%= orderData.uniqueId %> <br>
-                                                    Purchase date : <%= orderData.date.toLocaleDateString('en-US', { year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %> <br>
-                                                    Total amount : ₹ <%= orderData.totalAmount %> <br>
-                                                    Payment method : <%= orderData.paymentMethod %> <br>
+                                                    Name : <%= deliveryData.fullname %><br>
+                                                        Mobile : <%= deliveryData.mobile %><br>
+                                                            House Name : <%= deliveryData.houseName %><br>
+                                                                City : <%= deliveryData.city %><br>
+                                                                    State : <%= deliveryData.state %><br>
+                                                                        Pincode : <%= deliveryData.pin %><br>
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                     <% } %>
-                                    <button type="button" class="btn-success go-back-button">
-                                        <a href="/admin//ordermanagement" style="text-decoration: none; color: azure;">
-                                            Go Back </a>
-                                    </button>
+                                        <% if(orderData !=undefined){ %>
+                                            <div class="col-md-4 grid-margin stretch-card"
+                                                style="text-align: center; float: left;">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">Order summary</h4>
+                                                        <!-- <p class="card-description">Add class <code>.list-arrow</code> to <code>&lt;ul&gt;</code></p> -->
+                                                        <p class="list-arrow">
+                                                            Order Id : #<%= orderData.uniqueId %> <br>
+                                                                Purchase date : <%= orderData.date.toLocaleDateString('en-US', {year:'numeric', month: 'short' , day: '2-digit'}).replace(/\//g, '-' ) %> <br>
+                                                                    Total amount : ₹ <%= orderData.totalAmount %> <br>
+                                                                    Payment method : <%= orderData.paymentMethod %><br>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                                <button type="button" class="btn-success go-back-button">
+                                                    <a href="/admin//ordermanagement"
+                                                        style="text-decoration: none; color: azure;">
+                                                        Go Back </a>
+                                                </button>
                             </div>
                         </div>
                     </div>
@@ -131,42 +150,92 @@
         </div>
     </div>
     <script>
-        function changeStatus(id,num,uniqueId){
+        function changeStatus(id, num, uniqueId) {
             console.log("heiiii")
             console.log(id);
             console.log(uniqueId);
-        
-            
-            
+
+
+
             $.ajax({
                 url: "/admin/statusChange",
                 data: {
-                  id: id,
-                  num: num,
-                  uniqueId: uniqueId,
+                    id: id,
+                    num: num,
+                    uniqueId: uniqueId,
                 },
                 method: "post",
                 success: (response) => {
-                  if ((response.success)) {
-                    // $("#statusChange").load("/orderdetailspage #statusChange");
-                    window.location.reload()
+                    if ((response.success)) {
+                        // $("#statusChange").load("/orderdetailspage #statusChange");
+                        window.location.reload()
 
-                    const Toast = Swal.mixin({
-                      toast: true,
-                      position: 'top-end',
-                      showConfirmButton: false,
-                      timer: 3000,
-                    })
-                    Toast.fire({
-                      icon: 'success',
-                      title: 'Successfully Changed.'
-                    })
-                }}})
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                        })
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Successfully Changed.'
+                        })
+                    }
+                }
+            })
 
-        
+
         }
-        
-        
+
+
+    </script>
+    <script>
+        function returnOrder(id, count, uniqueId) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You want to accept this return request ?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes",
+                cancelButtonText: "Not now",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/admin/returnOrder",
+                        data: {
+                            id: id,
+                            count: count,
+                            uniqueId: uniqueId
+
+                        },
+                        method: "get",
+                        success: (response) => {
+                            if ((response.success)) {
+                                window.location.reload()
+
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                })
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'The order is successfully returned .'
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+
+
+
+        }
+
+
     </script>
 
     <%-include("../admin/leyouts/footer.ejs")%>

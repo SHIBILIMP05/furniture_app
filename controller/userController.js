@@ -385,7 +385,7 @@ const verifyOtp = async (req, res) => {
   }
 };
 
-//-----------------------dashboard loading---------------------
+//----------------------- dashboard loading ---------------------
 
 const accountload = async (req, res) => {
   try {
@@ -395,7 +395,7 @@ const accountload = async (req, res) => {
     if (address) {
       addressData = address.address;
     }
-    const orderData = await Order.find({ userId: req.session.user_id });
+    const orderData = await Order.find({ userId: req.session.user_id }).sort({date:-1});
     const cart = await Cart.findOne({ userId: req.session.user_id });
     let cartCount = 0;
     if (cart) {

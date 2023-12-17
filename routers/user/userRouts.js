@@ -49,6 +49,7 @@ user_Rout.post("/editBillingAddress",auth.isLogin,addressController.addressEditi
 user_Rout.post("/removeAddress",auth.isLogin,addressController.removeAddress)
 user_Rout.get("/orderDetails",auth.isLogin,orderController.orderDetailsPageUserside)
 user_Rout.get("/cancellOrder",auth.isLogin,orderController.cancellOrder)
+user_Rout.get("/returnRequest",auth.isLogin,orderController.returnRequest)
 
 user_Rout.get("/forgetpage",userController.loadForget)
 user_Rout.post("/forget",userController.forgetverify)

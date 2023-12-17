@@ -98,7 +98,7 @@ const successPage = async(req,res)=>{
 
 const ordermanagementpage = async(req,res)=>{
   try {
-    const orderData = await Order.find()
+    const orderData = await Order.find().sort({date:-1})
     res.render("ordermanagement",{orderData})
   } catch (error) {
     console.error(error.message);
@@ -140,7 +140,7 @@ const orderDetailsPageUserside = async(req,res)=>{
     const orderData = await Order.findOne({uniqueId:uniqueId})
     const userId =  orderData.userId
     const addressId = orderData.deliveryDetails.trim()
-    console.log('Address ID:', addressId);
+    
     const addressData = await Address.findOne(
       { user: userId },
       { address: { $elemMatch: { _id: addressId } } }
@@ -256,6 +256,60 @@ const cancellOrder = async(req,res)=>{
   }
 }
 
+//--------------------- REQUESTING FOR RETURN ORDER --------------
+
+const returnRequest = async(req,res)=>{
+  try {
+
+    const proId = req.query.id
+    const uniqueId = req.query.uniqueId
+    await Order.updateOne(
+      {uniqueId:uniqueId,
+      'products.productId':proId},
+      {
+        $set: {
+          'products.$.status': 'request', 
+        }
+      }
+    );
+    res.json({success:true})
+
+    
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+//------------------------ RETURN ORDER --------------------------
+
+const returnOrder = async(req,res)=>{
+  try {
+    const proId = req.query.id
+    const count = req.query.count
+    const uniqueId = req.query.uniqueId
+
+    await Order.updateOne(
+      {uniqueId:uniqueId,
+      'products.productId':proId},
+      {
+        $set: {
+          'products.$.status': 'Accepted', 
+        }
+      }
+    );
+    
+      await Product.findOneAndUpdate(
+        { _id: proId },
+        { $inc: { quantity: count } }
+      );
+
+    res.json({success:true})
+    
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
 module.exports={
     orderPlace,
     successPage,
@@ -263,5 +317,7 @@ module.exports={
     orderDetailsPage,
     orderDetailsPageUserside,
     statusChanging,
-    cancellOrder
+    cancellOrder,
+    returnRequest,
+    returnOrder
 }

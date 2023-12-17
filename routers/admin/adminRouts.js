@@ -48,6 +48,8 @@ admin_Rout.get("/delete-category",auth.isLogin,adminController.deleteCategory)
 admin_Rout.get("/ordermanagement",auth.isLogin,orderController.ordermanagementpage)
 admin_Rout.get("/orderdetailspage",auth.isLogin,orderController.orderDetailsPage)
 admin_Rout.post("/statusChange",auth.isLogin,orderController.statusChanging)
+admin_Rout.get("/returnOrder",auth.isLogin,orderController.returnOrder)
+
 
 admin_Rout.get("*",function(req,res){
     res.redirect("/admin")

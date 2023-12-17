@@ -201,7 +201,8 @@
                           <th>Price</th>
                           <th>Quantity</th>
                           <th>Total</th>
-                          <th>Cancel</th>
+                          <th>Status</th>
+                          <!-- <th>Cancel</th> -->
                       </tr>
                   </thead>
                   <tbody>
@@ -226,12 +227,19 @@
                                   <td class="price-col">₹  <%= product.productPrice %> </td>
                                   <td class="price-col"> <%= product.count %> </td>
                                   <td class="price-col">₹ <%= product.totalPrice %></td>
-                                  <% if(product.status !=="cancelled") {%>
-                                    <td class="action-col"><button onclick="cancelOrder('<%=orderData.products[index].productId%>','<%=orderData.products[index].count%>','<%=orderData.uniqueId%>')" class="btn-remove">cancel</button></td>
-                                    <%}else{%>
+                                    <td class="price-col"><%= product.status %></td>
+                                  <% if(product.status !=="cancelled" && product.status !=="Delivered" && product.status !=="request" && product.status !=="Accepted") {%>
+                                    <td class="action-col"><button onclick="cancelOrder('<%=orderData.products[index].productId%>','<%=orderData.products[index].count%>','<%=orderData.uniqueId%>')" class="btn-danger">cancel</button></td>
+                                    <%}else if(product.status =="Delivered"){%>
+                                      <td class="action-col"><button onclick="returnRequest('<%=orderData.products[index].productId%>','<%=orderData.products[index].count%>','<%=orderData.uniqueId%>')" class="badge badge-warning">Return</button></td>  
+                                      <%}else if(product.status =="Accepted"){%>
+                                        <td class="action-col"><label class="badge badge-warning">Order Returned</label></td>
+                                        <%} else if(product.status =="request"){%>
+                                        <td class="action-col"><label class="badge badge-warning">Requested</label></td>
+                                        <%} else{%>
                                       <td class="action-col"><label class="badge badge-danger">Cancelled</label></td>
                                       <%}%>
-                              </tr>
+                              </tr> 
                               <% }) } else { %>
                                 <tr>
                                   <td colspan="6">Order not found.</td>
@@ -299,9 +307,7 @@
 
   <script>
     function cancelOrder(id,count,uniqueId){
-        console.log("heiiii")
-        console.log(id);
-       
+        
         Swal.fire({
             title: "Are you sure?",
             text: "You want to cancell this Order?",
@@ -345,6 +351,52 @@
     }
     
     
+</script>
+<script>
+  function returnRequest(id,count,uniqueId){
+      Swal.fire({
+          title: "Are you sure?",
+          text: "You want to return this Product?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes",
+          cancelButtonText: "Not now",
+        }).then((result)=>{
+          if(result.isConfirmed){
+            $.ajax({
+          url: "/returnRequest",
+          data: {
+            id: id,
+            count:count,
+            uniqueId:uniqueId
+
+          },
+          method: "get",
+          success: (response) => {
+            if ((response.success)) {
+              window.location.reload()
+
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+              })
+              Toast.fire({
+                icon: 'success',
+                title: 'Return request is sended.'
+              })
+          }}})
+          }
+        })
+      
+
+  
+  }
+  
+  
 </script>
 
   <script src="/path/to/your/scripts.js"></script>

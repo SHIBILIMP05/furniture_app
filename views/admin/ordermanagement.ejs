@@ -13,11 +13,11 @@
                                     <thead>
                                         <tr>
                                             <th> No. </th>
+                                            <th> Order ID </th>
                                             <th> Date</th>
                                             <th> Total Amount </th>
                                             <th> Payment Method </th>
-                                            <th> Status </th>
-                                            <!-- <th> Return Requests </th> -->
+                                            <!-- <th> Status </th> -->
                                             <th> View More </th>
                                         </tr>
                                     </thead>
@@ -28,15 +28,16 @@
 
                                         <tr>
                                             <td> <%= i + 1 %></td>
+                                            <td># <%= orderData[i].uniqueId %></td>
                                             <td> <%= orderData[i].date.toLocaleDateString('en-US', { year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %> </td>
                                             <td> ₹<%= orderData[i].totalAmount %> </td>
                                             <td> <%= orderData[i].paymentMethod %> </td>
                                             
-                                                <td>
+                                                <!-- <td>
                                                     <%  for(let j=0 ; j < productstatus.length ; j++){%>
                                                     <%=productstatus[j].status%>
                                                 </td>
-                                            <%}%>
+                                            <%}%> -->
                                     
                                             <!-- <td> ........ </td> -->
                                             <td> <a href="/admin/orderdetailspage?id=<%=orderData[i].uniqueId%>">Details</a></td>
