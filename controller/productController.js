@@ -16,7 +16,7 @@ const product = async (req, res) => {
         res.render("productmanagement", { productData })
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -28,7 +28,7 @@ const loadaddproduct = async (req, res) => {
         const categoryData = await Category.find({ blocked: 0 })
         res.render("addproduct", { categoryData, nameAlready })
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -71,8 +71,7 @@ const addproduct = async (req, res) => {
        const result = await product.save();
        res.redirect("/admin/productmanagement");
     } catch (error) {
-       console.error(error.message);
-       res.status(500).send("Internal Server Error");
+        next(error)
     }
  };
  
@@ -143,7 +142,7 @@ const blockProduct = async (req, res) => {
 
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -157,7 +156,7 @@ const loadeditProduct = async (req, res) => {
         res.render("editproductpage", { product: editProduct, categoryData })
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -240,7 +239,7 @@ const editedProduct = async (req, res) => {
         res.redirect("/admin/productmanagement");
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -255,7 +254,7 @@ const deleteProduct = async (req, res) => {
         res.redirect("/admin/productmanagement")
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -280,7 +279,7 @@ const loadproductsPage = async (req, res) => {
         const totalPages = Math.ceil(count / limit);
         res.render("productspage", { cartCount,totalPages: totalPages, category: category, products: products, count: count, name: req.session.name })
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -306,7 +305,7 @@ const productdetailspage = async (req, res) => {
 
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 

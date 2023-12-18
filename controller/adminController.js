@@ -9,7 +9,7 @@ const adminLoginPage = async (req, res) => {
     try {
         res.render("login")
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -99,7 +99,7 @@ const adminLogin = async (req, res) => {
         }
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -109,7 +109,7 @@ const loadDashboard = async (req, res) => {
     try {
         res.render("home")
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -120,7 +120,7 @@ const logout = async (req, res) => {
         req.session.destroy()
         res.redirect("/admin")
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -131,7 +131,7 @@ const usermanagementload = async (req, res) => {
         const userData = await User.find({ is_admin: 0 })
         res.render("usermanagement", { users: userData })
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -157,7 +157,7 @@ const blockUser = async (req, res) => {
         }
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -170,7 +170,7 @@ const loadcategory = async (req, res) => {
         res.render("categorymanagement", { categoryData: categoryData })
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -191,7 +191,7 @@ const blockCategory = async (req, res) => {
         }
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -204,7 +204,7 @@ const loadAddCategory = async (req, res) => {
         res.render("addcategory")
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 
 }
@@ -228,7 +228,7 @@ const addCategory = async (req, res) => {
         }
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -242,7 +242,7 @@ const loadeditCategory = async (req, res) => {
         res.render("editcategory", { category: category })
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -259,7 +259,7 @@ const updateCategory = async (req, res) => {
             res.render("editcategory", { message: "There is an error occured, try again!" })
         }
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 
@@ -272,7 +272,7 @@ const deleteCategory = async (req, res) => {
         res.redirect("/admin/categorymanagement")
 
     } catch (error) {
-        console.error(error.message)
+        next(error)
     }
 }
 

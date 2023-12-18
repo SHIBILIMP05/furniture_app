@@ -149,7 +149,7 @@ const orderDetailsPageUserside = async(req,res)=>{
 
     res.render("orderdetailsUserside",{cartCount,deliveryData,orderData})
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 }
 
@@ -222,7 +222,7 @@ const statusChanging = async(req,res)=>{
 
 
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 }
 
@@ -252,7 +252,7 @@ const cancellOrder = async(req,res)=>{
     res.json({success:true})
 
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 }
 
@@ -276,7 +276,7 @@ const returnRequest = async(req,res)=>{
 
     
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 }
 
@@ -306,7 +306,7 @@ const returnOrder = async(req,res)=>{
     res.json({success:true})
     
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 }
 

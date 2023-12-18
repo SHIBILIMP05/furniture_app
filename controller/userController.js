@@ -17,7 +17,7 @@ const securePassword = async (password) => {
     const passwordHash = await bcrypt.hash(password, 10);
     return passwordHash;
   } catch (error) {
-    console.error(error);
+    next(error)
   }
 };
 
@@ -60,7 +60,7 @@ const sendVerifyMail = async (name, email, otp) => {
       }
     });
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 };
 
@@ -80,7 +80,7 @@ const loadHome = async (req, res) => {
       cartCount,
     });
   } catch (error) {
-    console.error(err.massage);
+    next(error)
   }
 };
 
@@ -91,7 +91,7 @@ const loadLogin = async (req, res) => {
     let regSuccess = req.session.regSuccess;
     res.render("login", { regSuccess });
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 };
 
@@ -159,7 +159,7 @@ const verifylogin = async (req, res) => {
       }
     }
   } catch (error) {
-    console.error(error.massage);
+    next(error)
   }
 };
 
@@ -169,7 +169,7 @@ const loadSignup = async (req, res) => {
   try {
     res.render("signup");
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 };
 
@@ -306,7 +306,7 @@ const insertuser = async (req, res) => {
       }
     }
   } catch (error) {
-    console.error(error);
+    next(error)
   }
 };
 
@@ -321,7 +321,7 @@ const otpload = async (req, res) => {
 
     console.log("otp page loaded");
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 };
 
@@ -345,7 +345,7 @@ const resendotp = async (req, res) => {
       resend: "Resend the otp to your email address.",
     });
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 };
 
@@ -381,7 +381,7 @@ const verifyOtp = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 };
 
@@ -408,7 +408,7 @@ const accountload = async (req, res) => {
       addressData,
     });
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 };
 
@@ -419,8 +419,7 @@ const userLogout = async (req, res) => {
     req.session.destroy();
     res.redirect("/");
   } catch (error) {
-    console.error.message;
-  }
+    next(error)  }
 };
 
 //!--------------------------mail sending for recoovery password-------------------
@@ -457,8 +456,7 @@ const sendPassResetMail = async (name, email, token) => {
       }
     });
   } catch (error) {
-    console.error(error.message);
-  }
+    next(error)  }
 };
 
 //-----------------------load Forgetpage--------------------
@@ -467,8 +465,7 @@ const loadForget = async (req, res) => {
   try {
     res.render("forgetpage");
   } catch (error) {
-    console.error(error.message);
-  }
+    next(error)  }
 };
 
 //----------------------forgetverify---------------------------
@@ -513,8 +510,7 @@ const forgetverify = async (req, res) => {
       }
     }
   } catch (error) {
-    console.error(error.message);
-  }
+    next(error)  }
 };
 
 //----------------------------------forget password load-------------------
@@ -534,8 +530,7 @@ const forgetpasswordload = async (req, res) => {
         .render("404", { message: "Oop's.. Your token is invalid" });
     }
   } catch (error) {
-    console.error(error.message);
-  }
+    next(error)  }
 };
 
 //----------------------------------Reset password--------------
@@ -590,8 +585,7 @@ const resetpassword = async (req, res) => {
       }
     }
   } catch (error) {
-    console.error(error.message);
-  }
+    next(error)  }
 };
 
 //---------------------- SEARCH PRODUCTS SHOPE ------------------------
@@ -624,8 +618,7 @@ const searchProduct = async (req, res) => {
       totalPages: 0,
     });
   } catch (error) {
-    console.error(error.message);
-  }
+    next(error)  }
 };
 
 //-------------------------FILTER PRODUCTS-----------------
@@ -661,8 +654,7 @@ const filterProducts = async (req, res) => {
       totalPages: 0,
     });
   } catch (error) {
-    console.error(error.message);
-  }
+    next(error)  }
 };
 
 //------------------------EDIT PROFILE IN PROFILE-------------------
@@ -683,8 +675,7 @@ const editingProfile = async (req, res) => {
       res.json({ success: true });
     }
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ error: "Internal server error" });
+    next(error)
   }
 };
 
@@ -716,8 +707,7 @@ const changePassword = async (req, res) => {
       res.json({ wrongpass: true });
     }
   } catch (error) {
-    console.error(error.message);
-  }
+    next(error)  }
 };
 
 //---------------------CHECKOUT PAGE LOADING--------------
@@ -793,8 +783,7 @@ const loadCheckoutpage = async (req, res) => {
       res.redirect("/login");
     }
   } catch (error) {
-    console.error(error.message);
-  }
+    next(error)  }
 };
 
 module.exports = {

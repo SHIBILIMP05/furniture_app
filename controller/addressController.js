@@ -54,7 +54,7 @@ const addMultiAaddress = async (req, res) => {
       }
     }
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 };
 
@@ -78,7 +78,7 @@ const addressEditingPage = async (req, res) => {
     const page=req.query.page
     res.render("addressEditPage", { cartCount, address,page });
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 };
 
@@ -105,7 +105,7 @@ const addressEditing = async (req, res) => {
     
     res.json({success:true})
   } catch (error) {
-    console.error(error.message);
+    next(error)
   }
 };
 
@@ -117,9 +117,11 @@ const removeAddress = async(req,res)=>{
     await Address.updateOne({user:req.session.user_id},{$pull:{address:{_id:id}}})
     res.json({remove:true})
   } catch (error) {
-    console.error(error.message)
+    next(error)
   }
 }
+
+
 
 module.exports = {
   addMultiAaddress,

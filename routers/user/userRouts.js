@@ -61,7 +61,7 @@ user_Rout.get("/productdetails",productController.productdetailspage)
 user_Rout.get("/searchPro",userController.searchProduct)
 user_Rout.post("/filterProduct",userController.filterProducts)
 
-user_Rout.get("/cartLoad",cartController.loadCart)
+user_Rout.get("/cartLoad",auth.isLogin,cartController.loadCart)
 user_Rout.post("/addToCart",cartController.addToCart)
 user_Rout.post("/cartQuantityUpdation",auth.isLogin,cartController.quantityUpdation)
 user_Rout.post("/removeCartItem",auth.isLogin,cartController.removeCartItem)

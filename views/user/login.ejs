@@ -74,6 +74,15 @@
     })
     
     </script>
+     <% if (typeof isBlocked !== 'undefined' && isBlocked) { %>
+      <script>
+        swal.fire({
+          title: "Access Denied",
+          text: "You do not have access to this account.",
+          icon: "warning",
+        });
+      </script>
+    <% } %>
   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 		<script src="/user/loginvalidation.js"></script>

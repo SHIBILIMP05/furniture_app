@@ -50,7 +50,7 @@ const loadCart = async (req, res) => {
             console.log("no products in cart");
         }
     } catch (error) {
-        console.error(error.message)
+      next(error)
     }
 }
 
@@ -121,7 +121,7 @@ const addToCart = async (req, res) => {
 
         res.json({ success: true });
     } catch (error) {
-        console.error(error.message)
+      next(error)
     }
 }
 
@@ -143,8 +143,7 @@ const removeCartItem = async (req, res, next) => {
         res.json({ success: true });
       }
     } catch (error) {
-      console.log(error.message);
-      res.status(500).json({ error: 'Internal server error' });
+      next(error)
     }
   };
 
@@ -204,8 +203,7 @@ const removeCartItem = async (req, res, next) => {
       );
       res.json({ success: true });
     } catch (error) {
-      console.log(error.message);
-      res.status(500).json({ error: 'Internal server error' });
+      next(error)
     }
   };
   
