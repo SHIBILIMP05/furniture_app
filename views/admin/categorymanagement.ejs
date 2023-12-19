@@ -35,12 +35,12 @@
                           <% if(categoryData[i].blocked==0){ %>
                             <td class="text-success">Active</td>
                             <td onclick="categoryBlock('<%= categoryData[i]._id %>')">
-                              <a class="badge badge-danger">BLOCK</a>
+                              <a class="badge badge-danger">Unlink</a>
                             </td>
                             <% }else{ %>
                               <td class="text-danger">Blocked</td>
                               <td onclick="categoryBlock('<%= categoryData[i]._id %>')">
-                                <a class="badge badge-success">UNBLOCK</a>
+                                <a class="badge badge-success">Link</a>
                               </td>
 
                               <% } %>
@@ -48,11 +48,11 @@
                                   <a href="/admin/edit-category?id=<%= categoryData[i]._id %>"
                                     class="badge badge-success">Edit</a>
                                 </td>
-                                <td>
+                                <!-- <td>
                                   <button class="btn-inverse-danger"> <a
                                       href="/admin/delete-category?id=<%= categoryData[i]._id %>"
                                       style="text-decoration: none; color: #fff; ">Delete</a></button>
-                                </td>
+                                </td> -->
 
                         </tr>
                         <% } %>
