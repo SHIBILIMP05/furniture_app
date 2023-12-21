@@ -250,14 +250,20 @@ const loadeditCategory = async (req, res) => {
 
 const updateCategory = async (req, res) => {
     try {
-
-        const categoryId = req.query.id
-        const updatecategory = await Category.updateOne({ _id: categoryId }, { $set: { name: req.body.categoryName } })
-        if (updatecategory) {
-            res.redirect("/admin/categorymanagement")
-        } else {
-            res.render("editcategory", { message: "There is an error occured, try again!" })
+        const name = req.body.categoryName
+        const already = await Category.findOne({ name: { $regex: name, $options: "i" } });
+        if(already){
+            res.render("addcategory", { message: "Entered category is already exist." });
+        }else{
+            const categoryId = req.query.id
+            const updatecategory = await Category.updateOne({ _id: categoryId }, { $set: { name: req.body.categoryName } })
+            if (updatecategory) {
+                res.redirect("/admin/categorymanagement")
+            } else {
+                res.render("editcategory", { message: "There is an error occured, try again!" })
+            }
         }
+        
     } catch (error) {
         next(error)
     }

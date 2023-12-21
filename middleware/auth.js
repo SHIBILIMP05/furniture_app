@@ -16,10 +16,11 @@ const User = require("../model/userModel")
 //   }catch (error) {
 //     console.error(error.message);
 //   }
-// };
+// };+*+
 const isLogin = async (req, res, next) => {
   try {
     if (req.session.user_id) {
+      console.log(req.session.user_id);
       const user = await User.findOne({ _id: req.session.user_id });
 
       if (user && user.is_block === 0) {

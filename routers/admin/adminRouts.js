@@ -50,9 +50,8 @@ admin_Rout.get("/orderdetailspage",auth.isLogin,orderController.orderDetailsPage
 admin_Rout.post("/statusChange",auth.isLogin,orderController.statusChanging)
 admin_Rout.get("/returnOrder",auth.isLogin,orderController.returnOrder)
 
-
 admin_Rout.get("*",function(req,res){
-    res.redirect("/admin")
+   res.redirect("/admin")
 })
 
 

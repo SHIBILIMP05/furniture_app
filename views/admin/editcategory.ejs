@@ -29,5 +29,13 @@
     </div>
   
     </div>
+    <script>
+       const inputs = document.querySelector("input")
+      const error_message = document.querySelector("#er2")
+
+      inputs.addEventListener("input", (e) => {
+        error_message.style.display = "none"
+      })
+    </script>
 
     <%-include("../admin/leyouts/footer.ejs")%>
