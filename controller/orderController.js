@@ -4,9 +4,10 @@ const Address = require("../model/addressModel");
 const Product = require("../model/productsModel");
 const Order = require("../model/ordersModel");
 const Coupon = require("../model/couponsModel");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 const { render } = require("../routers/user/userRouts");
 const res = require("express/lib/response");
+const { product } = require("./productController");
 
 //---------------------PLACE ORDER WITH COD-----------
 
@@ -31,7 +32,7 @@ const orderPlace = async (req, res) => {
       { couponCode: code },
       { $push: { usedUsers: req.session.user_id } }
     );
-    
+
     const order = new Order({
       deliveryDetails: address,
       uniqueId: uniNum,
@@ -48,276 +49,300 @@ const orderPlace = async (req, res) => {
     if (orderData) {
       //--------------------CASH ON DELIVERY-------------------//
       console.log("2");
-        console.log("3");
-        await Cart.deleteOne({ userId: req.session.user_id });
-        for (let i = 0; i < products.length; i++) {
-          const pro = products[i].productId;
-          const count = products[i].count;
-          await Product.findOneAndUpdate(
-            { _id: pro },
-            { $inc: { quantity: -count } }
-          );
-        }
-        if (req.session.code) {
-          console.log("4");
-          const coupon = await Coupon.findOne({ couponCode: req.session.code });
-          const disAmount = coupon.discountAmount;
-          await Order.updateOne(
-            { _id: orderid },
-            { $set: { discount: disAmount } }
-          );
-          res.json({ codsuccess: true, orderid });
-        }
+      console.log("3");
+      await Cart.deleteOne({ userId: req.session.user_id });
+      for (let i = 0; i < products.length; i++) {
+        const pro = products[i].productId;
+        const count = products[i].count;
+        await Product.findOneAndUpdate(
+          { _id: pro },
+          { $inc: { quantity: -count } }
+        );
+      }
+      if (req.session.code) {
+        console.log("4");
+        const coupon = await Coupon.findOne({ couponCode: req.session.code });
+        const disAmount = coupon.discountAmount;
+        await Order.updateOne(
+          { _id: orderid },
+          { $set: { discount: disAmount } }
+        );
         res.json({ codsuccess: true, orderid });
-      
+      }
+      res.json({ codsuccess: true, orderid });
     }
   } catch (error) {
     console.error(error.message);
   }
 };
 
-
 //-----------------ORDER SUCCESS PAGE-------------
 
-const successPage = async(req,res)=>{
-    try {
-      console.log("5");
-      
-        const cart = await Cart.findOne({ userId: req.session.user_id });
-        let cartCount=0; 
-        if (cart) {
-          cartCount = cart.products.length;
-        }
-        res.render("successPage",{name:req.session.name,cartCount})
-    } catch (error) {
-        console.error(error.message);
-    }
-}
-
-//-----------------------ORDER MANAGEMENT PAGE IN ADMIN SIDE-----------
-
-const ordermanagementpage = async(req,res)=>{
+const successPage = async (req, res) => {
   try {
-    const orderData = await Order.find().sort({date:-1})
-    res.render("ordermanagement",{orderData})
+    console.log("5");
+
+    const cart = await Cart.findOne({ userId: req.session.user_id });
+    let cartCount = 0;
+    if (cart) {
+      cartCount = cart.products.length;
+    }
+    res.render("successPage", { name: req.session.name, cartCount });
   } catch (error) {
     console.error(error.message);
   }
-}
+};
+
+//-----------------------ORDER MANAGEMENT PAGE IN ADMIN SIDE-----------
+
+const ordermanagementpage = async (req, res) => {
+  try {
+    const orderData = await Order.find().sort({ date: -1 });
+    res.render("ordermanagement", { orderData });
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 
 //------------------ORDER DETALS PAGE  IN ADMIN SIDE-------------
 
-const orderDetailsPage = async(req,res)=>{
+const orderDetailsPage = async (req, res) => {
   try {
-
-    const uniqueId = req.query.id
-    const orderData = await Order.findOne({uniqueId:uniqueId})
-    const userId =  orderData.userId
-    const addressId = orderData.deliveryDetails.trim()
-    console.log('Address ID:', addressId);
+    const uniqueId = req.query.id;
+    const orderData = await Order.findOne({ uniqueId: uniqueId });
+    const userId = orderData.userId;
+    const addressId = orderData.deliveryDetails.trim();
+    console.log("Address ID:", addressId);
     const addressData = await Address.findOne(
       { user: userId },
       { address: { $elemMatch: { _id: addressId } } }
     );
     const deliveryData = addressData.address[0]; // Get the first element of the array
-    
-    res.render("orderdetailspage",{orderData,deliveryData})
+
+    res.render("orderdetailspage", { orderData, deliveryData });
   } catch (error) {
     console.error(error.message);
   }
-}
+};
 
 //-----------------------ORDER DETAILSE PAGE IN USER SIDE----------------
 
-const orderDetailsPageUserside = async(req,res)=>{
+const orderDetailsPageUserside = async (req, res) => {
   try {
     const cart = await Cart.findOne({ userId: req.session.user_id });
     let cartCount = 0;
     if (cart) {
       cartCount = cart.products.length;
     }
-    const uniqueId = req.query.id
-    const orderData = await Order.findOne({uniqueId:uniqueId})
-    const userId =  orderData.userId
-    const addressId = orderData.deliveryDetails.trim()
-    
+    const uniqueId = req.query.id;
+    const orderData = await Order.findOne({ uniqueId: uniqueId });
+    const userId = orderData.userId;
+    const addressId = orderData.deliveryDetails.trim();
+    const deliverdProduct = orderData.products.filter(
+      (product) => product.status == "Delivered"
+    );
     const addressData = await Address.findOne(
       { user: userId },
       { address: { $elemMatch: { _id: addressId } } }
     );
-    const deliveryData = addressData.address[0]
+    const deliveryData = addressData.address[0];
 
-    res.render("orderdetailsUserside",{cartCount,deliveryData,orderData})
+    res.render("orderdetailsUserside", {
+      cartCount,
+      deliveryData,
+      orderData,
+      deliverdProduct,
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 //---------------------------ORDER STATUS CHANGING-------------------------
 
-const statusChanging = async(req,res)=>{
+const statusChanging = async (req, res) => {
   try {
-    const uniqueId = req.body.uniqueId
-    const statusVal = req.body.num
-    const proId = req.body.id
-    console.log(uniqueId)
-    console.log(statusVal)
+    const uniqueId = req.body.uniqueId;
+    const statusVal = req.body.num;
+    const proId = req.body.id;
+    console.log(uniqueId);
+    console.log(statusVal);
     console.log(proId);
-    let result
-    if(statusVal==1){
-
+    let result;
+    if (statusVal == 1) {
       result = await Order.updateOne(
-        {uniqueId:uniqueId,
-        'products.productId':proId},
+        { uniqueId: uniqueId, "products.productId": proId },
         {
           $set: {
-            'products.$.status': 'Shipped', 
-          }
+            "products.$.status": "Shipped",
+          },
         }
       );
-
-    }else if(statusVal==2){
+    } else if (statusVal == 2) {
       result = await Order.updateOne(
-        {uniqueId:uniqueId,
-        'products.productId':proId},
+        { uniqueId: uniqueId, "products.productId": proId },
         {
           $set: {
-            'products.$.status': 'Placed', 
-          }
+            "products.$.status": "Placed",
+          },
         }
       );
-    }else if(statusVal == 3){
+    } else if (statusVal == 3) {
       result = await Order.updateOne(
-        {uniqueId:uniqueId,
-        'products.productId':proId},
+        { uniqueId: uniqueId, "products.productId": proId },
         {
           $set: {
-            'products.$.status': 'Out for delivery', 
-          }
+            "products.$.status": "Out for delivery",
+          },
         }
       );
-    }else if(statusVal == 4){
-       result = await Order.updateOne(
-        {uniqueId:uniqueId,
-        'products.productId':proId},
+    } else if (statusVal == 4) {
+      result = await Order.updateOne(
+        { uniqueId: uniqueId, "products.productId": proId },
         {
           $set: {
-            'products.$.status': 'Delivered', 
-          }
+            "products.$.status": "Delivered",
+          },
         }
       );
     }
     if (result) {
       // Successfully updated
-      res.json({success:true})
+      res.json({ success: true });
     } else {
       // No matching document found
       console.log("not updated");
       return res.status(404);
-      
     }
-
-    
-  
-
-
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 //--------------------------- CANCELL ORDER ---------------------
 
-const cancellOrder = async(req,res)=>{
+const cancellOrder = async (req, res) => {
   try {
-    
-    const proId = req.query.id
-    const count = req.query.count
-    const uniqueId = req.query.uniqueId
+    const proId = req.query.id;
+    const count = req.query.count;
+    const uniqueId = req.query.uniqueId;
 
     await Order.updateOne(
-      {uniqueId:uniqueId,
-      'products.productId':proId},
+      { uniqueId: uniqueId, "products.productId": proId },
       {
         $set: {
-          'products.$.status': 'cancelled', 
-        }
+          "products.$.status": "cancelled",
+        },
       }
     );
-    
-      await Product.findOneAndUpdate(
-        { _id: proId },
-        { $inc: { quantity: count } }
-      );
-    res.json({success:true})
 
+    await Product.findOneAndUpdate(
+      { _id: proId },
+      { $inc: { quantity: count } }
+    );
+    res.json({ success: true });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 //--------------------- REQUESTING FOR RETURN ORDER --------------
 
-const returnRequest = async(req,res)=>{
+const returnRequest = async (req, res) => {
   try {
-
-    const proId = req.query.id
-    const uniqueId = req.query.uniqueId
+    const proId = req.query.id;
+    const uniqueId = req.query.uniqueId;
     await Order.updateOne(
-      {uniqueId:uniqueId,
-      'products.productId':proId},
+      { uniqueId: uniqueId, "products.productId": proId },
       {
         $set: {
-          'products.$.status': 'request', 
-        }
+          "products.$.status": "request",
+        },
       }
     );
-    res.json({success:true})
-
-    
+    res.json({ success: true });
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 //------------------------ RETURN ORDER --------------------------
 
-const returnOrder = async(req,res)=>{
+const returnOrder = async (req, res) => {
   try {
-    const proId = req.query.id
-    const count = req.query.count
-    const uniqueId = req.query.uniqueId
+    const proId = req.query.id;
+    const count = req.query.count;
+    const uniqueId = req.query.uniqueId;
 
     await Order.updateOne(
-      {uniqueId:uniqueId,
-      'products.productId':proId},
+      { uniqueId: uniqueId, "products.productId": proId },
       {
         $set: {
-          'products.$.status': 'Accepted', 
-        }
+          "products.$.status": "Accepted",
+        },
       }
     );
-    
-      await Product.findOneAndUpdate(
-        { _id: proId },
-        { $inc: { quantity: count } }
-      );
 
+    await Product.findOneAndUpdate(
+      { _id: proId },
+      { $inc: { quantity: count } }
+    );
+
+    res.json({ success: true });
+  } catch (error) {
+    next(error);
+  }
+};
+
+//---------------------- INVOICE PAGE -------------------
+
+const invoicePageLoad = async (req, res) => {
+  try {
+    const orderId = req.query.id;
+    const orderData = await Order.findOne({ uniqueId: orderId });
+    const deliverdData = orderData.products.filter(
+      (product) => product.status == "Delivered"
+    );
+    const userId = orderData.userId;
+    const addressId = orderData.deliveryDetails.trim();
+    const addressData = await Address.findOne(
+      { user: userId },
+      { address: { $elemMatch: { _id: addressId } } }
+    );
+    const deliveryData = addressData.address[0];
+    let subTotal = 0 ;
+     deliverdData.forEach(product => {
+      subTotal = subTotal+product.totalPrice
+    });
+    res.render("invoice", { deliverdData, orderData, deliveryData ,subTotal});
+  } catch (error) {
+    console.error(error);
+    res.status(500).render("500")
+  }
+};
+
+//---------------- INVOICE CANCEL BUTTON -------------
+
+const invoiceCancel = async(req,res)=>{
+  try {
     res.json({success:true})
     
   } catch (error) {
-    next(error)
+    console.error(error);
+    res.status(500).render("500")
   }
 }
 
-module.exports={
-    orderPlace,
-    successPage,
-    ordermanagementpage,
-    orderDetailsPage,
-    orderDetailsPageUserside,
-    statusChanging,
-    cancellOrder,
-    returnRequest,
-    returnOrder
-}
+module.exports = {
+  orderPlace,
+  successPage,
+  ordermanagementpage,
+  orderDetailsPage,
+  orderDetailsPageUserside,
+  statusChanging,
+  cancellOrder,
+  returnRequest,
+  returnOrder,
+  invoicePageLoad,
+  invoiceCancel,
+};

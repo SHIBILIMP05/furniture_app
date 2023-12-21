@@ -11,7 +11,7 @@ const errorHandler = (err, req, res, next) => {
       return res.status(400).render("400",{ error: err.message })
       
     } else if (err instanceof AnotherCustomError) {
-      return res.status(401).render("401",{ error: err.message });
+      return res.status(401).render("401");
     }
   
     // Handle other types of errors

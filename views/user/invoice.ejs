@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body>
+  <div class="container" style="margin-top: 5vh;">
+    <div class="card" style="    border-block-color: #164f50; color: #164f50;">
+      <div class="card-header">
+        Invoice
+        <strong><%= orderData.date.toLocaleDateString('en-US', { year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %></strong>
+        <span class="float-right"> <strong>Status:</strong> Delivered</span>
+
+      </div>
+      <div class="card-body">
+        <div class="row mb-4">
+          <div class="col-sm-6">
+            <h6 class="mb-3">From:</h6>
+            <div>
+              <strong>Furni Hub</strong>
+            </div>
+            <div>676102 Calicut, Kerala</div>
+            <div>Email: furnihub07@gmail.com</div>
+            <div>Phone: +91 7994673131</div>
+          </div>
+          <% if(deliveryData != undefined){%>
+           
+          <div class="col-sm-6">
+            <h6 class="mb-3">To:</h6>
+            <div>
+              <strong><%= deliveryData.fullname %></strong>
+            </div>
+            <div><%= deliveryData.houseName %></div>
+            <div><%= deliveryData.pin %> <%= deliveryData.city %>, <%= deliveryData.state %></div>
+            <div>Email: <%= deliveryData.email %></div>
+            <div>Phone: +91 <%= deliveryData.mobile %></div>
+          </div>
+
+           <%} %>
+
+        </div>
+
+        <div class="table-responsive-sm">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th class="center">No.</th>
+                <th>Item</th>
+                <th>Price</th>
+
+                <th class="right">Quantity</th>
+                <th class="right">Total</th>
+              </tr>
+            </thead>
+            <% if(deliverdData != undefined ){%>
+              
+              <% deliverdData.forEach((product,index)=>{%>
+                
+                <tbody>
+                  <tr>
+                    <td class="center"><%= index+1%></td>
+                    <td class="left strong"><%= product.proName %></td>
+                    <td class="left"> ₹ <%= product.productPrice %></td>
+                    <td class="right"><%= product.count %></td>
+                    <td class="center"> ₹ <%= product.totalPrice %></td>
+                  </tr>
+                  
+                </tbody>
+
+                <%}) %>
+
+              <%} %>
+            
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-sm-5">
+
+          </div>
+
+          <div class="col-lg-4 col-sm-5 ml-auto" style="position: relative; left: 46vh;">
+            <table class="table table-clear">
+              <tbody>
+                <tr>
+                  <td class="left">
+                    <strong>Subtotal</strong>
+                  </td>
+                  <td class="right"> ₹ <%= subTotal %></td>
+                </tr>
+                <tr>
+                  <td class="left">
+                    <strong>Discount</strong>
+                  </td>
+                  <td class="right"> -0 </td>
+                </tr>
+                <!-- <tr>
+                  <td class="left">
+                    <strong>VAT (10%)</strong>
+                  </td>
+                  <td class="right">$679,76</td>
+                </tr> -->
+                <tr>
+                  <td class="left">
+                    <strong>Total</strong>
+                  </td>
+                  <td class="right">
+                    <strong> ₹ <%= subTotal %></strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <div id="btn-group" class=" btn btn-group position-relative" >
+              <button onclick="cancelbtn()"  class="btn btn-secondary">Cancel</button>
+              <button onclick="downloadbtn()" class="btn btn-primary">Download Invoice</button>
+          </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script>
+
+    function cancelbtn(){
+      $.ajax({
+          url: "/imvoiceCancel",
+          data: {},
+          method: "get",
+          success: (response) => {
+           window.location.href = "/account"
+          }
+        });
+
+    }
+
+    function downloadbtn(){
+      window.print()
+
+    }
+
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+</body>
+
+</html>

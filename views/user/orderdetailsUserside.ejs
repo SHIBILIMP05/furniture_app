@@ -248,6 +248,16 @@
                   </tbody>
               </table>
           </div>
+          <%if(deliverdProduct.length > 0){%>
+            <div class="container" style="position: relative;left: -1vh;margin-bottom: 3vh;">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <a href="/loadInvoice?id=<%=orderData.uniqueId%>" class="btn btn-primary btn-lg">Download Invoice</a>
+                </div>
+            </div>
+        </div>
+            <%}%>
+          
           <div class="row">
             <% if(deliveryData != undefined){ %>
               <div class="col-md-6">

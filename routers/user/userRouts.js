@@ -9,6 +9,7 @@ const cartController = require("../../controller/cartController")
 const addressController = require("../../controller/addressController")
 const orderController = require("../../controller/orderController")
 const auth = require("../../middleware/auth")
+const { get } = require("express/lib/response")
 
 user_Rout.use(session({secret:config.sessionSecret}))
 
@@ -50,6 +51,8 @@ user_Rout.post("/removeAddress",auth.isLogin,addressController.removeAddress)
 user_Rout.get("/orderDetails",auth.isLogin,orderController.orderDetailsPageUserside)
 user_Rout.get("/cancellOrder",auth.isLogin,orderController.cancellOrder)
 user_Rout.get("/returnRequest",auth.isLogin,orderController.returnRequest)
+user_Rout.get("/loadInvoice",auth.isLogin,orderController.invoicePageLoad)
+user_Rout.get("/imvoiceCancel",auth.isLogin,orderController.invoiceCancel)
 
 user_Rout.get("/forgetpage",userController.loadForget)
 user_Rout.post("/forget",userController.forgetverify)
