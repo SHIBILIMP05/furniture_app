@@ -6,10 +6,10 @@ const config = require('../../config/config')
 const userController = require("../../controller/userController")
 const productController =require("../../controller/productController")
 const cartController = require("../../controller/cartController")
+const couponController = require("../../controller/couponController")
 const addressController = require("../../controller/addressController")
 const orderController = require("../../controller/orderController")
 const auth = require("../../middleware/auth")
-const { get } = require("express/lib/response")
 
 user_Rout.use(session({secret:config.sessionSecret}))
 
@@ -69,6 +69,10 @@ user_Rout.post("/addToCart",cartController.addToCart)
 user_Rout.post("/cartQuantityUpdation",auth.isLogin,cartController.quantityUpdation)
 user_Rout.post("/removeCartItem",auth.isLogin,cartController.removeCartItem)
 user_Rout.get("/checkout",auth.isLogin,userController.loadCheckoutpage)
+
+user_Rout.post("/applyCoupon",auth.isLogin,couponController.applyCoupon)
+user_Rout.post("/deleteAppliedCoupon",auth.isLogin,couponController.unApplayCoupon)
+
 user_Rout.post("/placeOrder",auth.isLogin,orderController.orderPlace)
 user_Rout.get("/orderSuccess/:id",auth.isLogin,orderController.successPage)
 

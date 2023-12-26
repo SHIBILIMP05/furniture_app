@@ -7,54 +7,51 @@
               <div class="col-lg-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Product Management</h4>
-                    <p class="card-description"> All Furni Hub Products</p>
-                    <p><a href="/admin/loadaddproduct" class="badge badge-success"> + Add Product </a></p>
+                    <h4 class="card-title">Coupon Management</h4>
+                    <p class="card-description"> Manage your coupon </p>
+                    <p><a href="/admin/loadAddCoupon" class="badge badge-success"> + Add Coupon </a></p>
                     <div class="table-responsive">
                       <table class="table">
                         <thead>
                           <tr>
                             <th>No.</th>
-          
                             <th>Name</th>
-                            <th>Images</th>
-                            <th>Category</th>
-                            <th>Stock</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            <th>Block</th>
-                            <th>Edit</th>
-                            <!-- <th>Delete</th> -->
+                            <th>Coupon Code</th>
+                            <th>Discount</th>
+                            <th>Criteria Amount</th>
+                            <th>Activation Date</th>
+                            <th>Expiration Date</th>
+                            <th>Used</th>
+                            <th>Update</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                            <% if(productData.length>0){
-                                for(let i=0;i<productData.length;i++){  %>
+                            <% if(coupon.length>0){
+                                for(let i=0;i<coupon.length;i++){  %>
                               <tr>
                                 <td><%= i+1 %></td>
                                 
-                                <td><%= productData[i].name %></td>
-                                <td>
-                                  <img src="/products/images/<%= productData[i].images.image1 %>" alt="">
-                                </td>
-                                <td><%= productData[i].category %></td>
-                                <td><%= productData[i].quantity %></td>
-                                <td><%= productData[i].price %></td>
-                                <%  if(productData[i].blocked==0){ %>
-                                <td class="text-success">Active</td>
-                                <td onclick="productBlock('<%= productData[i]._id %>')"><a class="badge badge-danger" >Unlink</a></td>
-                               <% }else{ %>
-                                <td class="text-danger">Blocked</td>
-                                <td onclick="productBlock('<%= productData[i]._id %>')"><a  class="badge badge-success" >Link</a></td>
-                              <% } %>
-                                <td><a href="/admin/edit-product-page?id=<%= productData [i]._id %>" class="badge badge-warning">Update</a></td>
+                                <td><%= coupon[i].name %></td>
+                                <td><%= coupon[i].couponCode %></td>
+                                <td><%= coupon[i].discountAmount %></td>
+                                <td><%= coupon[i].criteriaAmount %></td>
+                                <td><%= coupon[i].activationDate.toLocaleDateString('en-US', { year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %></td>
+                                <td><%= coupon[i].expiryDate.toLocaleDateString('en-US', { year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %></td>
+                                <td><%= coupon[i].usedUsers.length %>/<%= coupon[i].usersLimit %></td>
+                                <td><a href="/admin/editCoupon?_id=<%= coupon[i]._id %>" class="badge badge-warning">Update</a></td>
+
+                                <%  if(!coupon[i].is_blocked){ %>
                                 
-                                <!-- <td><a href="/admin/delete-product?id=<%= productData [i]._id %>"><button class="btn-inverse-danger">Delete</button></a></td> -->
+                                <td onclick="couponBlock('<%= coupon[i]._id %>')"><a class="badge badge-danger" >Block</a></td>
+                               <% }else{ %>
+                                <td onclick="couponBlock('<%= coupon[i]._id %>')" ><a class="badge badge-success" >Unblock</a></td>
+                              <% } %>
                               </tr>
                               <% } %>
                               <% }else{ %>
                                 <tr>
-                                    <td colspan="5">Products Not Found</td>
+                                    <td colspan="5">Coupons Not Found</td>
                                   </tr>
                              <% } %>
                         </tbody>
@@ -68,8 +65,8 @@
         </div>
         <!-- main-panel ends -->
         <script>
-          function productBlock(proId) {
-            console.log(proId)
+          function couponBlock(copId) {
+            
             swal
               .fire({
                 title: "Are You Sure?",
@@ -84,9 +81,9 @@
               .then((result) => {
                 if (result.isConfirmed) {
                   $.ajax({
-                    url: "/admin/block-product",
+                    url: "/admin/blockCoupon",
                     data: {
-                      proId: proId,
+                      copId: copId,
                     },
                     method: "post",
                     success: (response) => {
@@ -107,4 +104,4 @@
           }
         </script>
      
-<%-include("../admin/leyouts/footer.ejs")%>
+        <%-include("../admin/leyouts/footer.ejs")%>

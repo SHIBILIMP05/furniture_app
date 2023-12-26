@@ -20,6 +20,7 @@ admin_Rout.use(express.urlencoded({extended:true}))
 const productController =require("../../controller/productController")
 const adminController = require("../../controller/adminController")
 const orderController = require("../../controller/orderController")
+const couponController = require("../../controller/couponController")
 const auth = require("../../middleware/adminAuth")
 
 admin_Rout.get("/",auth.isLogout,adminController.adminLoginPage)
@@ -49,6 +50,13 @@ admin_Rout.get("/ordermanagement",auth.isLogin,orderController.ordermanagementpa
 admin_Rout.get("/orderdetailspage",auth.isLogin,orderController.orderDetailsPage)
 admin_Rout.post("/statusChange",auth.isLogin,orderController.statusChanging)
 admin_Rout.get("/returnOrder",auth.isLogin,orderController.returnOrder)
+
+admin_Rout.get("/couponManagement",auth.isLogin,couponController.loadCouponManagement)
+admin_Rout.get("/loadAddCoupon",auth.isLogin,couponController.loadAddCoupon)
+admin_Rout.post("/addCoupon",auth.isLogin,couponController.addCoupon)
+admin_Rout.post("/blockCoupon",auth.isLogin,couponController.blockCoupon)
+admin_Rout.get("/editCoupon",auth.isLogin,couponController.loadEditeCoupon)
+admin_Rout.post("/updateCoupon",auth.isLogin,couponController.EditeCoupon)
 
 admin_Rout.get("*",function(req,res){
    res.redirect("/admin")

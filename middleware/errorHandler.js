@@ -1,4 +1,4 @@
-const { render } = require("ejs");
+
 const customerror = require("../middleware/myCustomError")
 const MyCustomError =customerror.MyCustomError
 const AnotherCustomError = customerror.AnotherCustomError

@@ -8,7 +8,6 @@ const bcrypt = require("bcrypt");
 const randomString = require("randomstring");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
-const session = require("express-session");
 dotenv.config();
 
 //-------------------bcrypt-----------------------------------
@@ -60,7 +59,7 @@ const sendVerifyMail = async (name, email, otp) => {
       }
     });
   } catch (error) {
-    next(error)
+    console.log(error);
   }
 };
 

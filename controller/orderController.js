@@ -13,7 +13,7 @@ const { product } = require("./productController");
 
 const orderPlace = async (req, res) => {
   try {
-    console.log("1");
+    
 
     const id = req.session.user_id;
     const address = req.body.address;
@@ -48,8 +48,7 @@ const orderPlace = async (req, res) => {
 
     if (orderData) {
       //--------------------CASH ON DELIVERY-------------------//
-      console.log("2");
-      console.log("3");
+      
       await Cart.deleteOne({ userId: req.session.user_id });
       for (let i = 0; i < products.length; i++) {
         const pro = products[i].productId;
@@ -60,7 +59,7 @@ const orderPlace = async (req, res) => {
         );
       }
       if (req.session.code) {
-        console.log("4");
+        
         const coupon = await Coupon.findOne({ couponCode: req.session.code });
         const disAmount = coupon.discountAmount;
         await Order.updateOne(
