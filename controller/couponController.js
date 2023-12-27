@@ -84,12 +84,15 @@ const loadEditeCoupon = async (req, res, next) => {
 const EditeCoupon = async (req, res, next) => {
   try {
     const coupenData = await Coupon.findOne({ couponCode: req.body.code });
+    console.log("1");
+    console.log(req.body);
    console.log(coupenData);
     if (coupenData) {
       res.json({ exist: true });
     } else {
+      console.log("2");
       
-       await Coupon.findOneAndUpdate({_id:coupenData._id},
+       await Coupon.findOneAndUpdate({_id:req.body.id},
         {
             name:req.body.name,
             couponCode:req.body.code,

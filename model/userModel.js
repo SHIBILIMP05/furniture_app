@@ -33,7 +33,19 @@ const userSchema = mongoose.Schema({
     is_block:{
         type:Number,
         default:0
-    }
+    },
+    wallet:{
+        type:Number,
+        default:0
+    },
+    walletHistory:[{
+        date:{
+            type:Date
+        },
+        amount:{
+            type:Number
+        }
+    }]
 
 })
 

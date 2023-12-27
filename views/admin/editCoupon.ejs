@@ -56,6 +56,7 @@
                             value="<%= coupon.usersLimit %>" placeholder="user limits" style="color: white;" required>
                         <p style="color: red;" id="userLimitErr"></p>
                     </div>
+                    <input type="text" id="id" name="id" value="<%= coupon._id %>" hidden>
                     <br>
                     <button id="addCoupon" type="submit" class="btn btn-primary mr-2">Submit</button>
                 </form>
@@ -73,6 +74,7 @@
             const expiryDate = document.getElementById("expiryDate").value
             const criteriaAmount = document.getElementById("criteriaAmount").value
             const userLimit = document.getElementById("userLimit").value
+            const id = document.getElementById("id").value
 
             const nameLengthError = document.getElementById('nameLengthError')
             const couponLengthError = document.getElementById('couponLengthError')
@@ -126,6 +128,7 @@
                         $.ajax({
                             url: "/admin/updateCoupon",
                             data: {
+                                id:id,
                                 name,
                                 code,
                                 discount,
