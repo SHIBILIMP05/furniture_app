@@ -4,17 +4,22 @@ const Address = require("../model/addressModel");
 const Product = require("../model/productsModel");
 const Order = require("../model/ordersModel");
 const Coupon = require("../model/couponsModel");
-const mongoose = require("mongoose");
-const { render } = require("../routers/user/userRouts");
-const res = require("express/lib/response");
-const { product } = require("./productController");
+const Razorpay = require("razorpay");
+const crypto = require("crypto");
+const dotenv = require("dotenv");
+dotenv.config();
+
+//-------------------- RAZORPAY INSTENCE ------------
+
+var instance = new Razorpay({
+  key_id: process.env.RazorId,
+  key_secret: process.env.RazorKey,
+});
 
 //---------------------PLACE ORDER WITH COD-----------
 
 const orderPlace = async (req, res) => {
   try {
-    
-
     const id = req.session.user_id;
     const address = req.body.address;
     const cartData = await Cart.findOne({ userId: id });
@@ -24,6 +29,7 @@ const orderPlace = async (req, res) => {
     const userData = await User.findOne({ _id: id });
     const name = userData.name;
     const uniNum = Math.floor(Math.random() * 900000) + 100000;
+    const walletBalance = userData.wallet;
     const code = req.body.code;
     //user limit decreasing
     await Coupon.updateOne({ couponCode: code }, { $inc: { usersLimit: -1 } });
@@ -48,18 +54,141 @@ const orderPlace = async (req, res) => {
 
     if (orderData) {
       //--------------------CASH ON DELIVERY-------------------//
-      
-      await Cart.deleteOne({ userId: req.session.user_id });
+      if (order.paymentMethod === "COD") {
+        console.log("cashon delivery check 1");
+        await Cart.deleteOne({ userId: req.session.user_id });
+        for (let i = 0; i < products.length; i++) {
+          const pro = products[i].productId;
+          const count = products[i].count;
+          await Product.findOneAndUpdate(
+            { _id: pro },
+            { $inc: { quantity: -count } }
+          );
+        }
+        if (req.session.code) {
+          const coupon = await Coupon.findOne({ couponCode: req.session.code });
+          const disAmount = coupon.discountAmount;
+          await Order.updateOne(
+            { _id: orderid },
+            { $set: { discount: disAmount } }
+          );
+          res.json({ codsuccess: true, orderid });
+        }
+        res.json({ codsuccess: true, orderid });
+      } else {
+        //-------------IF THE ORDER IS NOT COD-----------------//
+
+        const orderId = orderData._id;
+        const totalAmount = orderData.totalAmount;
+
+        //---------------PAYMENT USING WALLET------------------//
+
+        if (order.paymentMethod == "wallet") {
+          if (walletBalance >= total) {
+            const result = await User.findOneAndUpdate(
+              { _id: id },
+              {
+                $inc: { wallet: -total },
+                $push: {
+                  walletHistory: {
+                    date: new Date(),
+                    amount: total,
+                    reason: "Purchaced Amount Debited.",
+                  },
+                },
+              },
+              { new: true }
+            );
+
+            if (result) {
+              console.log("amount debited from wallet");
+            } else {
+              console.log("not debited from wallet");
+            }
+            await Cart.deleteOne({ userId: req.session.user_id });
+            for (let i = 0; i < products.length; i++) {
+              const pro = products[i].productId;
+              const count = products[i].count;
+              await Product.findOneAndUpdate(
+                { _id: pro },
+                { $inc: { quantity: -count } }
+              );
+            }
+            if (req.session.code) {
+              const coupon = await Coupon.findOne({
+                couponCode: req.session.code,
+              });
+              const disAmount = coupon.discountAmount;
+              await Order.updateOne(
+                { _id: orderid },
+                { $set: { discount: disAmount } }
+              );
+              res.json({ codsuccess: true, orderid });
+            }
+
+            res.json({ codsuccess: true, orderid });
+          } else {
+            res.json({ walletFailed: true });
+          }
+
+          //--------------IF PAYMENT THROUGH RAZORPAY-------------//
+        } else if (order.paymentMethod == "onlinePayment") {
+          console.log("raxmmmmmmmmmmmm");
+          var options = {
+            amount: totalAmount * 100,
+            currency: "INR",
+            receipt: "" + orderId,
+          };
+
+          instance.orders.create(options, function (err, order) {
+            console.log("200");
+            res.json({ order });
+          });
+        }
+      }
+    } else {
+      console.log("not aadddeddd");
+    }
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+//--------------- VERIFY PAYMENT ------------------
+
+const verifyPayment = async (req, res) => {
+  try {
+    const cartData = await Cart.findOne({ userId: req.session.user_id });
+    const products = cartData.products;
+    const details = req.body;
+    const hmac = crypto.createHmac("sha256", process.env.RazorKey);
+
+    hmac.update(
+      details.payment.razorpay_order_id +
+        "|" +
+        details.payment.razorpay_payment_id
+    );
+    const hmacValue = hmac.digest("hex");
+
+    if (hmacValue === details.payment.razorpay_signature) {
       for (let i = 0; i < products.length; i++) {
         const pro = products[i].productId;
         const count = products[i].count;
-        await Product.findOneAndUpdate(
+        await Product.findByIdAndUpdate(
           { _id: pro },
           { $inc: { quantity: -count } }
         );
       }
+
+      await Order.findByIdAndUpdate(
+        { _id: details.order.receipt },
+        { $set: { paymentId: details.payment.razorpay_payment_id } }
+      );
+      await Cart.deleteOne({ userId: req.session.user_id });
+      const orderid = details.order.receipt;
+
+      //----discount adding orderDB------//
       if (req.session.code) {
-        
         const coupon = await Coupon.findOne({ couponCode: req.session.code });
         const disAmount = coupon.discountAmount;
         await Order.updateOne(
@@ -69,9 +198,13 @@ const orderPlace = async (req, res) => {
         res.json({ codsuccess: true, orderid });
       }
       res.json({ codsuccess: true, orderid });
+    } else {
+      await Order.findByIdAndRemove({ _id: details.order.receipt });
+      res.json({ success: false });
     }
   } catch (error) {
-    console.error(error.message);
+    console.log(error.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -225,21 +358,69 @@ const cancellOrder = async (req, res) => {
     const proId = req.query.id;
     const count = req.query.count;
     const uniqueId = req.query.uniqueId;
+    const amount = req.query.amount;
+    const id = req.session.user_id;
+    const orderData = Order.findOne({ uniqueId: uniqueId });
 
-    await Order.updateOne(
-      { uniqueId: uniqueId, "products.productId": proId },
-      {
-        $set: {
-          "products.$.status": "cancelled",
+    if (orderData.paymentMethod !== "COD") {
+      const result = await User.findOneAndUpdate(
+        { _id: id },
+        {
+          $inc: { wallet: amount },
+          $push: {
+            walletHistory: {
+              date: new Date(),
+              amount: amount,
+              reason: "Cancelled Product Amount Credited",
+              direction:"Debited"
+            },
+          },
         },
-      }
-    );
+        { new: true }
+      );
 
-    await Product.findOneAndUpdate(
-      { _id: proId },
-      { $inc: { quantity: count } }
-    );
-    res.json({ success: true });
+      if (result) {
+        console.log(`Added ${amount} to the wallet.`);
+      } else {
+        console.log("User not found.");
+      }
+      const updatedData = await Order.updateOne(
+        { uniqueId: uniqueId, "products.productId": proId },
+        {
+          $set: {
+            "products.$.status": "cancelled",
+          },
+        }
+      );
+
+      await Product.findOneAndUpdate(
+        { _id: proId },
+        { $inc: { quantity: count } }
+      );
+
+      if (updatedData) {
+        console.log("order status updated to cancel");
+      } else {
+        console.log("order status not updated");
+      }
+      console.log("User wallet updated successfully.");
+      res.json({ success: true });
+    } else if (orderData.paymentMethod == "COD") {
+      await Order.updateOne(
+        { uniqueId: uniqueId, "products.productId": proId },
+        {
+          $set: {
+            "products.$.status": "cancelled",
+          },
+        }
+      );
+
+      await Product.findOneAndUpdate(
+        { _id: proId },
+        { $inc: { quantity: count } }
+      );
+      res.json({ success: true });
+    }
   } catch (error) {
     next(error);
   }
@@ -309,28 +490,27 @@ const invoicePageLoad = async (req, res) => {
       { address: { $elemMatch: { _id: addressId } } }
     );
     const deliveryData = addressData.address[0];
-    let subTotal = 0 ;
-     deliverdData.forEach(product => {
-      subTotal = subTotal+product.totalPrice
+    let subTotal = 0;
+    deliverdData.forEach((product) => {
+      subTotal = subTotal + product.totalPrice;
     });
-    res.render("invoice", { deliverdData, orderData, deliveryData ,subTotal});
+    res.render("invoice", { deliverdData, orderData, deliveryData, subTotal });
   } catch (error) {
     console.error(error);
-    res.status(500).render("500")
+    res.status(500).render("500");
   }
 };
 
 //---------------- INVOICE CANCEL BUTTON -------------
 
-const invoiceCancel = async(req,res)=>{
+const invoiceCancel = async (req, res) => {
   try {
-    res.json({success:true})
-    
+    res.json({ success: true });
   } catch (error) {
     console.error(error);
-    res.status(500).render("500")
+    res.status(500).render("500");
   }
-}
+};
 
 module.exports = {
   orderPlace,
@@ -344,4 +524,5 @@ module.exports = {
   returnOrder,
   invoicePageLoad,
   invoiceCancel,
+  verifyPayment,
 };

@@ -1,7 +1,6 @@
 const express = require("express")
 const user_Rout = express()
 const session = require("express-session")
-
 const config = require('../../config/config')
 const userController = require("../../controller/userController")
 const productController =require("../../controller/productController")
@@ -75,7 +74,7 @@ user_Rout.post("/deleteAppliedCoupon",auth.isLogin,couponController.unApplayCoup
 
 user_Rout.post("/placeOrder",auth.isLogin,orderController.orderPlace)
 user_Rout.get("/orderSuccess/:id",auth.isLogin,orderController.successPage)
-
+user_Rout.post('/verify-payment', auth.isLogin,orderController.verifyPayment)
 
 
 

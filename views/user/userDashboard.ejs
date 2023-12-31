@@ -198,6 +198,10 @@
                       aria-controls="tab-address" aria-selected="false">Adresses</a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" id="tab-wallet-link" data-toggle="tab" href="#tab-wallet" role="tab"
+                      aria-controls="tab-wallet" aria-selected="false">Wallet</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab"
                       aria-controls="tab-account" aria-selected="false">Password</a>
                   </li>
@@ -256,9 +260,9 @@
 
                   <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
                     <h2 class="title mb-1">Order History &nbsp;&nbsp;<i class="fa-duotone fa-shopping-bag"></i></h2>
-                
+
                     <div class="table-responsive">
-                        <!-- <table class="table table-bordered">
+                      <!-- <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>Order ID.</th>
@@ -270,8 +274,8 @@
                                 </tr>
                             </thead>
                             <tbody> -->
-                                <!-- Loop through orderData to display orders -->
-                                <!-- <% if(orderData !== undefined) { 
+                      <!-- Loop through orderData to display orders -->
+                      <!-- <% if(orderData !== undefined) { 
                                     orderData.forEach((order) => { %>
                                         <tr>
                                             <td><%= order.uniqueId %></td>
@@ -282,55 +286,62 @@
                                             <td><a href="/orderDetails?id=<%= order.orderId %>">View Details</a></td>
                                         </tr>
                                 <% })} else { %> -->
-                                    <!-- If there are no orders -->
-                                    <!-- <tr>
+                      <!-- If there are no orders -->
+                      <!-- <tr>
                                         <td colspan="6">No orders available.</td>
                                     </tr>
                                 <% } %>
                             </tbody>
                         </table> -->
-<!-- ---------------------------------------------------------- -->
-<table class="table">
-  <thead>
-    <tr>
-      <th>Order ID.</th>
-      <th>Date</th>
-      <th>Payment</th>
-      <th>Amount</th>
-      <!-- <th>Status</th> -->
-      <th>Details</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if(orderData !== undefined) { %>
-      <%  for(let i=0 ; i<orderData.length ; i++){%>
-        <% var productstatus = orderData[i].products  %>
-    <tr>
-      <td>#<%= orderData[i].uniqueId %></td>
-      <td><%= orderData[i].date.toLocaleDateString('en-US', { year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %></td>
-      <td><%= orderData[i].paymentMethod %></td>
-      <td>₹<%= orderData[i].totalAmount %></td>
-        <!-- <td>
+                      <!-- ---------------------------------------------------------- -->
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Order ID.</th>
+                            <th>Date</th>
+                            <th>Payment</th>
+                            <th>Amount</th>
+                            <!-- <th>Status</th> -->
+                            <th>Details</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% if(orderData !==undefined) { %>
+                            <% for(let i=0 ; i<orderData.length ; i++){%>
+                              <% var productstatus=orderData[i].products %>
+                                <tr>
+                                  <td>#<%= orderData[i].uniqueId %>
+                                  </td>
+                                  <td>
+                                    <%= orderData[i].date.toLocaleDateString('en-US', { year:'numeric', month: 'short' ,
+                                      day: '2-digit' }).replace(/\//g, '-' ) %>
+                                  </td>
+                                  <td>
+                                    <%= orderData[i].paymentMethod %>
+                                  </td>
+                                  <td>₹<%= orderData[i].totalAmount %>
+                                  </td>
+                                  <!-- <td>
           <%  for(let j=0 ; j < productstatus.length ; j++){%>
 
           <%= productstatus[j].status %>
         
         </td>
         <%}%> -->
-      <td><a href="/orderDetails?id=<%= orderData[i].uniqueId %>">View Details</a></td>
-    </tr>
-    <%}%>
-    <% }else{ %>
-   <!-- If there are no orders -->
-   <tr>
-    <td colspan="6">No orders available.</td>
-</tr>
-<% } %>
-  </tbody>
-</table>
+                                  <td><a href="/orderDetails?id=<%= orderData[i].uniqueId %>">View Details</a></td>
+                                </tr>
+                                <%}%>
+                                  <% }else{ %>
+                                    <!-- If there are no orders -->
+                                    <tr>
+                                      <td colspan="6">No orders available.</td>
+                                    </tr>
+                                    <% } %>
+                        </tbody>
+                      </table>
 
                     </div><!-- End .table-responsive -->
-                </div><!-- .End .tab-pane -->
+                  </div><!-- .End .tab-pane -->
 
 
 
@@ -436,6 +447,49 @@
                           <!-- </div>End .col-lg-6 -->
                     </div><!-- End .row -->
                   </div><!-- .End .tab-pane -->
+                  <div class="tab-pane fade" id="tab-wallet" role="tabpanel" aria-labelledby="tab-wallet-link">
+                    <h2 class="title mb-1">Wallet &nbsp;&nbsp;<i class="fa-duotone fa-wallet"></i></h2>
+                    <!-- Your wallet content goes here -->
+                    <div class="row">
+                      <!-- Wallet balance -->
+                      <div class="col-lg-6">
+                        <div class="card card-dashboard">
+                          <div class="card-body">
+                            <h3 class="card-title">Current Balance</h3>
+                            <p>₹<span id="walletBalance">5000</span></p>
+                          </div><!-- End .card-body -->
+                        </div><!-- End .card-dashboard -->
+                      </div><!-- End .col-lg-6 -->
+
+                      <!-- Transaction history -->
+                      <div class="col-lg-6">
+                        <div class="card card-dashboard">
+                          <div class="card-body">
+                            <h3 class="card-title">Debit Transactions</h3>
+                            <ul id="debitTransactionList">
+                              <li>Debit Transaction 1 - ₹50</li>
+                              <li>Debit Transaction 2 - ₹30</li>
+                              <!-- Add more debit transactions as needed -->
+                            </ul>
+                          </div><!-- End .card-body -->
+                        </div><!-- End .card-dashboard -->
+                      </div><!-- End .col-lg-6 -->
+                      <div class="col-lg-6">
+                        <div class="card card-dashboard">
+                          <div class="card-body">
+                            <h3 class="card-title">Credit Transactions</h3>
+                            <ul id="creditTransactionList">
+                              <li>Credit Transaction 1 - ₹100</li>
+                              <li>Credit Transaction 2 - ₹200</li>
+                              <!-- Add more credit transactions as needed -->
+                            </ul>
+                          </div><!-- End .card-body -->
+                        </div><!-- End .card-dashboard -->
+                      </div><!-- End .col-lg-6 -->
+
+                    </div><!-- End .row -->
+                  </div><!-- .End .tab-pane -->
+
 
                   <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
                     <div class="col-lg-6" id="changePassDiv">
@@ -522,9 +576,9 @@
         })
       })        </script>
 
-      
-      
-    
+
+
+
 
     <script src="/user/userAccountEdits.js"></script>
 

@@ -232,14 +232,14 @@
 
                   <div class="d-flex align-items-center">
                     <div class="mr-2">
-                      <input required type="radio" id="payment" name="payment" value="" checked />
+                      <input required type="radio" id="payment" name="payment" value="onlinePayment" checked />
                     </div>
                     <a href="" class="d-block text-dark" for="pay2">Online Payment</a>
                   </div>
 
                   <div class="d-flex align-items-center">
                     <div class="mr-2">
-                      <input required type="radio" id="wallet" name="payment" value="" />
+                      <input required type="radio" id="wallet" name="payment" value="wallet" />
                     </div>
                     <a href="" class="d-block text-dark" for="pay3">Wallet</a>
                   </div>
@@ -267,6 +267,7 @@
 
     <!-- End .page-content -->
   </main>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   <script>
     document.getElementById("multiAddresschekout").addEventListener("click", function (e) {
@@ -447,7 +448,7 @@
 
     $("#checkout-form").submit((e) => {
       e.preventDefault();
-      console.log("11");
+      
       let codes = document.getElementById('code').value;
       let code = codes ? codes : 0
       let address = $("input[name=address]:checked").val();
@@ -472,12 +473,71 @@
           } else if (response.stock) {
             location.reload();
           } else {
-
+            console.log("100");
+            razorPayment(response.order);
           }
         },
       });
     });
+
+    function razorPayment(order) {
+    
+    var options = {
+      key: "rzp_test_VZpu09HibMHm4j", 
+      amount: order.amount, 
+      currency: "INR",
+      name: "Furni Hub Pvt.Ltd", 
+      description: "Test Transaction",
+      image: "/user/images/logo/Furni Hub-logos_black.png",
+      order_id: order.id, 
+      handler: function (response) {
+        verifyPayment(response, order);
+      },
+      prefill: {
+        name: "Furni Hub Pvt.Ltd", 
+        email: "furnihub05store@example.com",
+        contact: "9108080036", 
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#206566",
+      },
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+  }
+
+  function verifyPayment(payment, order) {
+    const amount2 = document.getElementById("total1").innerHTML;
+    $.ajax({
+      url: "/verify-payment",
+      method: "post",
+      data: {
+        payment: payment,
+        amount2: amount2,
+        order: order,
+      },
+      success: (response) => {
+        if (response.codsuccess == true) {
+          location.href = `/orderSuccess/${response.orderid}`;
+        } else {
+          swal.fire({
+            positon: "center",
+            icon: "error",
+            title: "Payment failed",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      },
+    });
+  }
   </script>
+
+
   <script>
            //--------------- APPLY COUPON -----------------
     function applycoupon(code) {

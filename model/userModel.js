@@ -43,7 +43,13 @@ const userSchema = mongoose.Schema({
             type:Date
         },
         amount:{
-            type:Number
+            type:Number,
+        },
+        reason:{
+            type: String,
+        },
+        direction:{
+            type:String,
         }
     }]
 

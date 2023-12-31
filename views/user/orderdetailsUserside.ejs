@@ -229,7 +229,7 @@
                                   <td class="price-col">₹ <%= product.totalPrice %></td>
                                     <td class="price-col"><%= product.status %></td>
                                   <% if(product.status !=="cancelled" && product.status !=="Delivered" && product.status !=="request" && product.status !=="Accepted") {%>
-                                    <td class="action-col"><button onclick="cancelOrder('<%=orderData.products[index].productId%>','<%=orderData.products[index].count%>','<%=orderData.uniqueId%>')" class="btn-danger">cancel</button></td>
+                                    <td class="action-col"><button onclick="cancelOrder('<%=orderData.products[index].productId%>','<%=orderData.products[index].count%>','<%=orderData.products[index].totalPrice %>','<%=orderData.uniqueId%>')" class="btn-danger">cancel</button></td>
                                     <%}else if(product.status =="Delivered"){%>
                                       <td class="action-col"><button onclick="returnRequest('<%=orderData.products[index].productId%>','<%=orderData.products[index].count%>','<%=orderData.uniqueId%>')" class="badge badge-warning">Return</button></td>  
                                       <%}else if(product.status =="Accepted"){%>
@@ -316,7 +316,7 @@
   </main><!-- End .main -->
 
   <script>
-    function cancelOrder(id,count,uniqueId){
+    function cancelOrder(id,count,amount,uniqueId){
         
         Swal.fire({
             title: "Are you sure?",
@@ -334,6 +334,7 @@
             data: {
               id: id,
               count:count,
+              amount:amount,
               uniqueId:uniqueId
 
             },
