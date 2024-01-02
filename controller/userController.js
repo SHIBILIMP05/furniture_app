@@ -4,6 +4,7 @@ const Category = require("../model/categoryModel.js");
 const Cart = require("../model/cartModel.js");
 const Address = require("../model/addressModel.js");
 const Order = require("../model/ordersModel.js");
+const Wishlist = require("../model/wishlistModel.js");
 const bcrypt = require("bcrypt");
 const randomString = require("randomstring");
 const nodemailer = require("nodemailer");
@@ -73,10 +74,16 @@ const loadHome = async (req, res) => {
     if (cart) {
       cartCount = cart.products.length;
     }
+    const wishlist = await Wishlist.find({ userId: req.session.user_id });
+      let wishCount = 0
+      if(wishlist){
+        wishCount = wishlist.length
+      }
     res.render("home", {
       name: req.session.name,
       products: products,
       cartCount,
+      wishCount
     });
   } catch (error) {
     next(error)
@@ -389,6 +396,13 @@ const verifyOtp = async (req, res) => {
 const accountload = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.session.user_id });
+    let walletAmount;
+    let walletHistory;
+    if(userData){
+      walletAmount = userData.wallet
+      walletHistory = userData.walletHistory
+      walletHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
     const address = await Address.findOne({ user: req.session.user_id });
     let addressData;
     if (address) {
@@ -400,11 +414,19 @@ const accountload = async (req, res) => {
     if (cart) {
       cartCount = cart.products.length;
     }
+    const wishlist = await Wishlist.find({ userId: req.session.user_id });
+    let wishCount = 0
+    if(wishlist){
+      wishCount = wishlist.length
+    }
     res.render("userDashboard", {
       orderData,
       cartCount,
       userData,
       addressData,
+      walletAmount,
+      walletHistory,
+      wishCount
     });
   } catch (error) {
     next(error)
@@ -599,6 +621,11 @@ const searchProduct = async (req, res) => {
     if (cart) {
       cartCount = cart.products.length;
     }
+    const wishlist = await Wishlist.find({ userId: req.session.user_id });
+      let wishCount = 0
+      if(wishlist){
+        wishCount = wishlist.length
+      }
 
     const products = await Products.find({
       name: { $regex: regex },
@@ -615,6 +642,7 @@ const searchProduct = async (req, res) => {
       name: req.session.name,
       cartCount,
       totalPages: 0,
+      wishCount
     });
   } catch (error) {
     next(error)  }
@@ -634,6 +662,11 @@ const filterProducts = async (req, res) => {
     if (cart) {
       cartCount = cart.products.length;
     }
+    const wishlist = await Wishlist.find({ userId: req.session.user_id });
+      let wishCount = 0
+      if(wishlist){
+        wishCount = wishlist.length
+      }
     if (req.body.category == "allCate") {
       filtered = await Products.find({ blocked: 0 }).sort({ price: priceSort });
       count = await Products.find({ blocked: 0 }).count();
@@ -651,6 +684,7 @@ const filterProducts = async (req, res) => {
       products: filtered,
       cartCount,
       totalPages: 0,
+      wishCount
     });
   } catch (error) {
     next(error)  }
@@ -730,6 +764,11 @@ const loadCheckoutpage = async (req, res) => {
     if (cart) {
       cartCount = cart.products.length;
     }
+    const wishlist = await Wishlist.find({ userId: req.session.user_id });
+      let wishCount = 0
+      if(wishlist){
+        wishCount = wishlist.length
+      }
     let total = 0;
     for (let i = 0; i < products.length; i++) {
       total += products[i].totalPrice;
@@ -770,6 +809,7 @@ const loadCheckoutpage = async (req, res) => {
           addressData,
           userData,
           cartCount,
+          wishCount,
           name: req.session.name,
         });
       } else {

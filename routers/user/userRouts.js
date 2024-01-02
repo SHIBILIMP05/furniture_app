@@ -8,6 +8,7 @@ const cartController = require("../../controller/cartController")
 const couponController = require("../../controller/couponController")
 const addressController = require("../../controller/addressController")
 const orderController = require("../../controller/orderController")
+const wishlistController = require("../../controller/wishlistController")
 const auth = require("../../middleware/auth")
 
 user_Rout.use(session({secret:config.sessionSecret}))
@@ -68,6 +69,9 @@ user_Rout.post("/addToCart",cartController.addToCart)
 user_Rout.post("/cartQuantityUpdation",auth.isLogin,cartController.quantityUpdation)
 user_Rout.post("/removeCartItem",auth.isLogin,cartController.removeCartItem)
 user_Rout.get("/checkout",auth.isLogin,userController.loadCheckoutpage)
+
+user_Rout.get("/wishlistLoad",auth.isLogin,wishlistController.loadWishlist)
+user_Rout.post("/addToWishList",wishlistController.addToWishlist)
 
 user_Rout.post("/applyCoupon",auth.isLogin,couponController.applyCoupon)
 user_Rout.post("/deleteAppliedCoupon",auth.isLogin,couponController.unApplayCoupon)

@@ -2,16 +2,20 @@ const mongoose = require("mongoose")
 
 const wishlistSchema = mongoose.Schema({
 
-    productName:{
+    userId:{
         type:String,
         required:true
     },
-    productImg:{
-        type:binary,
+    proName:{
+        type:String,
         required:true
     },
-    productPrice:{
+    price:{
         type:Number,
+        required:true
+    },
+    images:{
+        type:Object,
         required:true
     }
     

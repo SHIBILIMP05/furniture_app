@@ -330,7 +330,7 @@ img.molla-lz[data-oi*=".png"] {
 }
 .mobile-menu-close:focus,
 .mobile-menu-close:hover {
-  color: #c96;
+  color: #206566;
 }
 .mobile-menu-close .icon-close {
   display: inline-block;
@@ -384,13 +384,13 @@ img.molla-lz[data-oi*=".png"] {
 }
 .mobile-menu li a:focus,
 .mobile-menu li a:hover {
-  color: #c96;
+  color: #206566;
   text-decoration: none;
   outline: 0 !important;
 }
 .mobile-menu li.active > a,
 .mobile-menu li.open > a {
-  color: #c96;
+  color: #206566;
 }
 .section-dark h1,
 .section-dark h2,
@@ -613,7 +613,7 @@ section.banner .btn {
 }
 .star-rating {
   font-size: 16px;
-  color: #c96;
+  color: #206566;
 }
 .star-rating i {
   margin: 0 0.8rem;

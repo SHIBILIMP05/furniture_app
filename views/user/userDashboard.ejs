@@ -33,6 +33,54 @@
 </head>
 
 <body>
+  <style>
+    .transaction-list-container {
+      max-height: 200px;
+      /* Adjust the height based on your design */
+      overflow-y: auto;
+    }
+
+    /* Styling for the scrollbar */
+    .transaction-list-container::-webkit-scrollbar {
+      width: 8px;
+      /* Width of the scrollbar */
+    }
+
+    .transaction-list-container::-webkit-scrollbar-thumb {
+      background-color: #888;
+      /* Color of the scrollbar thumb */
+      border-radius: 4px;
+      /* Round the corners of the thumb */
+    }
+
+    .transaction-list-container::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+      /* Color of the scrollbar track */
+    }
+
+    /* Optional: Hover effect on the thumb */
+    .transaction-list-container::-webkit-scrollbar-thumb:hover {
+      background-color: #555;
+    }
+
+    /* Add this to your styles */
+    .transaction-icon-debit {
+      margin-left: 5px;
+      /* Adjust as needed */
+      color: #f00;
+      /* Adjust color as needed */
+    }
+
+    .transaction-icon-credit {
+      margin-left: 5px;
+      /* Adjust as needed */
+      color: rgb(0, 255, 64);
+      /* Adjust color as needed */
+    }
+    .card.card-dashboard {
+      width: 540px;
+    }
+  </style>
   <div class="page-wrapper">
     <header class="header">
 
@@ -83,15 +131,18 @@
                                 </div>End .header-search-wrapper -->
             <!-- </form>
                         </div>End .header-search -->
-            <div class="dropdown compare-dropdown">
-              <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
-                <i class="icon-random"></i>
+            <div class="dropdown cart-dropdown">
+              <a href="/wishlistLoad" class="dropdown-toggle" role="button"  aria-haspopup="true"
+                  title="Wishlist" >
+                <i class="icon-heart-o"></i>
+                <span class="cart-count">
+                  <%= wishCount %>
+                </span>
               </a>
             </div><!-- End .compare-dropdown -->
 
             <div class="dropdown cart-dropdown">
-              <a href="/cartLoad" class="dropdown-toggle" role="button" aria-haspopup="true">
+              <a href="/cartLoad" class="dropdown-toggle" role="button" aria-haspopup="true" >
                 <i class="icon-shopping-cart"></i>
                 <span class="cart-count">
                   <%= cartCount %>
@@ -451,41 +502,86 @@
                     <h2 class="title mb-1">Wallet &nbsp;&nbsp;<i class="fa-duotone fa-wallet"></i></h2>
                     <!-- Your wallet content goes here -->
                     <div class="row">
-                      <!-- Wallet balance -->
-                      <div class="col-lg-6">
-                        <div class="card card-dashboard">
-                          <div class="card-body">
-                            <h3 class="card-title">Current Balance</h3>
-                            <p>₹<span id="walletBalance">5000</span></p>
-                          </div><!-- End .card-body -->
-                        </div><!-- End .card-dashboard -->
-                      </div><!-- End .col-lg-6 -->
+                      <% if(walletAmount !=0 || walletHistory.length> 0){%>
+                        <!-- Wallet balance -->
+                        <div class="col-lg-6">
+                          <div class="card card-dashboard">
+                            <div class="card-body">
+                              <h3 class="card-title">Current Balance</h3>
+                              <p>₹<span id="walletBalance">
+                                  <%= walletAmount %>
+                                </span></p>
+                            </div><!-- End .card-body -->
+                          </div><!-- End .card-dashboard -->
+                        </div><!-- End .col-lg-6 -->
+                        <% if(walletHistory.length> 0){%>
+                          <!-- Transaction history -->
+                          <div class="col-lg-6">
+                            <div class="card card-dashboard">
+                              <div class="card-body">
+                                <h3 class="card-title"> Transactions History</h3>
+                                <div class="transaction-list-container">
+                                  <% walletHistory.forEach((element,i)=> {%>
+                                    <ul id="debitTransactionList">
 
-                      <!-- Transaction history -->
-                      <div class="col-lg-6">
-                        <div class="card card-dashboard">
-                          <div class="card-body">
-                            <h3 class="card-title">Debit Transactions</h3>
-                            <ul id="debitTransactionList">
-                              <li>Debit Transaction 1 - ₹50</li>
-                              <li>Debit Transaction 2 - ₹30</li>
-                              <!-- Add more debit transactions as needed -->
-                            </ul>
-                          </div><!-- End .card-body -->
-                        </div><!-- End .card-dashboard -->
-                      </div><!-- End .col-lg-6 -->
-                      <div class="col-lg-6">
-                        <div class="card card-dashboard">
-                          <div class="card-body">
-                            <h3 class="card-title">Credit Transactions</h3>
-                            <ul id="creditTransactionList">
-                              <li>Credit Transaction 1 - ₹100</li>
-                              <li>Credit Transaction 2 - ₹200</li>
-                              <!-- Add more credit transactions as needed -->
-                            </ul>
-                          </div><!-- End .card-body -->
-                        </div><!-- End .card-dashboard -->
-                      </div><!-- End .col-lg-6 -->
+                                      <% if(element.direction=="Debited" ){%>
+                                        <li>
+                                          <div class="transaction-info">
+                                            <span class="transaction-message"> Debit Transaction </span>
+                                            <span class="transaction-amount">- ₹ <%= element.amount %></span>
+                                            <span class="transaction-date">[<%= element.date.toLocaleDateString('en-US',
+                                                { year:'numeric', month: 'short' , day: '2-digit' }).replace(/\//g, '-'
+                                                ) %>]</span>
+                                            <i class="fas fa-arrow-down transaction-icon-debit"> - </i>
+                                          </div>
+                                        </li>
+                                        <%}else if(element.direction=="Credited"){%>
+                                          <li>
+                                            <div class="transaction-info">
+                                              <span class="transaction-message"><%= element.reason %> </span>
+                                              <span class="transaction-amount">- ₹ <%= element.amount %></span>
+                                              <span class="transaction-date">[<%=element.date.toLocaleDateString('en-US', { year:'numeric',
+                                                  month: 'short' , day: '2-digit' }).replace(/\//g, '-' ) %>]</span>
+                                              <i class="fas fa-arrow-up transaction-icon-credit"> + </i>
+                                            </div>
+                                          </li>
+                                          <%} %>
+                                          <!-- Add more debit transactions as needed -->
+                                    </ul>
+                                    <%}) %>
+
+                                </div>
+
+                              </div><!-- End .card-body -->
+                            </div><!-- End .card-dashboard -->
+                          </div><!-- End .col-lg-6 -->
+                          <%} %>
+
+
+                            <%}else{%>
+                              <div class="col-lg-6">
+                                <div class="card card-dashboard"
+                                  style="border-radius: 15px; background: radial-gradient(circle, #F1F0E8, #96B6C5); height: 250px; width: 400px;">
+                                  <div class="card-body">
+                                    <h1 class="card-title">Wallet is empty.</h1>
+                                    <!-- End .card-title -->
+                                    <br />
+
+                                    <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                                      <div class="d-flex d-sm-block d-md-flex align-items-center">
+                                        <h2 class="mb-0">₹ &nbsp 0.00</h2>
+                                      </div>
+                                    </div>
+                                    <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                                      <i class="icon-lg mdi mdi-wallet-travel text-danger ml-auto"></i>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End .card-body -->
+                              </div>
+                              <!-- End .card-dashboard -->
+                              <%} %>
+
 
                     </div><!-- End .row -->
                   </div><!-- .End .tab-pane -->

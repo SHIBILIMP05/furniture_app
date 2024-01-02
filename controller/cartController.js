@@ -1,7 +1,7 @@
 const User = require("../model/userModel")
 const Cart = require("../model/cartModel")
 const Products = require("../model/productsModel")
-const { name } = require("ejs")
+const Wishlist = require("../model/wishlistModel")
 
 //----------------------LOAD CART PAGE -------------------
 
@@ -16,7 +16,11 @@ const loadCart = async (req, res) => {
         const cart = await Cart.findOne({ userId: req.session.user_id })
         let cartCount = 0;
         if (cart) { cartCount = cart.products.length }
-
+        const wishlist = await Wishlist.find({ userId: req.session.user_id });
+      let wishCount = 0
+      if(wishlist){
+        wishCount = wishlist.length
+      }
         const session = req.session.user_id;
         if (cartData) {
             if (cartData.products.length > 0) {
@@ -39,14 +43,15 @@ const loadCart = async (req, res) => {
                     totalamount,
                     user: userName,
                     cartCount,
+                    wishCount,
                     name:req.session.name
                 });
             } else {
-                res.render("cartPage", { cartCount });
+                res.render("cartPage", { cartCount ,wishCount,name:req.session.name});
                 console.log("empty cart");
             }
         } else {
-            res.render("cartPage", { cartCount });
+            res.render("cartPage", { cartCount ,wishCount ,name:req.session.name});
             console.log("no products in cart");
         }
     } catch (error) {
@@ -54,7 +59,7 @@ const loadCart = async (req, res) => {
     }
 }
 
-//--------------------ADD PRODUCTS TO CART----------------
+//-------------------- ADD PRODUCTS TO CART ----------------
 
 const addToCart = async (req, res) => {
     try {

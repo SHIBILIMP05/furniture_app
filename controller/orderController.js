@@ -372,7 +372,7 @@ const cancellOrder = async (req, res) => {
               date: new Date(),
               amount: amount,
               reason: "Cancelled Product Amount Credited",
-              direction:"Debited"
+              direction:"Credited"
             },
           },
         },
