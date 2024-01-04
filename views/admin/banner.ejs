@@ -1,0 +1,61 @@
+<%-include("../admin/leyouts/header.ejs")%>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Coupon Management</h4>
+              <p class="card-description"> Manage your coupon </p>
+              <p><a href="/admin/loadAddBanner" class="badge badge-success"> + Add Banner </a></p>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>No.</th>
+                      <th>Image</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Status</th>
+                      <th>Updation</th>
+                      <th>Action</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <% if(banner.length>0){
+                          for(let i=0;i<banner.length;i++){  %>
+                        <tr>
+                          <td><%= i+1 %></td>
+                          
+                          <td><%= banner[i].image %></td>
+                          <td><%= banner[i].title %></td>
+                          <td><%= banner[i].description %></td>
+                          <td><%= banner[i].status %></td>
+                          <td><a href="/admin/editCoupon?_id=<%= coupon[i]._id %>" class="badge badge-warning">Update</a></td>
+
+                          <%  if(!banner[i].is_blocked){ %>
+                          
+                          <td onclick="bannerBlock('<%= banner[i]._id %>')"><a class="badge badge-danger" >Block</a></td>
+                         <% }else{ %>
+                          <td onclick="bannerBlock('<%= banner[i]._id %>')" ><a class="badge badge-success" >Unblock</a></td>
+                        <% } %>
+                        <td onclick="bannerDelete('<%= banner[i]._id %>')" ><a class="badge badge-danger">Delete</a></td>
+                        </tr>
+                        <% } %>
+                        <% }else{ %>
+                          <tr>
+                              <td colspan="5">Banner Not Found</td>
+                            </tr>
+                       <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+    <!-- partial -->
+  </div>
+  <%-include("../admin/leyouts/footer.ejs")%>

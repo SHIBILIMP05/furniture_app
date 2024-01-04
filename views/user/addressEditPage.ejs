@@ -58,12 +58,7 @@
                                 <li>
                                     <a href="/loadproduct" class="sf-with-ul">Shop</a>
                                 </li>
-                                <!-- <li>
-                                    <a href="product.html" class="sf-with-ul">Product</a>
-                                </li> -->
-                                <!-- <li>
-                                    <a href="#" class="sf-with-ul">Pages</a>
-                                </li> -->
+                                
                                 <li>
                                     <a href="blog.html" class="sf-with-ul">Blog</a>
                                 </li>
@@ -75,24 +70,15 @@
                     </div><!-- End .header-left -->
 
                     <div class="header-right">
-                        <!-- <div class="header-search">
-                            <a href="#" class="search-toggle" role="button" title="Search"><i
-                                    class="icon-search"></i></a>
-                            <form action="/searchPro" method="get">
-                                <div class="header-search-wrapper">
-                                    <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..."
-                                        required>
-                                </div>End .header-search-wrapper -->
-                            <!-- </form>
-                        </div>End .header-search -->
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static"
-                                title="Compare Products" aria-label="Compare Products">
-                                <i class="icon-random"></i>
+                        <div class="dropdown cart-dropdown">
+                            <a href="/wishlistLoad" class="dropdown-toggle" role="button"  aria-haspopup="true"
+                                title="Wishlist" >
+                              <i class="icon-heart-o"></i>
+                              <span class="cart-count">
+                                <%= wishCount %>
+                              </span>
                             </a>
-                        </div><!-- End .compare-dropdown -->
+                          </div><!-- End .compare-dropdown -->
 
                         <div class="dropdown cart-dropdown">
                             <a href="/cartLoad" class="dropdown-toggle" role="button" aria-haspopup="true">

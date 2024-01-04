@@ -269,13 +269,19 @@ const loadproductsPage = async (req, res) => {
         const cart = await Cart.findOne({userId:req.session.user_id})
         let cartCount=0; 
         if(cart){cartCount = cart.products.length}
+        const user = await User.findOne({ _id: req.session.user_id });
+        const wishlist = user.wishlist.items;
+        let wishCount = 0
+        if(wishlist){
+          wishCount = wishlist.length;
+        }
 
         const products = await Products.find({ blocked: 0 })
             .limit(limit * 1)
             .skip((page - 1) * limit);
         const count = await Products.find({ blocked: 0 }).count()
         const totalPages = Math.ceil(count / limit);
-        res.render("productspage", { cartCount,totalPages: totalPages, category: category, products: products, count: count, name: req.session.name })
+        res.render("productspage", { cartCount,wishCount,totalPages: totalPages, category: category, products: products, count: count, name: req.session.name })
     } catch (error) {
         next(error)
     }
@@ -288,14 +294,19 @@ const productdetailspage = async (req, res) => {
 
         const viewProduct = await Products.findOne({ _id: req.query.id })
         const products = await Products.find({ blocked: 0 })
+        console.log("products:",products);
         const category = await Category.find({ blocked: 0 })
         const cart = await Cart.findOne({userId:req.session.user_id})
         let cartCount=0; 
         if(cart){cartCount = cart.products.length}
+        const user = await User.findOne({ _id: req.session.user_id });
+        const wishlist = user.wishlist.items;
+        let wishCount = 0
+        if(wishlist){
+          wishCount = wishlist.length;
+        }
         if (viewProduct) {
-
-
-            res.render("productdetailspage", { cartCount,products, category, view: viewProduct, name: req.session.name })
+            res.render("productdetailspage", { cartCount,wishCount,products, category, view: viewProduct, name: req.session.name })
         } else {
             res.status(404).render("404");
         }

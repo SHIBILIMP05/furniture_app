@@ -55,14 +55,27 @@
                         <td class="price-col">₹ <%= value.productId.price %>
                         </td>
                         <td class="quantity-col">
-                          <input style="width: 5vb" class="btn-outline-primary btn-rounded" type="button"
-                            onclick="changeQuantity('<%=userId%>','<%=value.productId._id%>',-1)" class="btneg"
-                            value="-" />
-                          <input style="width: 5vb" class="btn-outline-primary btn-rounded" type="text"
-                            value="<%= value.count %>" />
-                          <input style="width: 5vb" class="btn-outline-primary btn-rounded" type="button"
-                            onclick="changeQuantity('<%=userId%>','<%=value.productId._id%>',1)" class="btpos"
-                            value="+" />
+                          <div class="cart-product-quantity">
+                            <div class="input-group  input-spinner">
+                                <div class="input-group-prepend">
+                                    <button style="min-width: 26px"
+                                        class="btn btn-decrement btn-spinner"
+                                        onclick="changeQuantity('<%= userId %>','<%= value.productId._id %>',-1)"
+                                        type="button" fdprocessedid="oe68nu">
+                                        <i class="icon-minus"></i></button>
+                                </div>
+                                <input type="text" style="text-align: center"
+                                    id="value" class="form-control " required=""
+                                    placeholder="" fdprocessedid="kzohym"
+                                    value="<%= value.count %>">
+                                <div class="input-group-append">
+                                    <button style="min-width: 26px"
+                                        class="btn btn-increment btn-spinner"
+                                        onclick="changeQuantity('<%= userId %>','<%= value.productId._id %>',1)"
+                                        type="button" fdprocessedid="4dpds">
+                                        <i class="icon-plus"></i></button>
+                                </div>
+                            </div>
                           <% if(value.productId.quantity==0 ){ %>
                             <p style="color: red"><b>Out of Stock !</b></p>
                             <% } %>
@@ -76,20 +89,7 @@
                   <% } ) %>
                 </table><!-- End .table table-wishlist -->
 
-                <!-- <div class="cart-bottom">
-                            <div class="cart-discount">
-                                <form action="#">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" required placeholder="coupon code">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
-                                        </div>.End .input-group-append -->
-                <!-- </div>End .input-group -->
-                <!-- </form>
-                            </div>End .cart-discount -->
 
-                <!-- <a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a> -->
-                <!-- </div>End .cart-bottom -->
               </div><!-- End .col-lg-9 -->
               <aside class="col-lg-3">
                 <div class="summary summary-cart">

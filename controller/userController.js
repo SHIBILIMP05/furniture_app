@@ -4,7 +4,6 @@ const Category = require("../model/categoryModel.js");
 const Cart = require("../model/cartModel.js");
 const Address = require("../model/addressModel.js");
 const Order = require("../model/ordersModel.js");
-const Wishlist = require("../model/wishlistModel.js");
 const bcrypt = require("bcrypt");
 const randomString = require("randomstring");
 const nodemailer = require("nodemailer");
@@ -17,7 +16,7 @@ const securePassword = async (password) => {
     const passwordHash = await bcrypt.hash(password, 10);
     return passwordHash;
   } catch (error) {
-    next(error)
+    console.log(error);
   }
 };
 
@@ -66,7 +65,7 @@ const sendVerifyMail = async (name, email, otp) => {
 
 //------------------- LOAD HOME PAGE -------------------------
 
-const loadHome = async (req, res) => {
+const loadHome = async (req, res, next) => {
   try {
     const products = await Products.find({ blocked: 0 }).limit(10);
     const cart = await Cart.findOne({ userId: req.session.user_id });
@@ -74,36 +73,40 @@ const loadHome = async (req, res) => {
     if (cart) {
       cartCount = cart.products.length;
     }
-    const wishlist = await Wishlist.find({ userId: req.session.user_id });
-      let wishCount = 0
-      if(wishlist){
-        wishCount = wishlist.length
+
+    let wishCount = 0;
+    if (req.session.user_id) {
+      const user = await User.findOne({ _id: req.session.user_id });
+      if (user && user.wishlist && user.wishlist.items) {
+        wishCount = user.wishlist.items.length;
       }
+    }
+
     res.render("home", {
       name: req.session.name,
       products: products,
       cartCount,
-      wishCount
+      wishCount,
     });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
 //-------------------load login page-------------------------
 
-const loadLogin = async (req, res) => {
+const loadLogin = async (req, res, next) => {
   try {
     let regSuccess = req.session.regSuccess;
     res.render("login", { regSuccess });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
 //--------------------verifying login page--------------------
 
-const verifylogin = async (req, res) => {
+const verifylogin = async (req, res, next) => {
   try {
     const email = req.body.email;
     const name = "User";
@@ -165,23 +168,23 @@ const verifylogin = async (req, res) => {
       }
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
 //-------------------load signup page-------------------------
 
-const loadSignup = async (req, res) => {
+const loadSignup = async (req, res, next) => {
   try {
     res.render("signup");
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
 //-------------------user registering data--------------------------
 
-const insertuser = async (req, res) => {
+const insertuser = async (req, res, next) => {
   try {
     const name = req.body.name;
     const email = req.body.email;
@@ -312,13 +315,13 @@ const insertuser = async (req, res) => {
       }
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
 //---------------------OTP loading---------------------------
 
-const otpload = async (req, res) => {
+const otpload = async (req, res, next) => {
   try {
     let verifyErr = req.session.verifyErr;
     let otpsend = req.session.otpsend;
@@ -327,13 +330,13 @@ const otpload = async (req, res) => {
 
     console.log("otp page loaded");
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
 //---------------------RESEND OTP--------------------------
 
-const resendotp = async (req, res) => {
+const resendotp = async (req, res, next) => {
   try {
     let otpsend = req.session.otpsend;
     let verifyErr = req.session.verifyErr;
@@ -351,13 +354,13 @@ const resendotp = async (req, res) => {
       resend: "Resend the otp to your email address.",
     });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
 //---------------------OTP Verification----------------------
 
-const verifyOtp = async (req, res) => {
+const verifyOtp = async (req, res, next) => {
   try {
     req.session.verifyErr = false;
     req.session.otpsend = false;
@@ -387,20 +390,20 @@ const verifyOtp = async (req, res) => {
       }
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
 //----------------------- dashboard loading ---------------------
 
-const accountload = async (req, res) => {
+const accountload = async (req, res, next) => {
   try {
     const userData = await User.findOne({ _id: req.session.user_id });
     let walletAmount;
     let walletHistory;
-    if(userData){
-      walletAmount = userData.wallet
-      walletHistory = userData.walletHistory
+    if (userData) {
+      walletAmount = userData.wallet;
+      walletHistory = userData.walletHistory;
       walletHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
     }
     const address = await Address.findOne({ user: req.session.user_id });
@@ -408,16 +411,18 @@ const accountload = async (req, res) => {
     if (address) {
       addressData = address.address;
     }
-    const orderData = await Order.find({ userId: req.session.user_id }).sort({date:-1});
+    const orderData = await Order.find({ userId: req.session.user_id }).sort({
+      date: -1,
+    });
     const cart = await Cart.findOne({ userId: req.session.user_id });
     let cartCount = 0;
     if (cart) {
       cartCount = cart.products.length;
     }
-    const wishlist = await Wishlist.find({ userId: req.session.user_id });
-    let wishCount = 0
-    if(wishlist){
-      wishCount = wishlist.length
+    const wishlist = userData.wishlist.items;
+    let wishCount = 0;
+    if (wishlist) {
+      wishCount = wishlist.length;
     }
     res.render("userDashboard", {
       orderData,
@@ -426,21 +431,22 @@ const accountload = async (req, res) => {
       addressData,
       walletAmount,
       walletHistory,
-      wishCount
+      wishCount,
     });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
 //----------------------logout---------------------------------
 
-const userLogout = async (req, res) => {
+const userLogout = async (req, res, next) => {
   try {
     req.session.destroy();
     res.redirect("/");
   } catch (error) {
-    next(error)  }
+    next(error);
+  }
 };
 
 //!--------------------------mail sending for recoovery password-------------------
@@ -477,21 +483,23 @@ const sendPassResetMail = async (name, email, token) => {
       }
     });
   } catch (error) {
-    next(error)  }
+    console.log(error);
+  }
 };
 
 //-----------------------load Forgetpage--------------------
 
-const loadForget = async (req, res) => {
+const loadForget = async (req, res, next) => {
   try {
     res.render("forgetpage");
   } catch (error) {
-    next(error)  }
+    next(error);
+  }
 };
 
 //----------------------forgetverify---------------------------
 
-const forgetverify = async (req, res) => {
+const forgetverify = async (req, res, next) => {
   try {
     const email = req.body.email;
 
@@ -531,12 +539,13 @@ const forgetverify = async (req, res) => {
       }
     }
   } catch (error) {
-    next(error)  }
+    next(error);
+  }
 };
 
 //----------------------------------forget password load-------------------
 
-const forgetpasswordload = async (req, res) => {
+const forgetpasswordload = async (req, res, next) => {
   try {
     const token = req.query.token;
     const tokenData = await User.findOne({ token: token });
@@ -551,12 +560,13 @@ const forgetpasswordload = async (req, res) => {
         .render("404", { message: "Oop's.. Your token is invalid" });
     }
   } catch (error) {
-    next(error)  }
+    next(error);
+  }
 };
 
 //----------------------------------Reset password--------------
 
-const resetpassword = async (req, res) => {
+const resetpassword = async (req, res, next) => {
   try {
     const Password = req.body.password;
     const confirm = req.body.confirm;
@@ -606,11 +616,12 @@ const resetpassword = async (req, res) => {
       }
     }
   } catch (error) {
-    next(error)  }
+    next(error);
+  }
 };
 
 //---------------------- SEARCH PRODUCTS SHOPE ------------------------
-const searchProduct = async (req, res) => {
+const searchProduct = async (req, res, next) => {
   try {
     const category = await Category.find({ blocked: 0 });
     const name = req.query.q;
@@ -621,11 +632,12 @@ const searchProduct = async (req, res) => {
     if (cart) {
       cartCount = cart.products.length;
     }
-    const wishlist = await Wishlist.find({ userId: req.session.user_id });
-      let wishCount = 0
-      if(wishlist){
-        wishCount = wishlist.length
-      }
+    const user = await User.findOne({ _id: req.session.user_id });
+    const wishlist = user.wishlist.items;
+    let wishCount = 0;
+    if (wishlist) {
+      wishCount = wishlist.length;
+    }
 
     const products = await Products.find({
       name: { $regex: regex },
@@ -642,15 +654,16 @@ const searchProduct = async (req, res) => {
       name: req.session.name,
       cartCount,
       totalPages: 0,
-      wishCount
+      wishCount,
     });
   } catch (error) {
-    next(error)  }
+    next(error);
+  }
 };
 
 //-------------------------FILTER PRODUCTS-----------------
 
-const filterProducts = async (req, res) => {
+const filterProducts = async (req, res, next) => {
   try {
     const cate = req.body.category;
     const priceSort = parseInt(req.body.price);
@@ -662,11 +675,12 @@ const filterProducts = async (req, res) => {
     if (cart) {
       cartCount = cart.products.length;
     }
-    const wishlist = await Wishlist.find({ userId: req.session.user_id });
-      let wishCount = 0
-      if(wishlist){
-        wishCount = wishlist.length
-      }
+    const user = await User.findOne({ _id: req.session.user_id });
+    const wishlist = user.wishlist.items;
+    let wishCount = 0;
+    if (wishlist) {
+      wishCount = wishlist.length;
+    }
     if (req.body.category == "allCate") {
       filtered = await Products.find({ blocked: 0 }).sort({ price: priceSort });
       count = await Products.find({ blocked: 0 }).count();
@@ -684,15 +698,16 @@ const filterProducts = async (req, res) => {
       products: filtered,
       cartCount,
       totalPages: 0,
-      wishCount
+      wishCount,
     });
   } catch (error) {
-    next(error)  }
+    next(error);
+  }
 };
 
 //------------------------EDIT PROFILE IN PROFILE-------------------
 
-const editingProfile = async (req, res) => {
+const editingProfile = async (req, res, next) => {
   try {
     const updated = await User.updateOne(
       { _id: req.session.user_id },
@@ -708,13 +723,13 @@ const editingProfile = async (req, res) => {
       res.json({ success: true });
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 
 //-------------------------CHANGING PASSWORD IN PROFILE--------------------
 
-const changePassword = async (req, res) => {
+const changePassword = async (req, res, next) => {
   try {
     const userData = await User.findOne({ _id: req.session.user_id });
     const passwordMatch = await bcrypt.compare(
@@ -722,30 +737,32 @@ const changePassword = async (req, res) => {
       userData.password
     );
     if (passwordMatch) {
-
-      const newpassSame = await bcrypt.compare(req.body.newPass,userData.password)
-      if(newpassSame){
-        res.json({newPassSame:true})
-      }else{
-         const securePass = await securePassword(req.body.newPass);
-      await User.updateOne(
-        { _id: req.session.user_id },
-        { $set: { password: securePass } }
+      const newpassSame = await bcrypt.compare(
+        req.body.newPass,
+        userData.password
       );
-      res.json({ changed: true });
+      if (newpassSame) {
+        res.json({ newPassSame: true });
+      } else {
+        const securePass = await securePassword(req.body.newPass);
+        await User.updateOne(
+          { _id: req.session.user_id },
+          { $set: { password: securePass } }
+        );
+        res.json({ changed: true });
       }
-     
     } else {
       console.log("wrong");
       res.json({ wrongpass: true });
     }
   } catch (error) {
-    next(error)  }
+    next(error);
+  }
 };
 
 //---------------------CHECKOUT PAGE LOADING--------------
 
-const loadCheckoutpage = async (req, res) => {
+const loadCheckoutpage = async (req, res, next) => {
   try {
     const session = req.session.user_id;
 
@@ -764,11 +781,12 @@ const loadCheckoutpage = async (req, res) => {
     if (cart) {
       cartCount = cart.products.length;
     }
-    const wishlist = await Wishlist.find({ userId: req.session.user_id });
-      let wishCount = 0
-      if(wishlist){
-        wishCount = wishlist.length
-      }
+
+    const wishlist = userData.wishlist.items;
+    let wishCount = 0;
+    if (wishlist) {
+      wishCount = wishlist.length;
+    }
     let total = 0;
     for (let i = 0; i < products.length; i++) {
       total += products[i].totalPrice;
@@ -822,7 +840,29 @@ const loadCheckoutpage = async (req, res) => {
       res.redirect("/login");
     }
   } catch (error) {
-    next(error)  }
+    next(error);
+  }
+};
+
+//----------BLOG PAGE LOAD------------
+const loadBlog = async (req, res, next) => {
+  try {
+    let wishCount = 0;
+    if (req.session.user_id) {
+      const user = await User.findOne({ _id: req.session.user_id });
+      if (user && user.wishlist && user.wishlist.items) {
+        wishCount = user.wishlist.items.length;
+      }
+    }
+    const cart = await Cart.findOne({ userId: req.session.user_id });
+    let cartCount = 0;
+    if (cart) {
+      cartCount = cart.products.length;
+    }
+    res.render("blog", { name: req.session.name, cartCount, wishCount });
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {
@@ -845,4 +885,5 @@ module.exports = {
   editingProfile,
   changePassword,
   loadCheckoutpage,
+  loadBlog,
 };

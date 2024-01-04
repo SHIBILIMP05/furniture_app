@@ -69,6 +69,12 @@ const addressEditingPage = async (req, res) => {
     if (cart) {
       cartCount = cart.products.length;
     }
+    const user = await User.findOne({ _id: req.session.user_id });
+        const wishlist = user.wishlist.items;
+        let wishCount = 0
+        if(wishlist){
+          wishCount = wishlist.length;
+        }
 
     const addressData = await Address.findOne(
       { user: req.session.user_id, "address._id": addressId },
@@ -76,7 +82,7 @@ const addressEditingPage = async (req, res) => {
     );
     const address = addressData.address[0];
     const page=req.query.page
-    res.render("addressEditPage", { cartCount, address,page });
+    res.render("addressEditPage", { cartCount,wishCount, address,page });
   } catch (error) {
     next(error)
   }

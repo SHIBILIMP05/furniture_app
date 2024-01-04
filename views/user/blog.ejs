@@ -1,0 +1,564 @@
+<%-include("../user/leyouts/home-header.ejs")%>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
+
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      font-family: Montserrat;
+    }
+
+    .section {
+      display: grid;
+      /* Code for center-alignment */
+      text-align: center;
+    }
+
+    #hero {
+      height: 100vh;
+      position: relative;
+      /* Grid template */
+      grid-template-columns: 1fr auto 1fr;
+      grid-template-rows: 1fr auto 1fr;
+      color: #ffffff;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    #hero .down-button {
+      height: 72px;
+      width: 72px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 40px;
+      margin: auto;
+      opacity: 0;
+      transition: opacity 1s ease-in;
+    }
+
+    #hero .down-button img {
+      height: 72px;
+      width: 72px;
+    }
+
+    #hero .img-appear {
+      opacity: 1;
+    }
+
+    #hero .video-wrapper {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    #hero .video-wrapper video {
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-size: contain;
+      -o-object-fit: cover;
+      object-fit: cover;
+    }
+
+    #hero .content {
+      -ms-grid-column: 2;
+      -ms-grid-row: 2;
+      grid-column: 2;
+      grid-row: 2;
+      z-index: 2;
+    }
+
+    #hero .content h1 {
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 80px;
+      letter-spacing: 1px;
+      margin: 16px 0px;
+      opacity: 0;
+      transition: opacity 1s ease-in;
+    }
+
+    #hero .content .h1-appear {
+      opacity: 1;
+    }
+
+    #hero .content p {
+      text-transform: uppercase;
+      font-size: 16px;
+      line-height: 18px;
+      font-weight: 500;
+      letter-spacing: 8px;
+      margin: 16px 0px;
+      opacity: 0;
+      transition: opacity 1s ease-in;
+    }
+
+    #hero .content .p-appear {
+      opacity: 1;
+    }
+
+    .col1 {
+      -ms-grid-column: 1;
+    }
+
+    .col2 {
+      -ms-grid-column: 3;
+    }
+
+    .col3 {
+      -ms-grid-column: 5;
+    }
+
+    .row1 {
+      -ms-grid-row: 1;
+    }
+
+    .row2 {
+      -ms-grid-row: 5;
+    }
+
+    .row3 {
+      -ms-grid-row: 9;
+    }
+
+    .row3_5 {
+      -ms-grid-row: 11;
+    }
+
+    #blog-links {
+      /* Grid template */
+      -ms-grid-columns: 1fr 24px 1fr 24px 1fr;
+      grid-template-columns: repeat(3, 1fr);
+      -ms-grid-rows: 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr 24px 1fr;
+      grid-template-rows: repeat(6, auto);
+      grid-gap: 24px;
+      padding: 24px;
+    }
+
+    #blog-links .blog-link {
+      padding: 32px;
+      background-color: #f5f5f5;
+      color: #212121;
+      display: block;
+      text-decoration: none;
+    }
+
+    #blog-links .blog-link .article-image {
+      height: 348px;
+      margin-bottom: 32px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+
+    #blog-links .blog-link h3 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.24;
+      text-align: left;
+      margin: 0;
+      max-width: 100%;
+      /* for IE10 */
+    }
+
+    #blog-links .type-image-2-1 {
+      -ms-grid-row-span: 3;
+      -ms-grid-column-span: 1;
+      grid-row: span 2;
+    }
+
+    #blog-links .type-paragraph-2-1 {
+      -ms-grid-row-span: 3;
+      -ms-grid-column-span: 1;
+      grid-row: span 2;
+      text-align: left;
+    }
+
+    #blog-links .type-paragraph-2-1 .article-image {
+      display: inline-block;
+      margin: 0;
+      height: 102px;
+      width: 112px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      vertical-align: middle;
+    }
+
+    #blog-links .type-paragraph-2-1 h3 {
+      max-width: calc(100% - 142px);
+      display: inline-block;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.21;
+      color: #212121;
+      text-align: left;
+      margin: 0;
+      margin-left: 24px;
+      vertical-align: middle;
+    }
+
+    #blog-links .type-paragraph-2-1 p {
+      font-size: 16px;
+      line-height: 1.62;
+      color: #757575;
+      margin: 24px 0;
+    }
+
+    #blog-links .type-paragraph-2-1 .continue {
+      color: #1537f4;
+      margin-bottom: 0;
+    }
+
+    #blog-links .type-color-2-1 {
+      -ms-grid-row-span: 3;
+      -ms-grid-column-span: 1;
+      grid-row: span 2;
+      background-color: #212121;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+
+    #blog-links .type-image-2-2 {
+      -ms-grid-row-span: 3;
+      -ms-grid-column-span: 3;
+      grid-column: span 2;
+      grid-row: span 2;
+      text-align: left;
+    }
+
+    #blog-links .type-heading-1-1 {
+      -ms-grid-row-span: 1;
+      -ms-grid-column-span: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    #blog-links .type-image-2-2 span {
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      background-color: #212121;
+      color: #ffffff;
+      padding: 4px 24px;
+      display: inline-block;
+      margin: 0 0 24px;
+      text-transform: uppercase;
+    }
+
+    #footer {
+      height: 100vh;
+      /* Background image */
+      background-image: url("https://s3-ap-southeast-1.amazonaws.com/sem-content/misc/interior-designer-blog/footer-bg.jpg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      /* Grid template */
+      grid-template-columns: 1fr 1136px 1fr;
+      grid-template-rows: 1fr auto 1fr auto;
+      color: #ffffff;
+    }
+
+    #footer .content {
+      -ms-grid-column: 2;
+      -ms-grid-row: 2;
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    #footer .content h2 {
+      max-width: 927px;
+      text-align: left;
+      margin: 56px 0px;
+      font-size: 44px;
+      font-weight: 800;
+      line-height: 54px;
+      text-align: left;
+    }
+
+    #footer footer {
+      -ms-grid-column-span: 3;
+      -ms-grid-row: 4;
+      grid-column: span 3;
+      grid-row: -1;
+      background: black;
+      text-align: center;
+      padding: 20px;
+    }
+
+    @media screen and (max-width: 1024px) {
+      #blog-links {
+        /* Grid template */
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 24px;
+        margin: 24px;
+      }
+
+      #blog-links .blog-link {
+        grid-row: span 1;
+        grid-column: span 1;
+      }
+
+      #blog-links .blog-link:last-of-type {
+        grid-column: span 2;
+      }
+
+      #footer {
+        /* Grid template */
+        grid-template-columns: 48px auto 48px;
+      }
+    }
+
+    @media screen and (max-width: 640px) {
+      #hero .content h1 {
+        font-size: 32px;
+        line-height: 40px;
+      }
+
+      #hero .content p {
+        font-size: 14px;
+        line-height: 1.57;
+        letter-spacing: 5px;
+      }
+
+      #blog-links {
+        /* Grid template */
+        grid-template-columns: 1fr;
+        grid-template-rows: unset;
+        grid-gap: 24px;
+        margin: 24px;
+      }
+
+      #blog-links .blog-link {
+        grid-row: span 1;
+        grid-column: span 1;
+      }
+
+      #blog-links .type-paragraph-2-1 .article-image {
+        display: block;
+        height: 102px;
+        width: 100%;
+      }
+
+      #blog-links .type-paragraph-2-1 h3 {
+        max-width: unset;
+        display: block;
+        margin: 24px 0;
+      }
+
+      #blog-links .blog-link:last-of-type {
+        grid-column: span 1;
+      }
+
+      #footer {
+        /* Grid template */
+        grid-template-columns: 32px auto 32px;
+      }
+
+      #footer .content h2 {
+        font-size: 30px;
+        line-height: 36px;
+      }
+    }
+
+    @media screen and (max-height: 400px) {
+      #hero {
+        height: 90vh;
+      }
+
+      #hero .down-button {
+        display: none;
+      }
+
+      #footer .content h2 {
+        font-size: 32px;
+        line-height: 40px;
+      }
+    }
+  </style>
+  <div class="container">
+    
+    <div class="section" id="blog-links">
+      <a class="blog-link type-image-2-1 row1 col1"
+        >
+        <div class="article-image"
+          style="background-image: url(https://de927adv5b23k.cloudfront.net/wp-content/uploads/2017/09/18171925/shutterstock_236969923.jpg)">
+        </div>
+        <h3>Use of Natural Stones in Interior Design</h3>
+      </a>
+      <a class="blog-link type-image-2-1 row1 col2"
+        >
+        <div class="article-image"
+          style="background-image: url(https://de927adv5b23k.cloudfront.net/wp-content/uploads/2017/09/15115101/shutterstock_167076143-940x400.jpg)">
+        </div>
+        <h3>How to Pick Lighting for your Home</h3>
+      </a>
+      <a class="blog-link type-paragraph-2-1 row1 col3"
+        >
+        <div class="article-image"
+          style="background-image: url(https://de927adv5b23k.cloudfront.net/wp-content/uploads/2017/09/11164046/shutterstock_646806055.jpg)">
+        </div>
+        <h3>Wall Art Ideas for Your Bedroom</h3>
+        <p>Your bedroom is an extension of yourself, a respite from your day’s work, and a safe haven for your personal
+          thoughts and time. As soon as your eyes fall on your bed, you feel relaxed and at peace. For these reasons it
+          is important that your bedroom
+          should represent who you are and what you like.</p>
+        <p>There are various ways in which you can do up your bed wall, depending on your aesthetics and utility. Here
+          are a few ...</p>
+        
+        </p>
+      </a>
+      <a class="blog-link type-color-2-1 row2 col1"
+        >
+        <h3>DIY Ideas for Home Decor: 5 Ways to Reuse Old Glass Bottles and Jars!</h3>
+      </a>
+      <a class="blog-link type-image-2-1 row2 col2"
+        >
+        <div class="article-image"
+          style="background-image: url(https://de927adv5b23k.cloudfront.net/wp-content/uploads/2017/09/13143621/shutterstock_4950170771-940x400.jpg)">
+        </div>
+        <h3>Dining Table Decor Ideas for your Home</h3>
+      </a>
+      <a class="blog-link type-image-2-1 row2 col3"
+       >
+        <div class="article-image"
+          style="background-image: url(https://de927adv5b23k.cloudfront.net/wp-content/uploads/2017/09/06160520/Mad-Design-3-940x400.jpg)">
+        </div>
+        <h3>6 Ways to Spruce Up Your Office Interiors</h3>
+      </a>
+      <a class="blog-link type-image-2-2 row3 col1"
+        >
+        <span>Tips</span>
+        <div class="article-image"
+          style="background-image: url(https://de927adv5b23k.cloudfront.net/wp-content/uploads/2017/09/07111634/shutterstock_308859035.jpg)">
+        </div>
+        <h3>5 Home Decor Ideas for Autumn in India</h3>
+      </a>
+      <a class="blog-link type-heading-1-1 row3 col3"
+        >
+        <h3>The Best Flooring Materials for Humid Regions in India</h3>
+      </a>
+      <a class="blog-link type-heading-1-1 row3_5 col3"
+        >
+        <h3>How to Finish it Right- Designing Your Home</h3>
+      </a>
+    </div>
+    <div class="section" id="footer">
+      <div class="content">
+        <h2>Tell us your requirements and get quotations from the best Interior Designers around you.</h2>
+        <h2>Only on Furni Hub.</h2>
+      </div>
+      <footer>
+        <span class="logo">UrbanClap</span>
+      </footer>
+    </div>
+  </div>
+  <script>
+    // DOM Elements
+    var brand = document.getElementById("brand");
+    var subBrand = document.getElementById("sub-brand-text");
+    var heroDownButton = document.getElementById("hero-down-button");    
+
+    function showBrand() {
+      brand.classList.add("h1-appear");
+    }
+
+    function showSubBrand() {
+      subBrand.classList.add("p-appear");
+    }
+
+    function showDownButton() {
+      heroDownButton.classList.add("img-appear");
+    }
+
+    // Smooth scrolling
+    (function () {
+      "use strict";
+      // Feature Test
+      if (
+        "querySelector" in document &&
+        "addEventListener" in window &&
+        Array.prototype.forEach
+      ) {
+        // Function to animate the scroll
+        var smoothScroll = function (anchor, duration) {
+          // Calculate how far and how fast to scroll
+          var startLocation = window.pageYOffset;
+          var endLocation = anchor.offsetTop;
+          var distance = endLocation - startLocation;
+          var increments = distance / (duration / 16);
+          var stopAnimation;
+
+          // Scroll the page by an increment, and check if it's time to stop
+          var animateScroll = function () {
+            window.scrollBy(0, increments);
+            stopAnimation();
+          };
+
+          // If scrolling down
+          if (increments >= 0) {
+            // Stop animation when you reach the anchor OR the bottom of the page
+            stopAnimation = function () {
+              var travelled = window.pageYOffset;
+              if (
+                travelled >= endLocation - increments ||
+                window.innerHeight + travelled >= document.body.offsetHeight
+              ) {
+                clearInterval(runAnimation);
+              }
+            };
+          } else {
+            // If scrolling up
+            // Stop animation when you reach the anchor OR the top of the page
+            stopAnimation = function () {
+              var travelled = window.pageYOffset;
+              if (travelled <= (endLocation || 0)) {
+                clearInterval(runAnimation);
+              }
+            };
+          }
+
+          // Loop the animation function
+          var runAnimation = setInterval(animateScroll, 16);
+        };
+
+        // Define smooth scroll links
+        var scrollToggle = document.querySelectorAll(".down-button");
+
+        // For each smooth scroll link
+        [].forEach.call(scrollToggle, function (toggle) {
+          // When the smooth scroll link is clicked
+          toggle.addEventListener(
+            "click",
+            function (e) {
+              // Prevent the default link behavior
+              e.preventDefault();
+
+              // Get anchor link and calculate distance from the top
+              var dataID = toggle.getAttribute("href");
+              var dataTarget = document.querySelector(dataID);
+              var dataSpeed = toggle.getAttribute("data-speed");
+
+              // If the anchor exists
+              if (dataTarget) {
+                // Scroll to the anchor
+                smoothScroll(dataTarget, dataSpeed || 500);
+              }
+            },
+            false
+          );
+        });
+      }
+    })();
+
+    // Start buggyfill for viewport units in old browsers
+    window.viewportUnitsBuggyfill.init();
+  </script>
+  <%-include("../user/leyouts/footer.ejs")%>

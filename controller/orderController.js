@@ -94,6 +94,7 @@ const orderPlace = async (req, res) => {
                     date: new Date(),
                     amount: total,
                     reason: "Purchaced Amount Debited.",
+                    direction:"Debited"
                   },
                 },
               },
@@ -219,7 +220,13 @@ const successPage = async (req, res) => {
     if (cart) {
       cartCount = cart.products.length;
     }
-    res.render("successPage", { name: req.session.name, cartCount });
+    const user = await User.findOne({ _id: req.session.user_id });
+        const wishlist = user.wishlist.items;
+        let wishCount = 0
+        if(wishlist){
+          wishCount = wishlist.length;
+        }
+    res.render("successPage", { name: req.session.name, cartCount ,wishCount});
   } catch (error) {
     console.error(error.message);
   }
@@ -266,6 +273,12 @@ const orderDetailsPageUserside = async (req, res) => {
     if (cart) {
       cartCount = cart.products.length;
     }
+    const user = await User.findOne({ _id: req.session.user_id });
+        const wishlist = user.wishlist.items;
+        let wishCount = 0
+        if(wishlist){
+          wishCount = wishlist.length;
+        }
     const uniqueId = req.query.id;
     const orderData = await Order.findOne({ uniqueId: uniqueId });
     const userId = orderData.userId;
@@ -281,6 +294,7 @@ const orderDetailsPageUserside = async (req, res) => {
 
     res.render("orderdetailsUserside", {
       cartCount,
+      wishCount,
       deliveryData,
       orderData,
       deliverdProduct,

@@ -72,6 +72,7 @@ user_Rout.get("/checkout",auth.isLogin,userController.loadCheckoutpage)
 
 user_Rout.get("/wishlistLoad",auth.isLogin,wishlistController.loadWishlist)
 user_Rout.post("/addToWishList",wishlistController.addToWishlist)
+user_Rout.post("/removeWishlistItem",auth.isLogin,wishlistController.removeFromWishlist)
 
 user_Rout.post("/applyCoupon",auth.isLogin,couponController.applyCoupon)
 user_Rout.post("/deleteAppliedCoupon",auth.isLogin,couponController.unApplayCoupon)
@@ -80,6 +81,7 @@ user_Rout.post("/placeOrder",auth.isLogin,orderController.orderPlace)
 user_Rout.get("/orderSuccess/:id",auth.isLogin,orderController.successPage)
 user_Rout.post('/verify-payment', auth.isLogin,orderController.verifyPayment)
 
+user_Rout.get("/loadBlog",userController.loadBlog)
 
 
 module.exports = user_Rout;
