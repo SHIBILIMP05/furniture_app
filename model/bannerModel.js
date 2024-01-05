@@ -12,7 +12,6 @@ const bannerSchema = mongoose.Schema({
     },
     image:{
         type:String,
-        required:true
     },
     is_blocked:{
         type:Boolean,

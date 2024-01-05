@@ -29,11 +29,11 @@
                         <tr>
                           <td><%= i+1 %></td>
                           
-                          <td><%= banner[i].image %></td>
+                          <td><img src="/banner/<%= banner[i].image %>" alt=""></td>
                           <td><%= banner[i].title %></td>
                           <td><%= banner[i].description %></td>
                           <td><%= banner[i].status %></td>
-                          <td><a href="/admin/editCoupon?_id=<%= coupon[i]._id %>" class="badge badge-warning">Update</a></td>
+                          <td><a href="/admin/editCoupon?_id=<%= banner[i]._id %>" class="badge badge-warning">Update</a></td>
 
                           <%  if(!banner[i].is_blocked){ %>
                           

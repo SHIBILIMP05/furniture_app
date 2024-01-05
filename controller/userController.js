@@ -4,8 +4,10 @@ const Category = require("../model/categoryModel.js");
 const Cart = require("../model/cartModel.js");
 const Address = require("../model/addressModel.js");
 const Order = require("../model/ordersModel.js");
+const Banner = require("../model/bannerModel");
 const bcrypt = require("bcrypt");
 const randomString = require("randomstring");
+
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -424,6 +426,7 @@ const accountload = async (req, res, next) => {
     if (wishlist) {
       wishCount = wishlist.length;
     }
+    const banner = await Banner.find();
     res.render("userDashboard", {
       orderData,
       cartCount,
@@ -432,6 +435,7 @@ const accountload = async (req, res, next) => {
       walletAmount,
       walletHistory,
       wishCount,
+      banner,
     });
   } catch (error) {
     next(error);

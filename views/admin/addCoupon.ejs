@@ -1,88 +1,96 @@
 <%-include("../admin/leyouts/header.ejs")%>
-    <div class="col-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <br>
-                <br>
-                <br>
-                <h1 class="card-title">Add Coupon</h1>
-                <p class="card-description"> Add coupon form</p>
-                <form id="form" class="forms-sample">
-                    <div class="form-group">
-                        <label>coupon Name</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="name"
-                            style="color: white;" required>
-                        <p style="color: red;" id="nameLengthError"></p>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <br />
+                            <br />
+                            <br />
+                            <h1 class="card-title">Add Coupon</h1>
+                            <p class="card-description">Add coupon form</p>
+                            <form id="form" class="forms-sample">
+                                <div class="form-group">
+                                    <label>coupon Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="name"
+                                        style="color: white" required />
+                                    <p style="color: red" id="nameLengthError"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label>Coupon Code</label>
+                                    <input type="text" class="form-control" id="coupon" name="code" placeholder="code"
+                                        style="color: white" required />
+                                    <p style="color: red" id="couponLengthError"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label>Discount Amount</label>
+                                    <input type="number" class="form-control" id="discount" name="discount"
+                                        placeholder="discount amount" style="color: white" required />
+                                    <p style="color: red" id="discountError"></p>
+                                    <p style="color: red" id="compareErr"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label>Activation Date</label>
+                                    <input type="date" class="form-control" id="activation" name="activationDate"
+                                        placeholder="activation date" style="color: white" required />
+                                    <p style="color: red" id="activationErr"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label>Expire Date</label>
+                                    <input type="date" class="form-control" id="expiryDate" name="expiryDate"
+                                        placeholder="expire date" style="color: white" required />
+                                    <p style="color: red" id="expirationErr"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label>Criteria Amount</label>
+                                    <input type="number" class="form-control" id="criteriaAmount" name="criteriAamount"
+                                        placeholder="criteria amount" style="color: white" required />
+                                    <p style="color: red" id="criteriaAmountErr"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label>User Limits</label>
+                                    <input type="number" class="form-control" name="userLimit" id="userLimit"
+                                        placeholder="user limits" style="color: white" required />
+                                    <p style="color: red" id="userLimitErr"></p>
+                                </div>
+                                <br />
+                                <button id="addCoupon" type="submit" class="btn btn-primary mr-2">
+                                    Submit
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Coupon Code</label>
-                        <input type="text" class="form-control" id="coupon" name="code" placeholder="code"
-                            style="color: white;" required>
-                        <p style="color: red;" id="couponLengthError"></p>
-
-                    </div>
-                    <div class="form-group">
-                        <label>Discount Amount</label>
-                        <input type="number" class="form-control" id="discount" name="discount"
-                            placeholder="discount amount" style="color: white;" required>
-                        <p style="color: red;" id="discountError"></p>
-                        <p style="color: red;" id="compareErr"></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Activation Date</label>
-                        <input type="date" class="form-control" id="activation" name="activationDate"
-                            placeholder="activation date" style="color: white;" required>
-                        <p style="color: red;" id="activationErr"></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Expire Date</label>
-                        <input type="date" class="form-control" id="expiryDate" name="expiryDate"
-                            placeholder="expire date" style="color: white;" required>
-                        <p style="color: red;" id="expirationErr"></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Criteria Amount</label>
-                        <input type="number" class="form-control" id="criteriaAmount" name="criteriAamount"
-                            placeholder="criteria amount" style="color: white;" required>
-                        <p style="color: red;" id="criteriaAmountErr"></p>
-                    </div>
-                    <div class="form-group">
-                        <label>User Limits</label>
-                        <input type="number" class="form-control" name="userLimit" id="userLimit"
-                            placeholder="user limits" style="color: white;" required>
-                        <p style="color: red;" id="userLimitErr"></p>
-                    </div>
-                    <br>
-                    <button id="addCoupon" type="submit" class="btn btn-primary mr-2">Submit</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-    <script>
 
+    <script>
         document.getElementById("addCoupon").addEventListener("click", function (e) {
             e.preventDefault();
-            const name = document.getElementById("name").value
-            const code = document.getElementById("coupon").value
-            const discount = document.getElementById("discount").value
-            const activationDate = document.getElementById("activation").value
-            const expiryDate = document.getElementById("expiryDate").value
-            const criteriaAmount = document.getElementById("criteriaAmount").value
-            const userLimit = document.getElementById("userLimit").value
+            const name = document.getElementById("name").value;
+            const code = document.getElementById("coupon").value;
+            const discount = document.getElementById("discount").value;
+            const activationDate = document.getElementById("activation").value;
+            const expiryDate = document.getElementById("expiryDate").value;
+            const criteriaAmount = document.getElementById("criteriaAmount").value;
+            const userLimit = document.getElementById("userLimit").value;
 
-            const nameLengthError = document.getElementById('nameLengthError')
-            const couponLengthError = document.getElementById('couponLengthError')
-            const discountError = document.getElementById('discountError')
-            const activationErr = document.getElementById('activationErr')
-            const expirationErr = document.getElementById('expirationErr')
-            const criteriaAmountErr = document.getElementById('criteriaAmountErr')
-            const userLimitErr = document.getElementById('userLimitErr')
-            const compareErr = document.getElementById('compareErr')
+            const nameLengthError = document.getElementById("nameLengthError");
+            const couponLengthError = document.getElementById("couponLengthError");
+            const discountError = document.getElementById("discountError");
+            const activationErr = document.getElementById("activationErr");
+            const expirationErr = document.getElementById("expirationErr");
+            const criteriaAmountErr = document.getElementById("criteriaAmountErr");
+            const userLimitErr = document.getElementById("userLimitErr");
+            const compareErr = document.getElementById("compareErr");
 
             if (name === "") {
                 nameLengthError.textContent = "Coupon name is required.";
             } else if (name.length < 4) {
-                nameLengthError.textContent = "Coupon name must be at least 4 characters.";
+                nameLengthError.textContent =
+                    "Coupon name must be at least 4 characters.";
             } else if (code === "") {
                 couponLengthError.textContent = "Coupon code is required.";
             } else if (discount === "") {
@@ -102,11 +110,14 @@
             } else if (expiryDate === "") {
                 expirationErr.textContent = "Expiry date is required.";
             } else if (expiryDate < activationDate) {
-                expirationErr.textContent = "Expiry date must be greater than activation date.";
+                expirationErr.textContent =
+                    "Expiry date must be greater than activation date.";
             } else if (code.length < 6) {
-                couponLengthError.textContent = "Coupon code must be at least 6 characters.";
+                couponLengthError.textContent =
+                    "Coupon code must be at least 6 characters.";
             } else if (criteriaAmount > discount) {
-                criteriaAmountErr.textContent = "Criteria amount should be greater than discount amount."
+                criteriaAmountErr.textContent =
+                    "Criteria amount should be greater than discount amount.";
             } else {
                 Swal.fire({
                     title: "Are you sure?",
@@ -128,27 +139,26 @@
                                 activationDate,
                                 expiryDate,
                                 criteriaAmount,
-                                userLimit
-
+                                userLimit,
                             },
                             method: "post",
                             success: (response) => {
-                                if ((response.exist)) {
-                                    couponLengthError.textContent = "Coupon code already exist."
+                                if (response.exist) {
+                                    couponLengthError.textContent = "Coupon code already exist.";
                                 } else if (response.success) {
                                     const Toast = Swal.mixin({
                                         toast: true,
-                                        position: 'top-end',
+                                        position: "top-end",
                                         showConfirmButton: false,
                                         timer: 3000,
-                                    })
+                                    });
 
                                     Toast.fire({
-                                        icon: 'success',
-                                        title: 'Coupon Added.'
-                                    })
+                                        icon: "success",
+                                        title: "Coupon Added.",
+                                    });
                                     setTimeout(() => {
-                                        window.location.href = "/admin/couponManagement"
+                                        window.location.href = "/admin/couponManagement";
                                     }, 3000);
                                 }
                             },
@@ -156,36 +166,31 @@
                     }
                 });
             }
-
-        })
-
-
-
+        });
     </script>
     <script>
-            const nameLengthError = document.getElementById('nameLengthError')
-            const couponLengthError = document.getElementById('couponLengthError')
-            const discountError = document.getElementById('discountError')
-            const activationErr = document.getElementById('activationErr')
-            const expirationErr = document.getElementById('expirationErr')
-            const criteriaAmountErr = document.getElementById('criteriaAmountErr')
-            const userLimitErr = document.getElementById('userLimitErr')
-            const compareErr = document.getElementById('compareErr')
+        const nameLengthError = document.getElementById("nameLengthError");
+        const couponLengthError = document.getElementById("couponLengthError");
+        const discountError = document.getElementById("discountError");
+        const activationErr = document.getElementById("activationErr");
+        const expirationErr = document.getElementById("expirationErr");
+        const criteriaAmountErr = document.getElementById("criteriaAmountErr");
+        const userLimitErr = document.getElementById("userLimitErr");
+        const compareErr = document.getElementById("compareErr");
 
-            const inputs = document.querySelectorAll('input');
-            inputs.forEach(input => {
-                input.addEventListener('input', () => {
-                   nameLengthError.textContent = ""
-                   couponLengthError.textContent = ""
-                   discountError.textContent = ""
-                   activationErr.textContent = ""
-                   expirationErr.textContent = ""
-                   criteriaAmountErr.textContent = ""
-                   userLimitErr.textContent = ""
-                   compareErr.textContent = ""
-
-                })
-            })
+        const inputs = document.querySelectorAll("input");
+        inputs.forEach((input) => {
+            input.addEventListener("input", () => {
+                nameLengthError.textContent = "";
+                couponLengthError.textContent = "";
+                discountError.textContent = "";
+                activationErr.textContent = "";
+                expirationErr.textContent = "";
+                criteriaAmountErr.textContent = "";
+                userLimitErr.textContent = "";
+                compareErr.textContent = "";
+            });
+        });
     </script>
 
     <%-include("../admin/leyouts/footer.ejs")%>

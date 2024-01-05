@@ -166,10 +166,8 @@ const editedProduct = async (req, res) => {
 
         let details = req.body;
         let imagesFiles =  req.files;
-        console.log('imagesFiles:', imagesFiles)
+        
         let currentData = await Products.findOne({ _id: req.query.id });
-        console.log('currentData:', currentData);
-        console.log('Entire req object:', req);
 
 
         const oldImg = [

@@ -3,6 +3,7 @@ const admin_Rout = express()
 const path =require("path")
 const multer = require("../../middleware/multer")
 const multer2 = require("../../middleware/multer2")
+const multer3 = require("../../middleware/multer3")
 
 const session = require("express-session")
 const config = require('../../config/config')
@@ -21,6 +22,7 @@ const productController =require("../../controller/productController")
 const adminController = require("../../controller/adminController")
 const orderController = require("../../controller/orderController")
 const couponController = require("../../controller/couponController")
+const bannerConotroller = require("../../controller/bannerController")
 const auth = require("../../middleware/adminAuth")
 
 admin_Rout.get("/",auth.isLogout,adminController.adminLoginPage)
@@ -57,6 +59,10 @@ admin_Rout.post("/addCoupon",auth.isLogin,couponController.addCoupon)
 admin_Rout.post("/blockCoupon",auth.isLogin,couponController.blockCoupon)
 admin_Rout.get("/editCoupon",auth.isLogin,couponController.loadEditeCoupon)
 admin_Rout.post("/updateCoupon",auth.isLogin,couponController.EditeCoupon)
+
+admin_Rout.get("/bannerManagement",auth.isLogin,bannerConotroller.loadBanner)
+admin_Rout.get("/loadAddBanner",auth.isLogin,bannerConotroller.loadAddBanner)
+admin_Rout.post("/addBanner",auth.isLogin,multer3.bannerUpload,bannerConotroller.addBanner)
 
 admin_Rout.get("*",function(req,res){
    res.redirect("/admin")
