@@ -16,7 +16,7 @@ const product = async (req, res) => {
         res.render("productmanagement", { productData })
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -28,7 +28,7 @@ const loadaddproduct = async (req, res) => {
         const categoryData = await Category.find({ blocked: 0 })
         res.render("addproduct", { categoryData, nameAlready })
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -71,7 +71,7 @@ const addproduct = async (req, res) => {
        const result = await product.save();
        res.redirect("/admin/productmanagement");
     } catch (error) {
-        next(error)
+        console.log(error)
     }
  };
  
@@ -140,7 +140,7 @@ const blockProduct = async (req, res) => {
 
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -154,7 +154,7 @@ const loadeditProduct = async (req, res) => {
         res.render("editproductpage", { product: editProduct, categoryData })
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -171,10 +171,10 @@ const editedProduct = async (req, res) => {
 
 
         const oldImg = [
-            imagesFiles.image1 ?  currentData.images.image1 :false,
-            imagesFiles.image2 ?  currentData.images.image2 :false,
-            imagesFiles.image3 ?  currentData.images.image3 :false,
-            imagesFiles.image4 ?  currentData.images.image4 :false,
+            imagesFiles.image1 ?  currentData.images.image1 :null,
+            imagesFiles.image2 ?  currentData.images.image2 :null,
+            imagesFiles.image3 ?  currentData.images.image3 :null,
+            imagesFiles.image4 ?  currentData.images.image4 :null,
         ];
 
         
@@ -193,11 +193,14 @@ const editedProduct = async (req, res) => {
                 let cropPath = path.resolve('public/products/crops', oldImg[k]);
                 
 
-                // Delete original image
-                fs.unlinkSync(imagePath);
-
-                // Delete cropped image
-                fs.unlinkSync(cropPath);
+                if (fs.existsSync(imagePath)) {
+                    fs.unlinkSync(imagePath);
+                    console.log("Deleted original image:", imagePath);
+                }
+                if (fs.existsSync(cropPath)) {
+                    fs.unlinkSync(cropPath);
+                    console.log("Deleted cropped image:", cropPath);
+                }
             }
         }
        
@@ -235,7 +238,7 @@ const editedProduct = async (req, res) => {
         res.redirect("/admin/productmanagement");
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -250,7 +253,7 @@ const deleteProduct = async (req, res) => {
         res.redirect("/admin/productmanagement")
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -281,7 +284,7 @@ const loadproductsPage = async (req, res) => {
         const totalPages = Math.ceil(count / limit);
         res.render("productspage", { cartCount,wishCount,totalPages: totalPages, category: category, products: products, count: count, name: req.session.name })
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -312,7 +315,7 @@ const productdetailspage = async (req, res) => {
 
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
