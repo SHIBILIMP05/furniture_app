@@ -1,4 +1,4 @@
-<%-include("../admin/leyouts/header.ejs")%>
+<%- include("../admin/leyouts/header.ejs")%>
 
 <div class="main-panel">
     <div class="content-wrapper">
@@ -32,7 +32,11 @@
                           <td><img src="/banner/<%= banner[i].image %>" alt=""></td>
                           <td><%= banner[i].title %></td>
                           <td><%= banner[i].description %></td>
-                          <td><%= banner[i].status %></td>
+                          <td><% if(banner[i].is_blocked){%>
+                            <p class="text-danger">Blocked</p>
+                            <%}else{%>
+                              <p class="text-success">Active</p>
+                              <%} %></td>
                           <td><a href="/admin/editCoupon?_id=<%= banner[i]._id %>" class="badge badge-warning">Update</a></td>
 
                           <%  if(!banner[i].is_blocked){ %>
@@ -58,4 +62,42 @@
       
     <!-- partial -->
   </div>
-  <%-include("../admin/leyouts/footer.ejs")%>
+  <script>
+    function bannerBlock(bannerId){
+      swal
+  .fire({
+    title: "Are You Sure?",
+    Text: "Are You Sure?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes",
+    cancelButtonText: "cancel",
+  })
+  .then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "/admin/block-banner",
+        data: {
+          bannerId: bannerId,
+        },
+        method: "post",
+        success: (response) => {
+          if ((response.remove = true)) {
+            location.reload();
+            swal.fire({
+              title: "Done",
+              text: "Suscces",
+              icon: "Suscces",
+              timer: 1500,
+              showConfirmButton: false,
+            });
+          }
+        },
+      });
+    }
+  });
+    }
+  </script>
+  <%- include("../admin/leyouts/footer.ejs")%>

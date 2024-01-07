@@ -63,6 +63,7 @@ admin_Rout.post("/updateCoupon",auth.isLogin,couponController.EditeCoupon)
 admin_Rout.get("/bannerManagement",auth.isLogin,bannerConotroller.loadBanner)
 admin_Rout.get("/loadAddBanner",auth.isLogin,bannerConotroller.loadAddBanner)
 admin_Rout.post("/addBanner",auth.isLogin,multer3.bannerUpload,bannerConotroller.addBanner)
+admin_Rout.post("/block-banner",auth.isLogin,bannerConotroller.blockBanner)
 
 admin_Rout.get("*",function(req,res){
    res.redirect("/admin")

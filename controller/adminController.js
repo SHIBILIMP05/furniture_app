@@ -13,40 +13,6 @@ const adminLoginPage = async (req, res) => {
     }
 }
 
-//-----------------admin login------------------------------
-
-// const adminLogin = async (req,res)=>{
-//     try {
-
-//         const email = req.body.email
-//         const password = req.body.password
-
-//         const adminData = await User.findOne({email:email})
-
-//         if(adminData){
-
-//             if(adminData.is_admin === 0){
-//                 res.render("login",{message:"You cant get access in this email"})
-
-//             }else{
-
-//             const passwordMatch = await bcrypt.compare(password,adminData.password)
-
-//                if(passwordMatch){
-//                     req.session.admin_id = adminData._id
-//                     res.redirect("/admin/home")
-//                 }else{
-//                     res.render("login",{message:"Invalid password"})
-//                 }
-//             }
-
-//         }else{
-//             res.render("login",{message:"Please enter valid email"})
-//         }
-//     } catch (error) {
-//         console.error(error.message)
-//     }
-// }
 const adminLogin = async (req, res) => {
     try {
 

@@ -54,9 +54,28 @@ const addBanner = async (req, res, next) => {
     }
   };
   
+//----------------------- BLOCK AND UNBLOCK BANNER -------------------
+
+const blockBanner = async (req, res) => {
+  try {
+      const bannerId = req.body.bannerId
+      const blockedBanner = await Banner.findOne({ _id: bannerId })
+      if (!blockedBanner.is_blocked) {
+          await Banner.updateOne({ _id: bannerId }, { $set: { is_blocked: true } })
+          res.json({success:true})
+      } else {
+        await Banner.updateOne({ _id: bannerId }, { $set: { is_blocked: false } })
+        res.json({success:true})
+      }
+
+  } catch (error) {
+      next(error)
+  }
+}
 
 module.exports = {
   loadBanner,
   loadAddBanner,
   addBanner,
+  blockBanner,
 };

@@ -8,6 +8,17 @@ document.getElementById('addproductsubmit').addEventListener('click',function(ev
     const description = document.getElementById('description').value
 
     const message = document.getElementById('error-message')
+    const imageInput = document.getElementById('imageInput');
+    const chosenFiles = document.getElementById('chosenFiles');
+    if (imageInput.files.length === 0) {
+      message.style.display = "block";
+      message.textContent = "Please select image.";
+      event.preventDefault();
+      return;
+  } else {
+      message.style.display = "none";
+      message.textContent = "";
+  }
 
     if(price.trim() === "" && quantity.trim() == "" && description.trim() == ""){
         message.style.display = "block"
