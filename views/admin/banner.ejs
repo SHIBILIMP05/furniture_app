@@ -37,7 +37,7 @@
                             <%}else{%>
                               <p class="text-success">Active</p>
                               <%} %></td>
-                          <td><a href="/admin/editCoupon?_id=<%= banner[i]._id %>" class="badge badge-warning">Update</a></td>
+                          <td><a href="/admin/loadeditBanner?id=<%= banner[i]._id %>" class="badge badge-warning">Update</a></td>
 
                           <%  if(!banner[i].is_blocked){ %>
                           
@@ -45,7 +45,7 @@
                          <% }else{ %>
                           <td onclick="bannerBlock('<%= banner[i]._id %>')" ><a class="badge badge-success" >Unblock</a></td>
                         <% } %>
-                        <td onclick="bannerDelete('<%= banner[i]._id %>')" ><a class="badge badge-danger">Delete</a></td>
+                        <td onclick="deleteBanner('<%= banner[i]._id %>')" ><a class="badge badge-danger">Delete</a></td>
                         </tr>
                         <% } %>
                         <% }else{ %>
@@ -64,10 +64,8 @@
   </div>
   <script>
     function bannerBlock(bannerId){
-      swal
-  .fire({
-    title: "Are You Sure?",
-    Text: "Are You Sure?",
+      swal.fire({
+    text: "Are You Sure?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -79,6 +77,41 @@
     if (result.isConfirmed) {
       $.ajax({
         url: "/admin/block-banner",
+        data: {
+          bannerId: bannerId,
+        },
+        method: "post",
+        success: (response) => {
+          if ((response.remove = true)) {
+            location.reload();
+            swal.fire({
+              title: "Done",
+              text: "Suscces",
+              icon: "Suscces",
+              timer: 1500,
+              showConfirmButton: false,
+            });
+          }
+        },
+      });
+    }
+  });
+    }
+
+    function deleteBanner(bannerId){
+    swal.fire({
+    text: "Are You Sure?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes",
+    cancelButtonText: "cancel",
+  })
+  .then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "/admin/delete-banner",
         data: {
           bannerId: bannerId,
         },

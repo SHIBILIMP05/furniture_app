@@ -1,5 +1,4 @@
 const User = require("../model/userModel")
-const Admin = require("../model/adminModel")
 const Category = require("../model/categoryModel")
 const Products = require("../model/productsModel")
 const Cart = require("../model/cartModel")
@@ -76,53 +75,7 @@ const addproduct = async (req, res) => {
  };
  
 
-// const addproduct = async (req, res) => {
-//     try {
 
-//         const already = await Products.findOne({ name: req.body.name })
-//         if (already) {
-//             req.session.proNameAlready = true
-//             res.redirect("/admin/loadaddproduct")
-//         } else {
-//             const details = req.body
-//             const files = req.files
-
-//             const img = [
-//                 files.image1[0].filename,
-//                 files.image2[0].filename,
-//                 files.image3[0].filename,
-//                 files.image4[0].filename,
-//             ]
-//             for (let i = 0; i < img.length; i++) {
-//                 await sharp("public/products/images/" + img[i])
-//                     .resize(500, 500)
-//                     .toFile("public/products/crops/" + img[i])
-//             }
-
-
-//             let product = new Products({
-//                 name: details.name,
-//                 price: details.price,
-//                 quantity: details.quantity,
-//                 category: details.category,
-//                 description: details.description,
-//                 blocked: 0,
-//                 "images.image1": files.image1[0].filename,
-//                 "images.image2": files.image2[0].filename,
-//                 "images.image3": files.image3[0].filename,
-//                 "images.image4": files.image4[0].filename,
-//             })
-
-
-//             const result = await product.save()
-//             res.redirect("/admin/productmanagement")
-
-//         }
-
-//     } catch (error) {
-//         console.error(error.message)
-//     }
-// }
 
 //---------------------BLOCK AND UNBLOCK PRODUCTS IN ADMIN SIDE---------------
 

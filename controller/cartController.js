@@ -119,7 +119,7 @@ const addToCart = async (req, res, next) => {
         }
       );
     } else {
-      cartData.products.push({
+        cartData.products.push({
         productId: proId,
         productPrice: total,
         totalPrice: total,

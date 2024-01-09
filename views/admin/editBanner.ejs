@@ -33,22 +33,24 @@
                             <form id="form" class="forms-sample" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label>Banner Title</label>
-                                    <input type="text" class="form-control" id="title" name="title" placeholder="Title"
+                                    <input type="text" class="form-control" id="title" name="title" value="<%=banner.title %>" placeholder="Title"
                                         style="color: white;" required>
                                     <p style="color: red;" id="titleLengthError"></p>
                                 </div>
                                 <div class="form-group">
                                     <label>Banner Description</label>
                                     <textarea class="form-control" id="description" name="description" rows="4"
-                                        style="color: white;"></textarea>
+                                        style="color: white;"><%=banner.description%></textarea>
                                     <p style="color: red;" id="descriptionLengthError"></p>
 
                                 </div>
                                 <div class="form-group">
                                     <label id="imageLabel" for="imageInput">Choose Image</label>
-                                    <input type="file" class="form-control-file" id="imageInput" name="image"
+                                    <input onchange="previewImage(this)" type="file" class="form-control-file" id="imageInput" name="image"
                                         accept="image/*" required>
                                     <p style="color: red;" id="imageInputLengthError"></p>
+                                    <img id="imagePreview" src="<%=banner.image ? '/banner/' + banner.image : '' %>" alt="Image Preview" style="max-width: 100%; margin-top: 10px;">
+
                                 </div>
                                 <br>
                                 <button id="addBanner" type="submit" class="btn btn-primary mr-2">Submit</button>
@@ -59,7 +61,24 @@
             </div>
         </div>
     </div>
-
+    <script>
+        function previewImage(input) {
+            const preview = document.getElementById('imagePreview');
+            const file = input.files[0];
+    
+            if (file) {
+                const reader = new FileReader();
+    
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                };
+    
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+            }
+        }
+    </script>
     <script>
 
         document.getElementById("addBanner").addEventListener("click", function (e) {
@@ -86,12 +105,13 @@
                 imageInputLengthError.textContent = "Banner image is required.";
             } else {
                 const formData = new FormData();
+                formData.append("bannerId", '<%= banner._id %>');
                 formData.append("title", title);
                 formData.append("description", description);
                 formData.append("image", image);
                 Swal.fire({
                     title: "Are you sure?",
-                    text: "Do you want to add this Banner ?",
+                    text: "Do you want to edit this Banner ?",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
@@ -101,7 +121,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "/admin/addBanner",
+                            url: "/admin/editBanner",
                             data: formData,
                             method: "post",
                             contentType: false,

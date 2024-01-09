@@ -1,0 +1,61 @@
+<%-include("../admin/leyouts/header.ejs")%>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row ">
+            <div class="col-12 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Category Offer</h4>
+                        <p><a href="/admin/loadaddproduct" class="badge badge-success"> + Add Offer </a></p>
+                        <div class="dropdown" style="float: right;">
+                            <button class="btn btn-outline-warning dropdown-toggle" type="button" id="dropdownMenuOutlineButton4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Other Offer Management </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton4">
+                              <a class="dropdown-item" href="/admin/productOfferManagement">Product Offer</a>
+                              <a class="dropdown-item" href="/admin/categoryOfferManagement">Category Offer</a>
+                              <a class="dropdown-item" href="/admin/referalOfferManagement">Referal Offer</a>
+                            </div>
+                          </div>
+                          <br>
+                          <br>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        
+                                        <th> Client Name </th>
+                                        <th> Order No </th>
+                                        <th> Product Cost </th>
+                                        <th> Project </th>
+                                        <th> Payment Mode </th>
+                                        <th> Start Date </th>
+                                        <th> Payment Status </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="assets/images/faces/face1.jpg" alt="image" />
+                                            <span class="pl-2">Henry Klein</span>
+                                        </td>
+                                        <td> 02312 </td>
+                                        <td> $14,500 </td>
+                                        <td> Dashboard </td>
+                                        <td> Credit card </td>
+                                        <td> 04 Dec 2019 </td>
+                                        <td>
+                                            <div class="badge badge-outline-success">Approved</div>
+                                        </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%-include("../admin/leyouts/footer.ejs")%>
