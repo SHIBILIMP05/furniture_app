@@ -28,7 +28,6 @@ const adminController = require("../../controller/adminController")
 const orderController = require("../../controller/orderController")
 const couponController = require("../../controller/couponController")
 const bannerConotroller = require("../../controller/bannerController")
-const offerController = require("../../controller/offerController")
 
 //------------------- Authentication ------------
 
@@ -91,13 +90,6 @@ admin_Rout.post("/delete-banner",auth.isLogin,bannerConotroller.deleteBanner)
 admin_Rout.get("/loadeditBanner",auth.isLogin,bannerConotroller.loadEditBanner)
 admin_Rout.post("/editBanner",auth.isLogin,multer3.bannerUpload,bannerConotroller.editBanner)
 
-//===================== OFFER MANAGEMENT HANDLING ===================
-
-admin_Rout.get("/productOfferManagement",auth.isLogin,offerController.loadProductOffer)
-admin_Rout.get("/categoryOfferManagement",auth.isLogin,offerController.loadCategoryOffer)
-admin_Rout.get("/referalOfferManagement",auth.isLogin,offerController.loadReferalOffer)
-admin_Rout.get("/loadaddproductOffer",auth.isLogin,offerController.loadAddProductOffer)
-admin_Rout.post("/addProductOffer",auth.isLogin,offerController.addProductOffer)
 
 admin_Rout.get("*",function(req,res){
    res.redirect("/admin")

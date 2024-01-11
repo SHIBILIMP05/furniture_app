@@ -224,10 +224,11 @@ const loadproductsPage = async (req, res) => {
         let cartCount=0; 
         if(cart){cartCount = cart.products.length}
         const user = await User.findOne({ _id: req.session.user_id });
-        const wishlist = user.wishlist.items;
-        let wishCount = 0
-        if(wishlist){
-          wishCount = wishlist.length;
+
+        let wishCount = 0;
+        if (user && user.wishlist) {
+            const wishlist = user.wishlist.items;
+            wishCount = wishlist ? wishlist.length : 0;
         }
 
         const products = await Products.find({ blocked: 0 })
@@ -254,18 +255,17 @@ const productdetailspage = async (req, res) => {
         let cartCount=0; 
         if(cart){cartCount = cart.products.length}
         const user = await User.findOne({ _id: req.session.user_id });
-        const wishlist = user.wishlist.items;
-        let wishCount = 0
-        if(wishlist){
-          wishCount = wishlist.length;
+
+        let wishCount = 0;
+        if (user && user.wishlist) {
+            const wishlist = user.wishlist.items;
+            wishCount = wishlist ? wishlist.length : 0;
         }
         if (viewProduct) {
             res.render("productdetailspage", { cartCount,wishCount,products, category, view: viewProduct, name: req.session.name })
         } else {
             res.status(404).render("404");
         }
-
-
 
     } catch (error) {
         console.log(error)

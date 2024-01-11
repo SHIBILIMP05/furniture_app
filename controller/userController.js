@@ -421,11 +421,13 @@ const accountload = async (req, res, next) => {
     if (cart) {
       cartCount = cart.products.length;
     }
-    const wishlist = userData.wishlist.items;
-    let wishCount = 0;
-    if (wishlist) {
-      wishCount = wishlist.length;
-    }
+    const user = await User.findOne({ _id: req.session.user_id });
+
+        let wishCount = 0;
+        if (user && user.wishlist) {
+            const wishlist = user.wishlist.items;
+            wishCount = wishlist ? wishlist.length : 0;
+        }
     const banner = await Banner.find();
     res.render("userDashboard", {
       orderData,
@@ -637,11 +639,12 @@ const searchProduct = async (req, res, next) => {
       cartCount = cart.products.length;
     }
     const user = await User.findOne({ _id: req.session.user_id });
-    const wishlist = user.wishlist.items;
-    let wishCount = 0;
-    if (wishlist) {
-      wishCount = wishlist.length;
-    }
+
+        let wishCount = 0;
+        if (user && user.wishlist) {
+            const wishlist = user.wishlist.items;
+            wishCount = wishlist ? wishlist.length : 0;
+        }
 
     const products = await Products.find({
       name: { $regex: regex },
@@ -680,10 +683,11 @@ const filterProducts = async (req, res, next) => {
       cartCount = cart.products.length;
     }
     const user = await User.findOne({ _id: req.session.user_id });
-    const wishlist = user.wishlist.items;
+
     let wishCount = 0;
-    if (wishlist) {
-      wishCount = wishlist.length;
+    if (user && user.wishlist) {
+        const wishlist = user.wishlist.items;
+        wishCount = wishlist ? wishlist.length : 0;
     }
     if (req.body.category == "allCate") {
       filtered = await Products.find({ blocked: 0 }).sort({ price: priceSort });
@@ -786,11 +790,13 @@ const loadCheckoutpage = async (req, res, next) => {
       cartCount = cart.products.length;
     }
 
-    const wishlist = userData.wishlist.items;
-    let wishCount = 0;
-    if (wishlist) {
-      wishCount = wishlist.length;
-    }
+    const user = await User.findOne({ _id: req.session.user_id });
+
+        let wishCount = 0;
+        if (user && user.wishlist) {
+            const wishlist = user.wishlist.items;
+            wishCount = wishlist ? wishlist.length : 0;
+        }
     let total = 0;
     for (let i = 0; i < products.length; i++) {
       total += products[i].totalPrice;
