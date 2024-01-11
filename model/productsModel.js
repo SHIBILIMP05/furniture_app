@@ -45,6 +45,18 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true,
       },
+      offer: {
+        discount: {
+            type: Number,
+            default: 0,
+        },
+        activationDate: {
+            type: Date,
+        },
+        expiryDate: {
+            type: Date,
+        },
+    },
 
 })
 

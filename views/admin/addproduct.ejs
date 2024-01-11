@@ -50,6 +50,16 @@
       margin-bottom: 10px;
       /* Add right margin for spacing between images */
     }
+
+    #offerFormContainer {
+      display: none;
+    }
+
+    #toggleOfferForm {
+      cursor: pointer;
+      color: #007bff;
+      /* Adjust the color to your preference */
+    }
   </style>
 
 
@@ -120,6 +130,35 @@
                 <label for="exampleTextarea1">Description</label>
                 <textarea class="form-control" id="description" name="description" rows="4"></textarea>
               </div>
+              <!-- Toggle button/icon for offer form -->
+              <div id="toggleOfferForm" style="color: #ffbc05;">
+                <span class="menu-icon">
+                  <i style="color: rgb(199, 11, 11);" class="mdi mdi-tag-multiple"></i>
+                </span>
+                Add Offer
+                &#9660; <!-- Unicode for a down arrow character -->
+              </div>
+              <br>
+
+
+              <!-- Offer form container (initially hidden) -->
+              <div id="offerFormContainer">
+                <div class="form-group">
+                  <label for="discount">Discount (%)</label>
+                  <input type="number" class="form-control" id="discount" name="discount" placeholder="Discount">
+                </div>
+
+                <div class="form-group">
+                  <label for="activationDate">Activation Date</label>
+                  <input type="date" class="form-control" id="activationDate" name="activationDate">
+                </div>
+
+                <div class="form-group">
+                  <label for="expiryDate">Expiry Date</label>
+                  <input type="date" class="form-control" id="expiryDate" name="expiryDate">
+                </div>
+              </div>
+              <!-- End of offer form container -->
               <button type="submit" id="addproductsubmit" class="btn btn-primary mr-2">Submit</button>
               <button class="btn btn-inverse-danger"><a href="/admin/productmanagement">Cancel</a></button>
               <h6 id="error-message" style="display: none; top: 100px;left: 645px;position: absolute;color: red;font-family: system-ui;
@@ -131,20 +170,27 @@
       </div>
     </div>
     <script>
+      const toggleOfferFormButton = document.getElementById('toggleOfferForm');
+      const offerFormContainer = document.getElementById('offerFormContainer');
+
+      toggleOfferFormButton.addEventListener('click', function () {
+        // Toggle the visibility of the offer form container
+        offerFormContainer.style.display = offerFormContainer.style.display === 'none' ? 'block' : 'none';
+      });
 
       const inputs = document.querySelectorAll('input')
 
       const message = document.getElementById('error-message');
       const message2 = document.getElementById('err_message2');
-       
-      inputs.forEach(input=>{
-        input.addEventListener('input',function(){
+
+      inputs.forEach(input => {
+        input.addEventListener('input', function () {
           message.textContent = ""
           message2.textContent = ""
-          
+
         })
       })
-      
+
     </script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {

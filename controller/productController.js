@@ -54,13 +54,18 @@ const addproduct = async (req, res) => {
        }
  
        let product = new Products({
-          name: details.name,
-          price: details.price,
-          quantity: details.quantity,
-          category: details.category,
-          description: details.description,
-          blocked: 0,
-       });
+        name: details.name,
+        price: details.price,
+        quantity: details.quantity,
+        category: details.category,
+        description: details.description,
+        blocked: 0,
+        offer: {
+            discount: details.discount || 0,
+            activationDate: details.activationDate || null,
+            expiryDate: details.expiryDate || null,
+        },
+    });
  
        // Set images in the product document
        img.forEach((filename, index) => {
