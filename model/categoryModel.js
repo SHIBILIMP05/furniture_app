@@ -9,7 +9,21 @@ const categorySchema = mongoose.Schema({
     blocked:{
         type:Number,
         default:0
-    }
+    },
+    offer: {
+        discount: {
+            type: Number,
+            default: 0,
+        },
+        activationDate: {
+            type: Date,
+            default:null
+        },
+        expiryDate: {
+            type: Date,
+            default:null
+        },
+    },
 
 });
 

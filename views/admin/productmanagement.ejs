@@ -24,7 +24,7 @@
                             <th>Status</th>
                             <th>Block</th>
                             <th>Edit</th>
-                            <!-- <th>Delete</th> -->
+                            <th>Offer Manage</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -49,7 +49,13 @@
                               <% } %>
                                 <td><a href="/admin/edit-product-page?id=<%= productData [i]._id %>" class="badge badge-warning">Update</a></td>
                                 
-                                <!-- <td><a href="/admin/delete-product?id=<%= productData [i]._id %>"><button class="btn-inverse-danger">Delete</button></a></td> -->
+                                <td><a href="/admin/loadEditProductOffer?id=<%= productData [i]._id %>" class="badge btn-inverse-warning">
+                                  <span class="menu-icon">
+                                    <i style="color: rgb(199, 11, 11);" class="mdi mdi-tag-multiple"></i>
+                                  </span>
+                                  OFFER
+                                </a>
+                              </td>
                               </tr>
                               <% } %>
                               <% }else{ %>

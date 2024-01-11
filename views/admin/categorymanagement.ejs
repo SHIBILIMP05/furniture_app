@@ -19,6 +19,7 @@
                     <th> Status </th>
                     <th> Action </th>
                     <th> Update </th>
+                    <th> Offer Management </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -48,11 +49,13 @@
                                   <a href="/admin/edit-category?id=<%= categoryData[i]._id %>"
                                     class="badge badge-success">Edit</a>
                                 </td>
-                                <!-- <td>
-                                  <button class="btn-inverse-danger"> <a
-                                      href="/admin/delete-category?id=<%= categoryData[i]._id %>"
-                                      style="text-decoration: none; color: #fff; ">Delete</a></button>
-                                </td> -->
+                                <td><a href="/admin/loadEditCategoryOffer?id=<%= categoryData [i]._id %>" class="badge btn-inverse-warning">
+                                  <span class="menu-icon">
+                                    <i style="color: rgb(199, 11, 11);" class="mdi mdi-tag-multiple"></i>
+                                  </span>
+                                  OFFER
+                                </a>
+                              </td>
 
                         </tr>
                         <% } %>

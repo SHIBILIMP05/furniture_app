@@ -9,7 +9,7 @@ const adminLoginPage = async (req, res) => {
     try {
         res.render("login")
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -65,7 +65,7 @@ const adminLogin = async (req, res) => {
         }
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -75,7 +75,7 @@ const loadDashboard = async (req, res) => {
     try {
         res.render("home")
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -86,7 +86,7 @@ const logout = async (req, res) => {
         req.session.destroy()
         res.redirect("/admin")
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -97,7 +97,7 @@ const usermanagementload = async (req, res) => {
         const userData = await User.find({ is_admin: 0 })
         res.render("usermanagement", { users: userData })
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -123,7 +123,7 @@ const blockUser = async (req, res) => {
         }
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -136,7 +136,7 @@ const loadcategory = async (req, res) => {
         res.render("categorymanagement", { categoryData: categoryData })
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -157,7 +157,7 @@ const blockCategory = async (req, res) => {
         }
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -170,7 +170,7 @@ const loadAddCategory = async (req, res) => {
         res.render("addcategory")
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 
 }
@@ -182,8 +182,12 @@ const addCategory = async (req, res) => {
 
         const name = req.body.categoryname
         const data = new Category({
-            name: req.body.categoryname
-
+            name: req.body.categoryname,
+            offer: {
+                discount: req.body.discount || 0,
+                activationDate: req.body.activationDate || null,
+                expiryDate: req.body.expiryDate || null,
+            },
         })
         const already = await Category.findOne({ name: { $regex: name, $options: "i" } });
         if (already) {
@@ -194,7 +198,7 @@ const addCategory = async (req, res) => {
         }
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -208,7 +212,7 @@ const loadeditCategory = async (req, res) => {
         res.render("editcategory", { category: category })
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -231,7 +235,7 @@ const updateCategory = async (req, res) => {
         }
         
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
@@ -244,7 +248,7 @@ const deleteCategory = async (req, res) => {
         res.redirect("/admin/categorymanagement")
 
     } catch (error) {
-        next(error)
+        console.log(error)
     }
 }
 
