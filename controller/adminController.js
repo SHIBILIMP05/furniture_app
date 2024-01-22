@@ -4,6 +4,12 @@ const Category = require("../model/categoryModel");
 const { trace } = require("../routers/admin/adminRouts");
 const Order = require("../model/ordersModel");
 const Products = require("../model/productsModel");
+const puppeteer = require('puppeteer')
+const ExcelJS = require('exceljs')
+const path = require('path')
+const fs = require('fs')
+const ejs = require('ejs');
+const { log } = require("console");
 
 //----------------load admin loginpage-------------------
 
@@ -353,6 +359,193 @@ const deleteCategory = async (req, res) => {
   }
 };
 
+// -------------------- LOAD SALES MANAGEMENT --------------------
+
+const loadSalesManagement = async (req, res) => {
+  try {
+    const users = await User.find({is_block:0});
+    
+    
+    const orderData = await Order.aggregate([
+      { $unwind: "$products" },
+      { $match: {"products.status":"Delivered" } },
+      { $sort: { date: -1 } },
+      {
+        $lookup: {
+          from: "products",
+          let: { productId: { $toObjectId: "$products.productId" } },
+          pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$productId"] } } }],
+          as: "products.productDetails",
+        },
+      },
+      {
+        $addFields: {
+          "products.productDetails": {
+            $arrayElemAt: ["$products.productDetails", 0],
+          },
+        },
+      },
+    ]);
+
+    
+
+    res.render("salesManagemment", {
+      orders: orderData,users,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// -------------------- SALES SORTING --------------------
+
+const saleSortPage = async (req,res)=>{
+  try {
+    const duration = parseInt(req.params.id);
+    const currentDate = new Date();
+    const startDate = new Date(currentDate - duration * 24 * 60 * 60 * 1000);
+
+    const orders = await Order.aggregate([
+      {
+        $unwind: "$products",
+      },
+      {
+        $match: {
+          "products.status":"Delivered",
+          date: { $gte: startDate, $lt: currentDate },
+        },
+      },
+      {
+        $sort: { date: -1 },
+      },
+      {
+        $lookup: {
+          from: "products",
+          let: { productId: { $toObjectId: "$products.productId" } },
+          pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$productId"] } } }],
+          as: "products.productDetails",
+        },
+      },
+      {
+        $addFields: {
+          "products.productDetails": {
+            $arrayElemAt: ["$products.productDetails", 0],
+          },
+        },
+      },
+    ]);
+
+
+    res.render('salesManagemment', { orders });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
+// -------------------- DOWNLOAD SALES REPORT PDF AND EXCEL -------------------
+
+const downloadReport = async (req, res) => {
+  try {
+    const format = req.query.format;
+    const duration = parseInt(req.query.duration)
+    const currentDate = new Date();
+    const startDate = new Date(currentDate - duration * 24 * 60 * 60 * 1000);
+    const orders = await Order.aggregate([
+      {
+        $unwind: "$products",
+      },
+      {
+        $match: {
+          "products.status":"Delivered",
+          date: { $gte: startDate, $lt: currentDate },
+        },
+      },
+      {
+        $sort: { date: -1 },
+      },
+      {
+        $lookup: {
+          from: "products",
+          let: { productId: { $toObjectId: "$products.productId" } },
+          pipeline: [{ $match: { $expr: { $eq: ["$_id", "$$productId"] } } }],
+          as: "products.productDetails",
+        },
+      },
+      {
+        $addFields: {
+          "products.productDetails": {
+            $arrayElemAt: ["$products.productDetails", 0],
+          },
+        },
+      },
+    ]);
+    const date = new Date()
+    data = {
+      orders,
+      date,
+    }
+
+    if (format === 'pdf') {
+      const filepathName = path.resolve(__dirname, "../views/admin/ReportPdf.ejs");
+      const html = fs.readFileSync(filepathName).toString();
+      const ejsData = ejs.render(html, data);
+
+      const browser = await puppeteer.launch({ headless: "new"});
+      const page = await browser.newPage();
+      await page.setContent(ejsData, { waitUntil: "networkidle0"});
+      const pdfBytes = await page.pdf({ format: "letter" });
+      await browser.close();
+
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader(
+        "Content-Disposition",
+        "attachment; filename= Sales Report.pdf"
+    );
+    res.send(pdfBytes);
+    } else if (format === 'excel') {
+      // Generate and send an Excel report
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet('Sales Report');
+
+      // Add data to the Excel worksheet (customize as needed)
+      worksheet.columns = [
+        { header: 'Order ID', key: 'orderId', width: 8 },
+        { header: 'Product Name', key: 'productName', width: 50 },
+        { header: 'Qty', key: 'qty', width: 5 },
+        { header: 'Date', key: 'date', width: 12 },
+        { header: 'Customer', key: 'customer', width: 15 },
+        { header: 'Total Amount', key: 'totalAmount', width: 12 },
+      ];
+      // Add rows from the reportData to the worksheet
+      orders.forEach((data) => {
+        worksheet.addRow({
+          orderId: data.uniqueId,
+          productName: data.products.productDetails.name,
+          qty: data.products.count,
+          date: data.date.toLocaleDateString('en-US', { year:
+            'numeric', month: 'short', day: '2-digit' }).replace(/\//g,
+            '-'),
+          customer: data.userName,
+          totalAmount: data.products.totalPrice,
+        });
+      });
+
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename=sales_report.xlsx`);
+      const excelBuffer = await workbook.xlsx.writeBuffer();
+      res.end(excelBuffer);
+    } else {
+      // Handle invalid format
+      res.status(400).send('Invalid format specified');
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
 module.exports = {
   adminLoginPage,
   adminLogin,
@@ -367,4 +560,7 @@ module.exports = {
   loadeditCategory,
   updateCategory,
   deleteCategory,
+  loadSalesManagement,
+  saleSortPage,
+  downloadReport
 };

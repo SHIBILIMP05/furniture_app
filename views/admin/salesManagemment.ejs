@@ -1,0 +1,94 @@
+<%-include("../admin/leyouts/header.ejs")%>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+  
+  
+     
+      <div class="page-header">
+        <h3 class="page-title" > FurniHub Sales Report </h3>
+        
+        <div class="dropdown">
+          <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuOutlineButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Filter </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton1">
+            <h6 class="dropdown-header">Report Sorting</h6>
+            
+            <a class="dropdown-item" href="/admin/saleSortPage/<%= 1 %>">Daily</a>
+            <a class="dropdown-item" href="/admin/saleSortPage/<%= 7 %>">Weekly</a>
+            <a class="dropdown-item" href="/admin/saleSortPage/<%= 30 %>">Monthly</a>
+            <a class="dropdown-item" href="/admin/saleSortPage/<%= 365 %>">Yearly</a>
+            
+          </div>
+        </div>
+  
+  
+      </div>
+      <div class="page-header">
+        <div class="dropdown">
+          <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuOutlineButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Report Download </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton1">
+           
+            
+           
+            <a class="dropdown-item" id="excel-format">Excel Format</a>
+            <a class="dropdown-item" id="pdf-format">Pdf Format</a>
+            
+          </div>
+        </div>
+        
+      
+        
+      </div>
+      <div class="col-lg-13 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">FurniHub Sales Report Table</h4>
+            
+            </p>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    
+                    <th>Order Id</th>
+                    <th>Products - Qty</th>
+                    <th>Date</th>
+                    
+                    <th>Customer</th>
+                    <th>Total Amount</th>
+                    <!-- <th>Status</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if(orders.length > 0){ %>
+                    <% orders.forEach((data,i)=> { %>
+                  <tr>
+                    <td><%= i+1 %>.</td>
+                    <td><%= data.uniqueId %></td>
+                    <td><%= data.products.productDetails.name %>&nbsp;-&nbsp;<%= data.products.count %></td>
+                    <td><%= data.date.toLocaleDateString('en-US',{ year:'numeric', month: 'short', day: '2-digit'}).replace(/\//g, '-') %></td>
+                      
+                      <td><%= data.userName %></td>
+                      <td><%= data.products.totalPrice %></td>
+                      
+                      
+                      
+                    
+                  </tr>
+                  <% }) %>
+                  <% } %>                
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+    </div>
+    <script src="/admin/reportGenerate.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+
+    <%-include("../admin/leyouts/footer.ejs")%>

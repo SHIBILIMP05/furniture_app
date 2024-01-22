@@ -105,6 +105,14 @@ admin_Rout.get("/loadaddReferal",auth.isLogin,offerController.loadAddReferalOffe
 admin_Rout.get("/loadEditReferal",auth.isLogin,offerController.loadEditReferalOffer)
 admin_Rout.post("/addReferalOffer",auth.isLogin,offerController.addReferalOffer)
 admin_Rout.post("/editReferalOffer",auth.isLogin,offerController.editReferalOffer)
+
+// ======================= SALE MANAGEMENT HANDLING ====================
+
+admin_Rout.get("/loadSalesManagement",auth.isLogin,adminController.loadSalesManagement)
+admin_Rout.get("/saleSortPage/:id",auth.isLogin,adminController.saleSortPage)
+admin_Rout.get("/reportDown",auth.isLogin,adminController.downloadReport)
+
+
 admin_Rout.get("*",function(req,res){
    res.redirect("/admin")
 })
