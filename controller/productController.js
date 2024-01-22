@@ -153,11 +153,10 @@ const editedProduct = async (req, res) => {
 
                 if (fs.existsSync(imagePath)) {
                     fs.unlinkSync(imagePath);
-                    console.log("Deleted original image:", imagePath);
                 }
                 if (fs.existsSync(cropPath)) {
                     fs.unlinkSync(cropPath);
-                    console.log("Deleted cropped image:", cropPath);
+                   
                 }
             }
         }
@@ -254,8 +253,6 @@ const productdetailspage = async (req, res) => {
 
         const viewProduct = await Products.findOne({ _id: req.query.id })
         const products = await Products.find({ blocked: 0 })
-        console.log("products:",products);
-        const category = await Category.find({ blocked: 0 })
         const cart = await Cart.findOne({userId:req.session.user_id})
         let cartCount=0; 
         if(cart){cartCount = cart.products.length}
@@ -266,8 +263,50 @@ const productdetailspage = async (req, res) => {
             const wishlist = user.wishlist.items;
             wishCount = wishlist ? wishlist.length : 0;
         }
+
+        //---------------OFFER CALCULATION----------------
+
+        const originalprice = viewProduct.price;
+        
+        const categoryData = await Category.findOne({ name: viewProduct.category });
+
+        const discount =viewProduct.offer.discount >= categoryData.offer.discount?viewProduct.offer.discount:categoryData.offer.discount
+            
+
+        const offer =viewProduct.offer.discount >= categoryData.offer.discount?"productoffer":"categoryoffer"
+            
+
+        let discountprice = 0;
+
+        if (offer === "productoffer" &&viewProduct.offer &&viewProduct.offer.discount > 0 &&viewProduct.offer.activationDate <= new Date() &&viewProduct.offer.expiryDate >= new Date()) {
+            console.log("productoffer in");
+            discountprice = originalprice - (originalprice * discount) / 100;
+
+        } else if (offer === "categoryoffer" &&categoryData.offer &&categoryData.offer.discount > 0 &&categoryData.offer.activationDate <= new Date() &&categoryData.offer.expiryDate >= new Date()) {
+            console.log("categoryoffer in");
+            discountprice = originalprice - (originalprice * discount) / 100;
+        }
+
+        let price = 0;
+
+        if (discountprice === 0 ) {
+            console.log("price In");
+            price = 0;
+        } else {
+            price = discountprice;
+        }
+
+        console.log("price:", price);
+
+        if (price !== 0&&viewProduct.price !== price){
+            await Products.updateOne({ _id: req.query.id }, { $set: { price: price } });
+        }
+
+            //----------------------------------------------
+
+            
         if (viewProduct) {
-            res.render("productdetailspage", { cartCount,wishCount,products, category, view: viewProduct, name: req.session.name })
+            res.render("productdetailspage", { cartCount,wishCount,products, view: viewProduct, name: req.session.name, price: price,originalprice })
         } else {
             res.status(404).render("404");
         }
@@ -276,6 +315,8 @@ const productdetailspage = async (req, res) => {
         console.log(error)
     }
 }
+
+
 
 
 module.exports = {

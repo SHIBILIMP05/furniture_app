@@ -1,60 +1,88 @@
 <%-include("../admin/leyouts/header.ejs")%>
 
-<div class="main-panel">
-    <div class="content-wrapper">
-        <div class="row ">
-            <div class="col-12 grid-margin">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Referal Offer</h4>
-                        <p><a href="/admin/loadaddproduct" class="badge badge-success"> + Add Offer </a></p>
-                        <div class="dropdown" style="float: right;">
-                            <button class="btn btn-outline-warning dropdown-toggle" type="button" id="dropdownMenuOutlineButton4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Other Offer Management </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton4">
-                                <a class="dropdown-item" href="/admin/productOfferManagement">Product Offer</a>
-                                <a class="dropdown-item" href="/admin/categoryOfferManagement">Category Offer</a>
-                                <a class="dropdown-item" href="/admin/referalOfferManagement">Referal Offer</a>
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row ">
+                <div class="col-12 grid-margin">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Referal Offer</h4>
+                            <p><a href="/admin/loadaddReferal" class="badge badge-success"> + Add Referal </a></p>
+                            <br>
+                            <br>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th> No. </th>
+                                            <th> Referal Code </th>
+                                            <th> Cash Back </th>
+                                            <th> Date </th>
+                                            <th> No. Usage </th>
+                                            <th> Status </th>
+                                            <th> Action </th>
+                                            <th> Update </th>
+                                            <th> Delete </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if(Referaldata.length> 0){%>
+                                            <% for(var i=0; i < Referaldata.length; i++){%>
+                                                <tr>
+
+                                                    <td> <%= i+1%> </td>
+                                                    <td> <%= Referaldata[i].referalCode%> </td>
+                                                    <td> <%= Referaldata[i].cashback%> </td>
+                                                    <td> <%= Referaldata[i].Date%> </td>
+                                                    <td> <%= Referaldata[i].usersUsed%> </td>
+                                                    <% if(Referaldata[i].is_block==0){%>
+                                                        <td>
+                                                            <p class="text-success">Active</p>
+                                                        </td>
+                                                        <%}else{%>
+                                                            <td>
+                                                                <p class="text-danger">Block
+                                                            </td>
+                                                            <%} %>
+                                                                <% if(Referaldata[i].is_block==0){%>
+                                                                    <td><a href="/admin/blockreferal?id=<%= Referaldata [i]._id %>"
+                                                                            class="badge btn-inverse-danger">Block</a>
+                                                                    </td>
+                                                                    <%}else{%>
+                                                                        <td><a href="/admin/blockreferal?id=<%= Referaldata [i]._id %>"
+                                                                                class="badge btn-inverse-warning">Unblock</a>
+                                                                        </td>
+                                                                        <%} %>
+                                                                            <td><a href="/admin/loadEditReferal?id=<%= Referaldata [i]._id %>"
+                                                                                    class="badge btn-inverse-warning">
+                                                                                    <i style="color: rgb(199, 11, 11);"
+                                                                                        class="mdi mdi-tag-multiple"></i>
+                                                                                    </span>
+                                                                                    Edit
+                                                                                </a>
+                                                                            </td>
+                                                                            <td><a href="/admin/DeleteReferal?id=<%= Referaldata [i]._id %>"
+                                                                                    class="badge btn-inverse-danger">Delete</a>
+                                                                            </td>
+
+                                                </tr>
+                                                <%} %>
+                                                    <%}else{%>
+                                                        <tr>
+                                                            <td colspan="5">Products Not Found</td>
+                                                        </tr>
+                                                        <%} %>
+
+
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th> Client Name </th>
-                                        <th> Order No </th>
-                                        <th> Product Cost </th>
-                                        <th> Project </th>
-                                        <th> Payment Mode </th>
-                                        <th> Start Date </th>
-                                        <th> Payment Status </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="assets/images/faces/face1.jpg" alt="image" />
-                                            <span class="pl-2">Henry Klein</span>
-                                        </td>
-                                        <td> 02312 </td>
-                                        <td> $14,500 </td>
-                                        <td> Dashboard </td>
-                                        <td> Credit card </td>
-                                        <td> 04 Dec 2019 </td>
-                                        <td>
-                                            <div class="badge badge-outline-success">Approved</div>
-                                        </td>
-                                    </tr>
-                                    
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<%-include("../admin/leyouts/footer.ejs")%>
+    <%-include("../admin/leyouts/footer.ejs")%>

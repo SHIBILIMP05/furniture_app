@@ -6,39 +6,23 @@
                     <div class="card">
                         <div class="card-body">
                            
-                            <h1 class="card-title">Add Offer</h1>
+                            <h1 class="card-title">Add Referal</h1>
                             <p class="card-description">Add Referal Offer Form</p>
                             <form id="form" class="forms-sample">
-                                <div class="form-group">
-                                    <label> Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="name"
-                                        style="color: white" required />
-                                    <p style="color: red" id="nameLengthError"></p>
-                                </div>
+                               
                                 <div class="form-group">
                                     <label>Referal Code</label>
-                                    <input type="text" class="form-control" id="referal" name="referal" placeholder="code"
+                                    <input type="text" class="form-control"  id="referal" name="referal" placeholder="code"
                                         style="color: white" required />
                                     <p style="color: red" id="couponLengthError"></p>
                                 </div>
                                 <div class="form-group">
-                                    <label>Discount</label>
-                                    <input type="number" class="form-control" id="discount" name="discount"
+                                    <label>cashback</label>
+                                    <input type="number" class="form-control"  id="discount" name="discount"
                                         placeholder="discount amount" style="color: white" required />
                                     <p style="color: red" id="discountError"></p>
                                 </div>
-                                <div class="form-group">
-                                    <label>Activation Date</label>
-                                    <input type="date" class="form-control" id="activation" name="activationDate"
-                                        placeholder="activation date" style="color: white" required />
-                                    <p style="color: red" id="activationErr"></p>
-                                </div>
-                                <div class="form-group">
-                                    <label>Expire Date</label>
-                                    <input type="date" class="form-control" id="expiryDate" name="expiryDate"
-                                        placeholder="expire date" style="color: white" required />
-                                    <p style="color: red" id="expirationErr"></p>
-                                </div>
+                                
                                 
                                 
                                 <br />
@@ -56,40 +40,24 @@
     <script>
         document.getElementById("addReferalOffer").addEventListener("click", function (e) {
             e.preventDefault();
-            const name = document.getElementById("name").value;
             const referal = document.getElementById("referal").value;
             const discount = document.getElementById("discount").value;
-            const activationDate = document.getElementById("activation").value;
-            const expiryDate = document.getElementById("expiryDate").value;
 
-            const nameLengthError = document.getElementById("nameLengthError");
             const couponLengthError = document.getElementById("couponLengthError");
             const discountError = document.getElementById("discountError");
-            const activationErr = document.getElementById("activationErr");
-            const expirationErr = document.getElementById("expirationErr");
-
-            if (name === "") {
-                nameLengthError.textContent = "Coupon name is required.";
-            } else if (name.length < 4) {
-                nameLengthError.textContent =
-                    "Coupon name must be at least 4 characters.";
-            } else if (referal === "") {
-                couponLengthError.textContent = "Coupon code is required.";
+            const pattern = /^(?=.*[a-zA-Z])(?=.*\d).+$/
+            if (referal === "") {
+                couponLengthError.textContent = "Referal code is required.";
+            } else if (!pattern.test(referal)) {
+                couponLengthError.textContent = "Referal code should be alphanumeric.";
             } else if (discount === "") {
-                discountError.textContent = "Discount amount is required.";
+                discountError.textContent = "Cashback amount is required.";
             } else if (discount < 0) {
-                discountError.textContent = "Discount amount must be positive.";
-            } else if (activationDate === "") {
-                activationErr.textContent = "Activation date is required.";
-            } else if (expiryDate === "") {
-                expirationErr.textContent = "Expiry date is required.";
-            } else if (expiryDate < activationDate) {
-                expirationErr.textContent =
-                    "Expiry date must be greater than activation date.";
+                discountError.textContent = "Cashback amount must be positive.";
             } else {
                 Swal.fire({
                     title: "Are you sure?",
-                    text: "Do you want to add this Offer ?",
+                    text: "Do you want to add this Referal ?",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
@@ -101,10 +69,7 @@
                         $.ajax({
                             url: "/admin/addReferalOffer",
                             data: {
-                                name,
                                 discount,
-                                activationDate,
-                                expiryDate,
                                 referal
                             },
                             method: "post",
@@ -124,7 +89,7 @@
                                         title: "Offer Added.",
                                     });
                                     setTimeout(() => {
-                                        window.location.href = "/admin/referalOfferManagement";
+                                        window.location.href = "/admin/loadReferalManagement";
                                     }, 3000);
                                 }
                             },
@@ -135,28 +100,25 @@
         });
     </script>
     <script>
-        const nameLengthError = document.getElementById("nameLengthError");
         const couponLengthError = document.getElementById("couponLengthError");
         const discountError = document.getElementById("discountError");
-        const activationErr = document.getElementById("activationErr");
-        const expirationErr = document.getElementById("expirationErr");
-        const criteriaAmountErr = document.getElementById("criteriaAmountErr");
-        const userLimitErr = document.getElementById("userLimitErr");
-        const compareErr = document.getElementById("compareErr");
 
         const inputs = document.querySelectorAll("input");
         inputs.forEach((input) => {
             input.addEventListener("input", () => {
-                nameLengthError.textContent = "";
                 couponLengthError.textContent = "";
                 discountError.textContent = "";
-                activationErr.textContent = "";
-                expirationErr.textContent = "";
-                criteriaAmountErr.textContent = "";
-                userLimitErr.textContent = "";
-                compareErr.textContent = "";
+               
             });
         });
     </script>
 
     <%-include("../admin/leyouts/footer.ejs")%>
+
+
+
+
+
+
+
+    

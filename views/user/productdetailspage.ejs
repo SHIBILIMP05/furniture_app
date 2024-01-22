@@ -112,13 +112,18 @@
                                 </div><!-- End .rating-container -->
 
                                 <div class="product-price">
-                                    ₹ <%= view.price %>
+                                    <span class="new-price">₹ <%= view.price %></span>
+                                    <% if (price!==0) { %>
+                                        <span class="old-price">₹ <%= originalprice %></span>
+                                    <% } %>
                                 </div><!-- End .product-price -->
+
 
                                 <div class="product-content">
                                     <p>
                                         <%= view.description %>
                                     </p>
+
                                 </div><!-- End .product-content -->
 
                                 
@@ -133,10 +138,10 @@
                                     </div><!-- End .details-action-col -->
 
                                     <div class="details-action-wrapper">
-                                        <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to
+                                        <a href="#" onclick="addToWishList('<%= view._id%>')" class="btn-product btn-wishlist" title="Wishlist"><span>Add to
                                                 Wishlist</span></a>
-                                        <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to
-                                                Compare</span></a>
+                                        <!-- <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to
+                                                Compare</span></a> -->
                                     </div><!-- End .details-action-wrapper -->
                                 </div><!-- End .product-details-action -->
 
@@ -204,7 +209,7 @@
                                 </a>
 
                                 <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
+                                    <a href="#" onclick="addToWishList('<%= data._id%>')" class="btn-product-icon btn-wishlist btn-expandable"><span>add to
                                             wishlist</span></a>
                                     <a href="/productdetails?id=<%=data._id%>" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick
                                             view</span></a>

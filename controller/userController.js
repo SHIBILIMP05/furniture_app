@@ -67,7 +67,7 @@ const sendVerifyMail = async (name, email, otp) => {
 
 //------------------- LOAD HOME PAGE -------------------------
 
-const loadHome = async (req, res, next) => {
+const loadHome = async (req, res) => {
   try {
     const products = await Products.find({ blocked: 0 }).limit(10);
     const cart = await Cart.findOne({ userId: req.session.user_id });
@@ -83,15 +83,18 @@ const loadHome = async (req, res, next) => {
         wishCount = user.wishlist.items.length;
       }
     }
+    const banner = await Banner.find()
 
     res.render("home", {
       name: req.session.name,
       products: products,
       cartCount,
       wishCount,
+      banner,
     });
   } catch (error) {
-    next(error);
+   console.log(error)
+   res.render("500")
   }
 };
 

@@ -28,13 +28,23 @@
     
                                     <div class="form-group">
                                         <label for="activationDate">Activation Date</label>
-                                        <input type="date" class="form-control" id="activationDate" value="<%=categoryData.offer.activationDate.toISOString().split('T')[0] %>" name="activationDate">
+                                        <% if(categoryData.offer.discount!=0){%>
+                                            <input type="date" class="form-control" id="activationDate" value="<%=categoryData.offer.activationDate.toISOString().split('T')[0] %>" name="activationDate">
+                                            <%}else{%>
+                                                <input type="date" class="form-control" id="activationDate"  name="activationDate">
+                                                
+                                                <%} %>
                                         <span id="erroractivationDate" class="error-message"></span>
                                     </div>
     
                                     <div class="form-group">
                                         <label for="expiryDate">Expiry Date</label>
-                                        <input type="date" class="form-control" id="expiryDate" value="<%=categoryData.offer.expiryDate.toISOString().split('T')[0]%>" name="expiryDate">
+                                        <% if(categoryData.offer.discount!=0){%>
+                                            <input type="date" class="form-control" id="expiryDate" value="<%=categoryData.offer.expiryDate.toISOString().split('T')[0]%>" name="expiryDate">
+                                            <%}else{%>
+                                                <input type="date" class="form-control" id="expiryDate"  name="expiryDate">
+                                                
+                                                <%} %>
                                         <span id="errorexpiryDate" class="error-message"></span>
                                     </div>
                                     <input type="hidden" value="<%= categoryData._id %>" id="Id">
