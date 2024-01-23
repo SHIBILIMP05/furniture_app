@@ -293,7 +293,7 @@ const productdetailspage = async (req, res) => {
             console.log("price In");
             price = 0;
         } else {
-            price = discountprice;
+            price = Math.floor(discountprice);
         }
 
         console.log("price:", price);
@@ -303,10 +303,10 @@ const productdetailspage = async (req, res) => {
         }
 
             //----------------------------------------------
-
+            const currentproductdata = await Products.findOne({ _id: req.query.id })
             
         if (viewProduct) {
-            res.render("productdetailspage", { cartCount,wishCount,products, view: viewProduct, name: req.session.name, price: price,originalprice })
+            res.render("productdetailspage", { cartCount,wishCount,products, view: currentproductdata, name: req.session.name, price: price,originalprice })
         } else {
             res.status(404).render("404");
         }
