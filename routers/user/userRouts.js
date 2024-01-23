@@ -26,6 +26,7 @@ user_Rout.use(express.urlencoded({extended:true}))
 
 //?-------------ROUTER HANDLING----------------
 
+
 user_Rout.get("/",auth.isLogout,userController.loadHome)
 user_Rout.get("/home",auth.isLogin,userController.loadHome)
 
@@ -83,5 +84,7 @@ user_Rout.post('/verify-payment', auth.isLogin,orderController.verifyPayment)
 
 user_Rout.get("/loadBlog",userController.loadBlog)
 
-
+user_Rout.get("*", (req, res) => {
+    res.render("404")
+  })
 module.exports = user_Rout;

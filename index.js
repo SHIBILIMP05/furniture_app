@@ -22,6 +22,9 @@ app.use((req, res, next) => {
 const userRouts = require("./routers/user/userRouts")
 const admiRout = require("./routers/admin/adminRouts")
 
+
+
+
 app.use("/",userRouts)
 app.use("/admin",admiRout)
 
