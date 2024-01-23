@@ -4,7 +4,7 @@ const Products = require("../model/productsModel");
 
 //----------------------LOAD CART PAGE -------------------
 
-const loadCart = async (req, res, next) => {
+const loadCart = async (req, res) => {
   try {
     const userId = req.session.user_id;
     const userName = req.session.name;
@@ -61,13 +61,13 @@ const loadCart = async (req, res, next) => {
       console.log("no products in cart");
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //-------------------- ADD PRODUCTS TO CART ----------------
 
-const addToCart = async (req, res, next) => {
+const addToCart = async (req, res) => {
   try {
     const userId = req.session.user_id;
     const userData = await User.findOne({ _id: userId });
@@ -132,13 +132,13 @@ const addToCart = async (req, res, next) => {
 
     res.json({ success: true });
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //--------------------REMOVE PRODUCTS FROM CART-----------
 
-const removeCartItem = async (req, res, next) => {
+const removeCartItem = async (req, res) => {
   try {
     const userId = req.session.user_id;
     const proId = req.body.product;
@@ -154,13 +154,13 @@ const removeCartItem = async (req, res, next) => {
       res.json({ success: true });
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //--------------------------QUANTITY UPDATION------------------
 
-const quantityUpdation = async (req, res, next) => {
+const quantityUpdation = async (req, res) => {
   try {
     const userData = req.session.user_id;
     const proId = req.body.product;
@@ -214,7 +214,7 @@ const quantityUpdation = async (req, res, next) => {
     );
     res.json({ success: true });
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 

@@ -2,7 +2,7 @@ const Banner = require("../model/bannerModel");
 const path = require("path")
 const fs = require("fs")
 //----------------------LOAD BANNER PAGE -------------------
-const loadBanner = async (req, res, next) => {
+const loadBanner = async (req, res) => {
   try {
 
     const banner = await Banner.find();
@@ -15,7 +15,7 @@ const loadBanner = async (req, res, next) => {
 
 //---------------------- LOAD ADD BANNER PAGE -------------------
 
-const loadAddBanner = async (req, res, next) => {
+const loadAddBanner = async (req, res) => {
   try {
     res.render("addBanner");
   } catch (error) {
@@ -25,7 +25,7 @@ const loadAddBanner = async (req, res, next) => {
 };
 
 //------------- ADD BANNER -------------------
-const addBanner = async (req, res, next) => {
+const addBanner = async (req, res) => {
   try {
     const image = req.file ? req.file.filename : undefined;
 

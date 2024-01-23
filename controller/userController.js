@@ -101,18 +101,18 @@ const loadHome = async (req, res) => {
 
 //-------------------load login page-------------------------
 
-const loadLogin = async (req, res, next) => {
+const loadLogin = async (req, res) => {
   try {
     let regSuccess = req.session.regSuccess;
     res.render("login", { regSuccess });
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //--------------------verifying login page--------------------
 
-const verifylogin = async (req, res, next) => {
+const verifylogin = async (req, res) => {
   try {
     const email = req.body.email;
     const name = "User";
@@ -174,17 +174,17 @@ const verifylogin = async (req, res, next) => {
       }
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //-------------------load signup page-------------------------
 
-const loadSignup = async (req, res, next) => {
+const loadSignup = async (req, res) => {
   try {
     res.render("signup");
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
@@ -196,7 +196,7 @@ function generateReferralCode(length) {
 
 //-------------------user registering data--------------------------
 
-const insertuser = async (req, res, next) => {
+const insertuser = async (req, res) => {
   try {
     const name = req.body.name;
     const email = req.body.email;
@@ -361,13 +361,13 @@ const insertuser = async (req, res, next) => {
       }
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //---------------------OTP loading---------------------------
 
-const otpload = async (req, res, next) => {
+const otpload = async (req, res) => {
   try {
     let verifyErr = req.session.verifyErr;
     let otpsend = req.session.otpsend;
@@ -376,13 +376,13 @@ const otpload = async (req, res, next) => {
 
     console.log("otp page loaded");
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //---------------------RESEND OTP--------------------------
 
-const resendotp = async (req, res, next) => {
+const resendotp = async (req, res) => {
   try {
     let otpsend = req.session.otpsend;
     let verifyErr = req.session.verifyErr;
@@ -400,13 +400,13 @@ const resendotp = async (req, res, next) => {
       resend: "Resend the otp to your email address.",
     });
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //---------------------OTP Verification----------------------
 
-const verifyOtp = async (req, res, next) => {
+const verifyOtp = async (req, res) => {
   try {
     req.session.verifyErr = false;
     req.session.otpsend = false;
@@ -436,13 +436,13 @@ const verifyOtp = async (req, res, next) => {
       }
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //----------------------- dashboard loading ---------------------
 
-const accountload = async (req, res, next) => {
+const accountload = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.session.user_id });
     let walletAmount;
@@ -486,18 +486,18 @@ const accountload = async (req, res, next) => {
       referalData
     });
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //----------------------logout---------------------------------
 
-const userLogout = async (req, res, next) => {
+const userLogout = async (req, res) => {
   try {
     req.session.destroy();
     res.redirect("/");
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
@@ -541,17 +541,17 @@ const sendPassResetMail = async (name, email, token) => {
 
 //-----------------------load Forgetpage--------------------
 
-const loadForget = async (req, res, next) => {
+const loadForget = async (req, res) => {
   try {
     res.render("forgetpage");
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //----------------------forgetverify---------------------------
 
-const forgetverify = async (req, res, next) => {
+const forgetverify = async (req, res) => {
   try {
     const email = req.body.email;
 
@@ -591,13 +591,13 @@ const forgetverify = async (req, res, next) => {
       }
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //----------------------------------forget password load-------------------
 
-const forgetpasswordload = async (req, res, next) => {
+const forgetpasswordload = async (req, res) => {
   try {
     const token = req.query.token;
     const tokenData = await User.findOne({ token: token });
@@ -612,13 +612,13 @@ const forgetpasswordload = async (req, res, next) => {
         .render("404", { message: "Oop's.. Your token is invalid" });
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //----------------------------------Reset password--------------
 
-const resetpassword = async (req, res, next) => {
+const resetpassword = async (req, res) => {
   try {
     const Password = req.body.password;
     const confirm = req.body.confirm;
@@ -668,12 +668,12 @@ const resetpassword = async (req, res, next) => {
       }
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //---------------------- SEARCH PRODUCTS SHOPE ------------------------
-const searchProduct = async (req, res, next) => {
+const searchProduct = async (req, res) => {
   try {
     const category = await Category.find({ blocked: 0 });
     const name = req.query.q;
@@ -710,13 +710,13 @@ const searchProduct = async (req, res, next) => {
       wishCount,
     });
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //-------------------------FILTER PRODUCTS-----------------
 
-const filterProducts = async (req, res, next) => {
+const filterProducts = async (req, res) => {
   try {
     const cate = req.body.category;
     const priceSort = parseInt(req.body.price);
@@ -755,13 +755,13 @@ const filterProducts = async (req, res, next) => {
       wishCount,
     });
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //------------------------EDIT PROFILE IN PROFILE-------------------
 
-const editingProfile = async (req, res, next) => {
+const editingProfile = async (req, res) => {
   try {
     const updated = await User.updateOne(
       { _id: req.session.user_id },
@@ -777,13 +777,13 @@ const editingProfile = async (req, res, next) => {
       res.json({ success: true });
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //-------------------------CHANGING PASSWORD IN PROFILE--------------------
 
-const changePassword = async (req, res, next) => {
+const changePassword = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.session.user_id });
     const passwordMatch = await bcrypt.compare(
@@ -810,13 +810,13 @@ const changePassword = async (req, res, next) => {
       res.json({ wrongpass: true });
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //---------------------CHECKOUT PAGE LOADING--------------
 
-const loadCheckoutpage = async (req, res, next) => {
+const loadCheckoutpage = async (req, res) => {
   try {
     const session = req.session.user_id;
 
@@ -896,12 +896,12 @@ const loadCheckoutpage = async (req, res, next) => {
       res.redirect("/login");
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
 //----------BLOG PAGE LOAD------------
-const loadBlog = async (req, res, next) => {
+const loadBlog = async (req, res) => {
   try {
     let wishCount = 0;
     if (req.session.user_id) {
@@ -917,7 +917,7 @@ const loadBlog = async (req, res, next) => {
     }
     res.render("blog", { name: req.session.name, cartCount, wishCount });
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 

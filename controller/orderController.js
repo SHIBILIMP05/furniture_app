@@ -300,7 +300,7 @@ const orderDetailsPageUserside = async (req, res) => {
       deliverdProduct,
     });
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
@@ -361,7 +361,7 @@ const statusChanging = async (req, res) => {
       return res.status(404);
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
@@ -436,7 +436,7 @@ const cancellOrder = async (req, res) => {
       res.json({ success: true });
     }
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
@@ -456,7 +456,7 @@ const returnRequest = async (req, res) => {
     );
     res.json({ success: true });
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 
@@ -484,7 +484,7 @@ const returnOrder = async (req, res) => {
 
     res.json({ success: true });
   } catch (error) {
-    next(error);
+    console.log(error)
   }
 };
 

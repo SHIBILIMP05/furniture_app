@@ -2,30 +2,30 @@ const Coupon = require("../model/couponsModel");
 const Cart = require("../model/cartModel");
 //------------ LOAD COUPON MANAGEMENT ------------
 
-const loadCouponManagement = async (req, res, next) => {
+const loadCouponManagement = async (req, res) => {
   try {
     const coupon = await Coupon.find();
     res.render("couponManagement", { coupon });
   } catch (error) {
     console.log(error);
-    next(error);
+    console.log(error)
   }
 };
 
 //------------------ LOAD ADD COUPON --------------------
 
-const loadAddCoupon = async (req, res, next) => {
+const loadAddCoupon = async (req, res) => {
   try {
     res.render("addCoupon");
   } catch (error) {
     console.log(error);
-    next(error);
+    console.log(error)
   }
 };
 
 //------------------ ADD COUPON ADMIN SIDE ---------------
 
-const addCoupon = async (req, res, next) => {
+const addCoupon = async (req, res) => {
   try {
     const coupenData = await Coupon.findOne({ couponCode: req.body.code });
     if (coupenData) {
@@ -46,12 +46,12 @@ const addCoupon = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    next(error);
+    console.log(error)
   }
 };
 
 //------------------ block and unblock coupon ------------
-const blockCoupon = async (req, res, next) => {
+const blockCoupon = async (req, res) => {
   try {
     const id=req.body.copId
     const coupon = await Coupon.findOne({ _id: id });
@@ -64,24 +64,24 @@ const blockCoupon = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    next(error);
+    console.log(error)
   }
 }
 
 //--------------- LOAD EDITE COUPON -------------------
-const loadEditeCoupon = async (req, res, next) => {
+const loadEditeCoupon = async (req, res) => {
   try {
     const copId = req.query._id;
     const coupon = await Coupon.findById(copId);
     res.render("editCoupon", { coupon });
   } catch (error) {
     console.log(error);
-    next(error);
+    console.log(error)
   }
 }
 
 //--------------- EDITE COUPON -------------------
-const EditeCoupon = async (req, res, next) => {
+const EditeCoupon = async (req, res) => {
   try {
     const coupenData = await Coupon.findOne({ couponCode: req.body.code });
     console.log("1");
@@ -107,12 +107,12 @@ const EditeCoupon = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    next(error);
+    console.log(error)
   }
 }
 
 //--------------- APPLY COUPON -----------------
-const applyCoupon = async (req, res, next) => {
+const applyCoupon = async (req, res) => {
   try {
     const code = req.body.code;
     const amount = Number(req.body.amount);
@@ -150,13 +150,13 @@ const applyCoupon = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    next(error);
+    console.log(error)
   }
 };
 
 //--------------- UNAPPLAY COUPON -----------------
 
-const unApplayCoupon = async (req, res, next) => {
+const unApplayCoupon = async (req, res) => {
   try {
     const code = req.body.code;
     const couponData = await Coupon.findOne({ couponCode: code });
@@ -172,7 +172,7 @@ const unApplayCoupon = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    next(error);
+    console.log(error)
   }
 };
 

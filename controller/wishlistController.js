@@ -4,7 +4,7 @@ const Cart = require("../model/cartModel");
 
 //---------------- LOAD WISHLIST PAGE ----------------
 
-const loadWishlist = async (req, res, next) => {
+const loadWishlist = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.session.user_id });
     const wishlist = user.wishlist.items;
@@ -22,13 +22,13 @@ const loadWishlist = async (req, res, next) => {
       res.render("wishlist",{cartCount,wishCount,wishlist,name: req.session.name});
   } catch (error) {
     console.log(error);
-    next(error);
+    console.log(error)
   }
 };
 
 //-------------- ADD TO WISHLIST ------------
 
-const addToWishlist = async (req, res, next) => {
+const addToWishlist = async (req, res) => {
   try {
     const productId = req.body.id;
     const userId = req.session.user_id;
@@ -55,13 +55,13 @@ const addToWishlist = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    next(error);
+    console.log(error)
   }
 };
 
 //------------------- REMOVE FROM WISHLIST ----------------------
 
-const removeFromWishlist = async (req, res, next) => {
+const removeFromWishlist = async (req, res) => {
   try {
     const productId = req.body.product;
     const userId = req.session.user_id;
@@ -83,7 +83,7 @@ const removeFromWishlist = async (req, res, next) => {
     
   } catch (error) {
     console.log(error);
-    next(error);
+    console.log(error)
   }
 }
 

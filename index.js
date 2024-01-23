@@ -4,7 +4,6 @@ const mongoDB = require("./config/mongoAuth");
 //*------------------------------------------------------
 
 const express = require("express");
-const errorMiddleware = require("./middleware/errorHandler")
 const path = require("path");
 const app = express();
 
@@ -26,7 +25,6 @@ const admiRout = require("./routers/admin/adminRouts")
 app.use("/",userRouts)
 app.use("/admin",admiRout)
 
-app.use(errorMiddleware)
 
 app.listen(3000, () => {
   console.log("server is runing...");
