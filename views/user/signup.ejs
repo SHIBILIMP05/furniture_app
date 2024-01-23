@@ -187,6 +187,12 @@
             font-weight: bold;
             font-size: 12px; "></div>
 
+            <input type="text" name="referralCode" id="referralCode" placeholder="Referral Code (optional)">
+            <div class="error-message" id="referral-error" style="  display: none;
+            color: rgb(161 17 17);
+            font-weight: bold;
+            font-size: 12px; "></div>
+
             <button type="submit" id="sign-btn-1">Sign Up</button>
         </form>
 
@@ -202,7 +208,8 @@
       const phone_message = document.getElementById('phone-error');
       const password_message = document.getElementById('password-error');
       const confirm_message = document.getElementById('confirm-error');
-      const err_message = document.getElementById("error-message");      
+      const err_message = document.getElementById("error-message"); 
+      const ref_message = document.getElementById('referral-error');     
       inputs.forEach(input=>{
         input.addEventListener('input',function(){
           name_message.textContent = ""
@@ -211,6 +218,7 @@
           password_message.textContent = ""
           confirm_message.textContent = ""
           err_message.textContent = ""
+          ref_message.textContent = ""
         })
       })
       

@@ -98,13 +98,6 @@ admin_Rout.post("/editProductOffer",auth.isLogin,offerController.editProductOffe
 admin_Rout.get("/loadEditCategoryOffer",auth.isLogin,offerController.loadEditCategoryOffer)
 admin_Rout.post("/editCategoryOffer",auth.isLogin,offerController.editCategoryOffer)
 
-//======================= REFERAL MANAGEMENT HANDLING ==================
-
-admin_Rout.get("/loadReferalManagement",auth.isLogin,offerController.loadReferalManagement)
-admin_Rout.get("/loadaddReferal",auth.isLogin,offerController.loadAddReferalOffer)
-admin_Rout.get("/loadEditReferal",auth.isLogin,offerController.loadEditReferalOffer)
-admin_Rout.post("/addReferalOffer",auth.isLogin,offerController.addReferalOffer)
-admin_Rout.post("/editReferalOffer",auth.isLogin,offerController.editReferalOffer)
 
 // ======================= SALE MANAGEMENT HANDLING ====================
 

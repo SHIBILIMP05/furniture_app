@@ -7,6 +7,7 @@ document.getElementById('sign-btn-1').addEventListener('click', function (e) {
   const number = document.getElementById("number").value;
   const password = document.getElementById("password").value;
   const confirmPassword = document.getElementById("confirmPassword").value;
+  const referalcode = document.getElementById("referralCode").value;
 
   const name_message = document.getElementById('name-error');
   const email_message = document.getElementById('email-error');
@@ -14,6 +15,7 @@ document.getElementById('sign-btn-1').addEventListener('click', function (e) {
   const password_message = document.getElementById('password-error');
   const confirm_message = document.getElementById('confirm-error');
   const err_message = document.getElementById("error-message");
+  const ref_message = document.getElementById('referral-error');
 
   $.ajax({
     url: '/register',
@@ -22,7 +24,8 @@ document.getElementById('sign-btn-1').addEventListener('click', function (e) {
       email: email,
       number: number,
       password: password,
-      confirmPassword: confirmPassword
+      confirmPassword: confirmPassword,
+      referalcode: referalcode
     },
     method: "post",
     success: (response) => {
@@ -81,6 +84,9 @@ document.getElementById('sign-btn-1').addEventListener('click', function (e) {
       } else if (response.name) {
         name_message.style.display = "block";
         name_message.textContent = " Name atleast contain 3 letters."
+      }else if (response.wrongreferal) {
+        ref_message.style.display = "block";
+        ref_message.textContent = " Referal code not found."
       } else {
         window.location.href = "/otp"
       }

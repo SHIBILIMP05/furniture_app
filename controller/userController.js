@@ -1,6 +1,7 @@
 const User = require("../model/userModel.js");
 const Products = require("../model/productsModel.js");
 const Category = require("../model/categoryModel.js");
+const Referal = require("../model/referalModel.js")
 const Cart = require("../model/cartModel.js");
 const Address = require("../model/addressModel.js");
 const Order = require("../model/ordersModel.js");
@@ -187,6 +188,12 @@ const loadSignup = async (req, res, next) => {
   }
 };
 
+// ======--==--====== generate referal code ======--==--======
+
+function generateReferralCode(length) {
+  return Math.random().toString(36).substr(2, length).toUpperCase();
+}
+
 //-------------------user registering data--------------------------
 
 const insertuser = async (req, res, next) => {
@@ -196,6 +203,8 @@ const insertuser = async (req, res, next) => {
     const mobile = req.body.number;
     const password = req.body.password;
     const confirmPassword = req.body.confirmPassword;
+    
+    
 
     if (name.trim() === "") {
       res.json({ name_require: true });
@@ -275,6 +284,36 @@ const insertuser = async (req, res, next) => {
                                       const userData = await user.save();
 
                                       if (userData) {
+                                        const generatedreferralCode = generateReferralCode(6);
+                                       
+                                        const referal = new Referal({
+                                          user: userData._id,
+                                          code: generatedreferralCode
+                                        });
+
+                                        await referal.save();
+                                       
+                                        const referalcode = req.body.referalcode;
+                                        console.log("referalcode",referalcode);
+                                        if(referalcode){
+                                           const referalData2 = await Referal.findOne({ code: referalcode });
+                                        
+                                        if(referalData2){
+                                          
+                                          console.log("referalData2",referalData2);
+                                          await User.findOneAndUpdate({ _id: userData._id }, { $inc: { wallet: 50 } });
+                                          await User.findOneAndUpdate({ _id: referalData2.user }, { $inc: { wallet: 100 } });
+                                          
+                                          await Referal.findOneAndUpdate({code:referalcode},{$push:{usedUsers:userData._id}})
+      
+                                        }else{
+                                          console.log("wrong");
+                                          res.json({ wrongreferal: true });
+
+                                        }
+                                        }
+                                       
+
                                         let randomNumber =
                                           Math.floor(Math.random() * 9000) +
                                           1000;
@@ -296,6 +335,8 @@ const insertuser = async (req, res, next) => {
                                             1000;
                                         }, 60000);
                                         req.session.otpsent = true;
+                                        
+                                        
                                         res.json({ success: true });
                                       } else {
                                         res.json({ notsaved: true });
@@ -432,6 +473,7 @@ const accountload = async (req, res, next) => {
             wishCount = wishlist ? wishlist.length : 0;
         }
     const banner = await Banner.find();
+    const referalData = await Referal.findOne({ user: req.session.user_id });
     res.render("userDashboard", {
       orderData,
       cartCount,
@@ -441,6 +483,7 @@ const accountload = async (req, res, next) => {
       walletHistory,
       wishCount,
       banner,
+      referalData
     });
   } catch (error) {
     next(error);

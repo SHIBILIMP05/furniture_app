@@ -2,25 +2,17 @@ const mongoose = require("mongoose");
 
 const referalSchema = mongoose.Schema({
 
-    referalCode:{
+    code:{
         type:String,
-        required:true
     },
-    amount: {
-        type: Number,
-        required: true,
+    user: {
+        type: mongoose.Types.ObjectId,
     },
-    usersUsed: {
-        type: Number,
-        default: 0,
-    },
-    Date: {
-        type: Date,
-    },
-    is_block: {
-        type: Number,
-        default: 0,
-    },
+    usedUsers:[
+        {
+            type: mongoose.Types.ObjectId,
+        }
+    ]
 
 });
 

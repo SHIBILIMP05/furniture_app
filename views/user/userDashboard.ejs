@@ -198,6 +198,10 @@
                       aria-controls="tab-account" aria-selected="false">Password</a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" id="tab-referral-link" data-toggle="tab" href="#tab-referral" role="tab" aria-controls="tab-referral" aria-selected="false">Referral</a>
+                 </li>
+                 
+                  <li class="nav-item">
                     <a class="nav-link" href="/logout">Sign Out</a>
                   </li>
                 </ul>
@@ -570,6 +574,13 @@
                       <a href="/forgetpage"><b class="text-dark">Forget Password ?</b></a>
                     </div>
                   </div><!-- .End .tab-pane -->
+                  <div class="tab-pane fade" id="tab-referral" role="tabpanel" aria-labelledby="tab-referral-link">
+                    <h2 class="title mb-1">Referral Section &nbsp;&nbsp;<i class="fa-duotone fa-users"></i></h2>
+                    <!-- Your referral content goes here -->
+                    <p>Your referral code: <%= referalData.code %></p>
+                    <p>Your referral earnings: ₹<%= (referalData.usedUsers.length) * 100 %></p>
+                 </div>
+                 
                 </div>
               </div><!-- End .col-lg-9 -->
             </div><!-- End .row -->
