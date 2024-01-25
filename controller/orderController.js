@@ -55,7 +55,6 @@ const orderPlace = async (req, res) => {
     if (orderData) {
       //--------------------CASH ON DELIVERY-------------------//
       if (order.paymentMethod === "COD") {
-        console.log("cashon delivery check 1");
         await Cart.deleteOne({ userId: req.session.user_id });
         for (let i = 0; i < products.length; i++) {
           const pro = products[i].productId;
@@ -134,7 +133,6 @@ const orderPlace = async (req, res) => {
 
           //--------------IF PAYMENT THROUGH RAZORPAY-------------//
         } else if (order.paymentMethod == "onlinePayment") {
-          console.log("raxmmmmmmmmmmmm");
           var options = {
             amount: totalAmount * 100,
             currency: "INR",
@@ -142,16 +140,16 @@ const orderPlace = async (req, res) => {
           };
 
           instance.orders.create(options, function (err, order) {
-            console.log("200");
             res.json({ order });
           });
         }
       }
     } else {
-      console.log("not aadddeddd");
+      console.log("not added");
     }
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
+    res.render("500");
   }
 };
 
@@ -204,8 +202,9 @@ const verifyPayment = async (req, res) => {
       res.json({ success: false });
     }
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ error: "Internal server error" });
+    console.log(error);
+    res.status(500).render("500");
+    
   }
 };
 
@@ -213,7 +212,6 @@ const verifyPayment = async (req, res) => {
 
 const successPage = async (req, res) => {
   try {
-    console.log("5");
 
     const cart = await Cart.findOne({ userId: req.session.user_id });
     let cartCount = 0;
@@ -228,7 +226,8 @@ const successPage = async (req, res) => {
         }
     res.render("successPage", { name: req.session.name, cartCount ,wishCount});
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
+    res.status(500).render("500")
   }
 };
 
@@ -239,7 +238,8 @@ const ordermanagementpage = async (req, res) => {
     const orderData = await Order.find().sort({ date: -1 });
     res.render("ordermanagement", { orderData });
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
+    res.status(500).render("500")
   }
 };
 
@@ -251,7 +251,6 @@ const orderDetailsPage = async (req, res) => {
     const orderData = await Order.findOne({ uniqueId: uniqueId });
     const userId = orderData.userId;
     const addressId = orderData.deliveryDetails.trim();
-    console.log("Address ID:", addressId);
     const addressData = await Address.findOne(
       { user: userId },
       { address: { $elemMatch: { _id: addressId } } }
@@ -260,7 +259,8 @@ const orderDetailsPage = async (req, res) => {
 
     res.render("orderdetailspage", { orderData, deliveryData });
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
+    res.status(500).render("500")
   }
 };
 
@@ -301,6 +301,7 @@ const orderDetailsPageUserside = async (req, res) => {
     });
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -311,9 +312,7 @@ const statusChanging = async (req, res) => {
     const uniqueId = req.body.uniqueId;
     const statusVal = req.body.num;
     const proId = req.body.id;
-    console.log(uniqueId);
-    console.log(statusVal);
-    console.log(proId);
+
     let result;
     if (statusVal == 1) {
       result = await Order.updateOne(
@@ -362,6 +361,7 @@ const statusChanging = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -437,6 +437,7 @@ const cancellOrder = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -457,6 +458,7 @@ const returnRequest = async (req, res) => {
     res.json({ success: true });
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -485,6 +487,7 @@ const returnOrder = async (req, res) => {
     res.json({ success: true });
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 };
 

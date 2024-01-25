@@ -8,7 +8,6 @@ const addMultiAaddress = async (req, res) => {
   try {
     const user = req.session.user_id;
     const addressData = await Address.findOne({ user: user });
-    console.log("addressdata :", addressData);
     if (addressData) {
       const updated = await Address.updateOne(
         { user: user },
@@ -55,6 +54,7 @@ const addMultiAaddress = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -85,6 +85,7 @@ const addressEditingPage = async (req, res) => {
     res.render("addressEditPage", { cartCount,wishCount, address,page });
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -93,7 +94,6 @@ const addressEditingPage = async (req, res) => {
 const addressEditing = async (req, res) => {
   try {
     const addressId = req.body.id;
-    console.log("22222")
     const updated = await Address.updateOne(
       { user: req.session.user_id, "address._id": addressId },
       {
@@ -112,6 +112,7 @@ const addressEditing = async (req, res) => {
     res.json({success:true})
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -124,6 +125,7 @@ const removeAddress = async(req,res)=>{
     res.json({remove:true})
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 }
 

@@ -20,6 +20,7 @@ const securePassword = async (password) => {
     return passwordHash;
   } catch (error) {
     console.log(error);
+    res.status(500).render("500");
   }
 };
 
@@ -63,6 +64,7 @@ const sendVerifyMail = async (name, email, otp) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).render("500");
   }
 };
 
@@ -95,7 +97,7 @@ const loadHome = async (req, res) => {
     });
   } catch (error) {
    console.log(error)
-   res.render("500")
+   res.status(500).render("500")
   }
 };
 
@@ -107,6 +109,7 @@ const loadLogin = async (req, res) => {
     res.render("login", { regSuccess });
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -175,6 +178,7 @@ const verifylogin = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -185,6 +189,7 @@ const loadSignup = async (req, res) => {
     res.render("signup");
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -294,20 +299,17 @@ const insertuser = async (req, res) => {
                                         await referal.save();
                                        
                                         const referalcode = req.body.referalcode;
-                                        console.log("referalcode",referalcode);
                                         if(referalcode){
                                            const referalData2 = await Referal.findOne({ code: referalcode });
                                         
                                         if(referalData2){
                                           
-                                          console.log("referalData2",referalData2);
                                           await User.findOneAndUpdate({ _id: userData._id }, { $inc: { wallet: 50 } });
                                           await User.findOneAndUpdate({ _id: referalData2.user }, { $inc: { wallet: 100 } });
                                           
                                           await Referal.findOneAndUpdate({code:referalcode},{$push:{usedUsers:userData._id}})
       
                                         }else{
-                                          console.log("wrong");
                                           res.json({ wrongreferal: true });
 
                                         }
@@ -362,6 +364,7 @@ const insertuser = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -377,6 +380,7 @@ const otpload = async (req, res) => {
     console.log("otp page loaded");
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -401,6 +405,7 @@ const resendotp = async (req, res) => {
     });
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -424,11 +429,9 @@ const verifyOtp = async (req, res) => {
         );
 
         if (verified) {
-          console.log("account verified");
           req.session.regSuccess = true;
           res.json({ success: true });
         } else {
-          console.log("not verified !!");
           res.json({ error: true });
         }
       } else {
@@ -437,6 +440,7 @@ const verifyOtp = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -487,6 +491,7 @@ const accountload = async (req, res) => {
     });
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -498,6 +503,7 @@ const userLogout = async (req, res) => {
     res.redirect("/");
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -530,12 +536,14 @@ const sendPassResetMail = async (name, email, token) => {
     transporter.sendMail(mailOptions, function (err, info) {
       if (err) {
         console.log(err);
+        res.status(500).render("500");
       } else {
         console.log("Email has been sent:- ", info.response);
       }
     });
   } catch (error) {
     console.log(error);
+    res.status(500).render("500");
   }
 };
 
@@ -546,6 +554,7 @@ const loadForget = async (req, res) => {
     res.render("forgetpage");
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -592,6 +601,7 @@ const forgetverify = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -613,6 +623,7 @@ const forgetpasswordload = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -669,6 +680,7 @@ const resetpassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -711,6 +723,7 @@ const searchProduct = async (req, res) => {
     });
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -756,6 +769,7 @@ const filterProducts = async (req, res) => {
     });
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -778,6 +792,7 @@ const editingProfile = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -806,11 +821,11 @@ const changePassword = async (req, res) => {
         res.json({ changed: true });
       }
     } else {
-      console.log("wrong");
       res.json({ wrongpass: true });
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -897,6 +912,7 @@ const loadCheckoutpage = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -918,6 +934,7 @@ const loadBlog = async (req, res) => {
     res.render("blog", { name: req.session.name, cartCount, wishCount });
   } catch (error) {
     console.log(error)
+    res.status(500).render("500");
   }
 };
 

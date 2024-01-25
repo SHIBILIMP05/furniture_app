@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const Category = require("../model/categoryModel");
 const { trace } = require("../routers/admin/adminRouts");
 const Order = require("../model/ordersModel");
-const Products = require("../model/productsModel");
 const puppeteer = require('puppeteer')
 const ExcelJS = require('exceljs')
 const path = require('path')
@@ -18,6 +17,7 @@ const adminLoginPage = async (req, res) => {
     res.render("login");
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -69,6 +69,7 @@ const adminLogin = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -180,6 +181,7 @@ const loadDashboard = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -191,6 +193,7 @@ const logout = async (req, res) => {
     res.redirect("/admin");
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -202,6 +205,7 @@ const usermanagementload = async (req, res) => {
     res.render("usermanagement", { users: userData });
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -209,24 +213,20 @@ const usermanagementload = async (req, res) => {
 
 const blockUser = async (req, res) => {
   try {
-    console.log("1");
     const userId = req.body.userId;
-    console.log(userId);
     const blockedUser = await User.findOne({ _id: userId });
-    console.log(blockedUser);
     if (blockedUser.is_block == 0) {
-      console.log("2");
       await User.updateOne({ _id: userId }, { $set: { is_block: 1 } });
       // res.redirect("/admin/usermanagement")
       res.json({ success: true });
     } else {
-      console.log("3");
       await User.updateOne({ _id: userId }, { $set: { is_block: 0 } });
       // res.redirect("/admin/usermanagement")
       res.json({ success: true });
     }
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -238,6 +238,7 @@ const loadcategory = async (req, res) => {
     res.render("categorymanagement", { categoryData: categoryData });
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -263,6 +264,7 @@ const blockCategory = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -273,6 +275,7 @@ const loadAddCategory = async (req, res) => {
     res.render("addcategory");
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -302,6 +305,7 @@ const addCategory = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -314,6 +318,7 @@ const loadeditCategory = async (req, res) => {
     res.render("editcategory", { category: category });
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -345,6 +350,7 @@ const updateCategory = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -356,6 +362,7 @@ const deleteCategory = async (req, res) => {
     res.redirect("/admin/categorymanagement");
   } catch (error) {
     console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -393,8 +400,8 @@ const loadSalesManagement = async (req, res) => {
       orders: orderData,users,
     });
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ error: 'Internal server error' });
+    console.log(error);
+    res.status(500).render("500")
   }
 };
 
@@ -439,8 +446,8 @@ const saleSortPage = async (req,res)=>{
 
     res.render('salesManagemment', { orders });
   } catch (error) {
-    console.log(error.message);
-    res.status(500).send('Internal Server Error');
+    console.log(error);
+    res.status(500).render("500")
   }
 }
 
@@ -541,8 +548,8 @@ const downloadReport = async (req, res) => {
       res.status(400).send('Invalid format specified');
     }
   } catch (error) {
-    console.log(error.message);
-    res.status(500).send('Internal Server Error');
+    console.log(error);
+    res.status(500).render("500")
   }
 };
 

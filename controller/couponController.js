@@ -8,7 +8,7 @@ const loadCouponManagement = async (req, res) => {
     res.render("couponManagement", { coupon });
   } catch (error) {
     console.log(error);
-    console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -19,7 +19,7 @@ const loadAddCoupon = async (req, res) => {
     res.render("addCoupon");
   } catch (error) {
     console.log(error);
-    console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -31,7 +31,6 @@ const addCoupon = async (req, res) => {
     if (coupenData) {
       res.json({ exist: true });
     } else {
-      console.log(req.body);
       const data = new Coupon({
         name: req.body.name,
         couponCode: req.body.code,
@@ -46,7 +45,7 @@ const addCoupon = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -64,7 +63,7 @@ const blockCoupon = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    console.log(error)
+    res.status(500).render("500")
   }
 }
 
@@ -76,7 +75,7 @@ const loadEditeCoupon = async (req, res) => {
     res.render("editCoupon", { coupon });
   } catch (error) {
     console.log(error);
-    console.log(error)
+    res.status(500).render("500")
   }
 }
 
@@ -84,13 +83,9 @@ const loadEditeCoupon = async (req, res) => {
 const EditeCoupon = async (req, res) => {
   try {
     const coupenData = await Coupon.findOne({ couponCode: req.body.code });
-    console.log("1");
-    console.log(req.body);
-   console.log(coupenData);
     if (coupenData) {
       res.json({ exist: true });
     } else {
-      console.log("2");
       
        await Coupon.findOneAndUpdate({_id:req.body.id},
         {
@@ -107,7 +102,7 @@ const EditeCoupon = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    console.log(error)
+    res.status(500).render("500")
   }
 }
 
@@ -150,7 +145,7 @@ const applyCoupon = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -172,7 +167,7 @@ const unApplayCoupon = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    console.log(error)
+    res.status(500).render("500")
   }
 };
 

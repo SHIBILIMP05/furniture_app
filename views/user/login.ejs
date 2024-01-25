@@ -1,65 +1,68 @@
- <%- include("../user/leyouts/header.ejs")%>
- <body>
-  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login Page</title>
+  <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/user/stylesheets/loginStyle.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
   <style>
-	.swal2-toast {
+    .swal2-toast {
 	width: 800px; /* Adjust the width as needed */
 	height: 70px; /* Adjust the height as needed */
 	font-size: 18px;
 	margin-top: 70px;
   }
   </style>
-  <div id="log-img">
-    <dive id="form-box">
-
-      <form method="post" action="/login">
-        <h2 id="log-in">LOG IN</h2>
-        <div class="mb-3" id="ebox-1">
-          <label for="exampleInputEmail1" class="form-label" style="font-family: system-ui">Email address</label>
-          <input type="email" name="email"  class="form-control" id="exampleInputEmail1"  style="
-                border-radius: 20px;
-                border-radius: 20px;
-                border-color: #ffffff;
-                background-color: #ffffff;
-              " />
-          <div id="email-error" class="form-text" style="  display: none; font-family: system-ui; color: rgb(161 17 17)"></div>
+  <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+    <div class="container">
+      <div class="card login-card">
+        <div class="row no-gutters">
+          <div class="col-md-5">
+            <img src="/user/images/login/picture-frame-with-abstract-art-by-pink-velvet-armchair.jpg" alt="login" class="login-card-img">
+          </div>
+          <div class="col-md-7">
+            <div class="card-body">
+              <div class="brand-wrapper">
+                <p style="font-size: xxx-large;">Log in</p>
+              </div>
+              <p class="login-card-description">Sign into your account</p>
+              <form method="post" action="/login">
+                  <div class="form-group">
+                    <label for="email" class="sr-only">Email</label>
+                    <input type="email" name="email" id="exampleInputEmail1" class="form-control" placeholder="Email address">
+                    <div id="email-error" class="form-text" style="  display: none; font-family: system-ui; color: rgb(161 17 17)"></div>
+                  </div>
+                  <div class="form-group mb-4">
+                    <label for="password" class="sr-only">Password</label>
+                    <input type="password" name="password" id="exampleInputPassword1" class="form-control" placeholder="***********">
+                    <div id="password-error" class="form-text" style=" display: none; font-family: system-ui; color: rgb(161 17 17)"></div>
+                  </div>
+                  <input name="login" id="log-btn-1" class="btn btn-block login-btn mb-4" type="submit" value="Login">
+                </form>
+                <a href="/forgetpage" class="forgot-password-link">Forgot password?</a>
+                <p class="login-card-footer-text">Don't have an account? <a href="/signup" class="text-reset">Register here</a></p>
+                <% if(regSuccess){ %>
+                  <div id="myAlert" data-aos="fade-down" style="top: 6rem; display: none;"
+                          class="alert alert-dark  py-4	 fade show fs-5 fixed-top alt text-center text-white"
+                      role="alert">
+                      <span class="text-info link-underline-light"><strong>Welcome!</strong> You are successfully registered your FurniCube account.
+                        </span>
+                  </div>
+                  <% } %>
+            </div>
+          </div>
         </div>
-        <div class="mb-3" id="pbox-1">
-          <label for="exampleInputPassword1" class="form-label" style="font-family: system-ui">Password</label>
-          <input type="password" name="password" class="form-control" id="exampleInputPassword1" style="
-                border-radius: 20px;
-                border-radius: 20px;
-                border-color: #ffffff;
-                background-color: #ffffff;
-              "  />
-               <div id="password-error" class="form-text" style=" display: none; font-family: system-ui; color: rgb(161 17 17)"></div>
-        </div>
-        
-           
-            
-        <button type="submit" class="btn btn-primary" id="log-btn-1">
-          Submit
-        </button>
-        <p id="paracontent">
-          Don't have an account ? <a id="signup" href="/signup">Register</a>
-        </p>
-        <p id="forget">
-          <a href="/forgetpage" style="color: #fff; text-decoration: none">Forget Password ?</a>
-        </p>
-      </form>
-          
-
-      <% if(regSuccess){ %>
-					<div id="myAlert" data-aos="fade-down" style="top: 6rem; display: none;"
-									class="alert alert-dark  py-4	 fade show fs-5 fixed-top alt text-center text-white"
-							role="alert">
-							<span class="text-info link-underline-light"><strong>Welcome!</strong> You are successfully registered your FurniCube account.
-								</span>
-					</div>
-					<% } %>
-             
-    </dive>
-  </div>
+      </div>
+     
+    </div>
+  </main>
   <script>
 
     const inputs = document.querySelectorAll('input')
@@ -83,13 +86,10 @@
         });
       </script>
     <% } %>
-  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 		<script src="/user/loginvalidation.js"></script>
-   
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
-
-</html> 
+</html>

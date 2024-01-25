@@ -1,7 +1,5 @@
-const User = require("../model/userModel")
 const Product = require("../model/productsModel")
 const Category = require("../model/categoryModel")
-const Referal = require("../model/referalModel")
 
 //------------- LOAD EDIT PRODUCT OFFER PAGE ----------------
 
@@ -12,6 +10,7 @@ const loadEditProductOffer = async(req,res)=>{
         res.render("editProductOffer",{productData})
     } catch (error) {
         console.log(error)
+        res.status(500).render("500")
     }
 }
 
@@ -42,6 +41,7 @@ const editProductOffer = async(req,res)=>{
         }
     } catch (error) {
         console.log(error);
+        res.status(500).render("500")
     }
 }
 
@@ -54,6 +54,7 @@ const loadEditCategoryOffer = async(req,res)=>{
         res.render("editCategoryOffer",{categoryData})
     } catch (error) {
         console.log(error)
+        res.status(500).render("500")
     }
 }
 
@@ -84,6 +85,7 @@ const editCategoryOffer = async(req,res)=>{
         }
     } catch (error) {
         console.log(error);
+        res.status(500).render("500")
     }
 }
 

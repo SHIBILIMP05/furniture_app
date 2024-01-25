@@ -22,7 +22,7 @@ const loadWishlist = async (req, res) => {
       res.render("wishlist",{cartCount,wishCount,wishlist,name: req.session.name});
   } catch (error) {
     console.log(error);
-    console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -55,7 +55,7 @@ const addToWishlist = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    console.log(error)
+    res.status(500).render("500");
   }
 };
 
@@ -66,14 +66,12 @@ const removeFromWishlist = async (req, res) => {
     const productId = req.body.product;
     const userId = req.session.user_id;
      
-    console.log(productId);
     const user = await User.findOne({ _id: userId });
     const updatedWishlist = user.wishlist.items.filter(
       (item) => item.productId !== productId
 
     )
 
-    console.log("updated uesr:",updatedWishlist)
     await User.findOneAndUpdate(
       { _id: userId },
       { $set:{wishlist:{items:updatedWishlist}}}
@@ -83,7 +81,7 @@ const removeFromWishlist = async (req, res) => {
     
   } catch (error) {
     console.log(error);
-    console.log(error)
+    res.status(500).render("500");
   }
 }
 

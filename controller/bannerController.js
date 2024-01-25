@@ -9,7 +9,7 @@ const loadBanner = async (req, res) => {
     res.render("banner", { banner });
   } catch (error) {
     console.error(error);
-    res.render("500");
+    res.status(500).render("500");
   }
 };
 
@@ -20,7 +20,7 @@ const loadAddBanner = async (req, res) => {
     res.render("addBanner");
   } catch (error) {
     console.error(error);
-    res.render("500");
+    res.status(500).render("500");
   }
 };
 
@@ -51,7 +51,7 @@ const addBanner = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.render("500");
+    res.status(500).render("500");
   }
 };
 
@@ -73,7 +73,7 @@ const blockBanner = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.render("500");
+    res.status(500).render("500");
   }
 };
 
@@ -86,7 +86,7 @@ const deleteBanner = async (req, res) => {
     res.json({ success: true });
   } catch (error) {
     console.error(error);
-    res.render("500");
+    res.status(500).render("500");
   }
 };
 
@@ -98,7 +98,7 @@ const loadEditBanner = async (req, res) => {
     res.render("editBanner", { banner });
   } catch (error) {
     console.error(error);
-    res.render("500");
+    res.status(500).render("500");
   }
 };
 

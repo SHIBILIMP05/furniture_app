@@ -16,6 +16,7 @@ const product = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+        res.status(500).render("500")
     }
 }
 
@@ -28,6 +29,7 @@ const loadaddproduct = async (req, res) => {
         res.render("addproduct", { categoryData, nameAlready })
     } catch (error) {
         console.log(error)
+        res.status(500).render("500")
     }
 }
 
@@ -76,6 +78,7 @@ const addproduct = async (req, res) => {
        res.redirect("/admin/productmanagement");
     } catch (error) {
         console.log(error)
+        res.status(500).render("500")
     }
  };
  
@@ -86,7 +89,6 @@ const addproduct = async (req, res) => {
 
 const blockProduct = async (req, res) => {
     try {
-        console.log(req.body.proId)
         const blockedproduct = await Products.findOne({ _id: req.body.proId })
         if (blockedproduct.blocked == 0) {
             await Products.updateOne({ _id: req.body.proId }, { $set: { blocked: 1 } })
@@ -99,6 +101,7 @@ const blockProduct = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+        res.status(500).render("500")
     }
 }
 
@@ -113,6 +116,7 @@ const loadeditProduct = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+        res.status(500).render("500")
     }
 }
 
@@ -196,6 +200,7 @@ const editedProduct = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+        res.status(500).render("500")
     }
 }
 
@@ -211,6 +216,7 @@ const deleteProduct = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+        res.status(500).render("500")
     }
 }
 
@@ -243,6 +249,7 @@ const loadproductsPage = async (req, res) => {
         res.render("productspage", { cartCount,wishCount,totalPages: totalPages, category: category, products: products, count: count, name: req.session.name })
     } catch (error) {
         console.log(error)
+        res.status(500).render("500")
     }
 }
 
@@ -279,24 +286,24 @@ const productdetailspage = async (req, res) => {
         let discountprice = 0;
 
         if (offer === "productoffer" &&viewProduct.offer &&viewProduct.offer.discount > 0 &&viewProduct.offer.activationDate <= new Date() &&viewProduct.offer.expiryDate >= new Date()) {
-            console.log("productoffer in");
+            
             discountprice = originalprice - (originalprice * discount) / 100;
 
         } else if (offer === "categoryoffer" &&categoryData.offer &&categoryData.offer.discount > 0 &&categoryData.offer.activationDate <= new Date() &&categoryData.offer.expiryDate >= new Date()) {
-            console.log("categoryoffer in");
+            
             discountprice = originalprice - (originalprice * discount) / 100;
         }
 
         let price = 0;
 
         if (discountprice === 0 ) {
-            console.log("price In");
+            
             price = 0;
         } else {
             price = Math.floor(discountprice);
         }
 
-        console.log("price:", price);
+      
 
         if (price !== 0&&viewProduct.price !== price){
             await Products.updateOne({ _id: req.query.id }, { $set: { price: price } });
@@ -313,6 +320,7 @@ const productdetailspage = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+        res.status(500).render("500")
     }
 }
 

@@ -7,19 +7,17 @@ const multer = require("../../middleware/multer")
 const multer2 = require("../../middleware/multer2")
 const multer3 = require("../../middleware/multer3")
 
-const session = require("express-session")
-const config = require('../../config/config')
 
-admin_Rout.use(session({secret:config.sessionSecret}))
+
+
 
 
 //--------------view engine------------------
-admin_Rout.set("view engine","ejs")
+
 admin_Rout.set("views","./views/admin")
 //-------------------------------------------
 
-admin_Rout.use(express.json())
-admin_Rout.use(express.urlencoded({extended:true}))
+
 
 //?================== CONTROLLER HANDLING =================
 

@@ -54,14 +54,13 @@ const loadCart = async (req, res) => {
           wishCount,
           name: req.session.name,
         });
-        console.log("empty cart");
       }
     } else {
       res.render("cartPage", { cartCount, wishCount, name: req.session.name });
-      console.log("no products in cart");
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -133,6 +132,7 @@ const addToCart = async (req, res) => {
     res.json({ success: true });
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -155,6 +155,7 @@ const removeCartItem = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 };
 
@@ -215,6 +216,7 @@ const quantityUpdation = async (req, res) => {
     res.json({ success: true });
   } catch (error) {
     console.log(error)
+    res.status(500).render("500")
   }
 };
 
