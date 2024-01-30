@@ -269,7 +269,6 @@
   </main>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <%-include("../user/leyouts/footer.ejs")%>
-
   <script>
     document.getElementById("multiAddresschekout").addEventListener("click", function (e) {
       e.preventDefault()
@@ -474,7 +473,6 @@
           } else if (response.stock) {
             location.reload();
           } else {
-            console.log("100");
             razorPayment(response.order);
           }
         },
@@ -637,3 +635,4 @@
 
 
   </script>
+  

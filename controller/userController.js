@@ -844,6 +844,8 @@ const loadCheckoutpage = async (req, res) => {
     const cartData = await Cart.findOne({
       userId: req.session.user_id,
     }).populate("products.productId");
+   
+
     const products = cartData.products;
     const cart = await Cart.findOne({ userId: req.session.user_id });
     let cartCount = 0;
