@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const Category = require("../model/categoryModel");
 const { trace } = require("../routers/admin/adminRouts");
 const Order = require("../model/ordersModel");
-const puppeteer = require('puppeteer')
+/* const puppeteer = require('puppeteer') */
 const ExcelJS = require('exceljs')
 const path = require('path')
 const fs = require('fs')
@@ -494,7 +494,7 @@ const downloadReport = async (req, res) => {
       date,
     }
 
-    if (format === 'pdf') {
+    /*if (format === 'pdf') {
       const filepathName = path.resolve(__dirname, "../views/admin/ReportPdf.ejs");
       const html = fs.readFileSync(filepathName).toString();
       const ejsData = ejs.render(html, data);
@@ -511,7 +511,8 @@ const downloadReport = async (req, res) => {
         "attachment; filename= Sales Report.pdf"
     );
     res.send(pdfBytes);
-    } else if (format === 'excel') {
+    } else */ 
+    if (format === 'excel') {
       // Generate and send an Excel report
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet('Sales Report');
